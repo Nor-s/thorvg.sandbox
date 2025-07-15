@@ -1,0 +1,4 @@
+.vscode
+builddir
+*.ini
+.DS_Store

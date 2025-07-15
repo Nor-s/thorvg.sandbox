@@ -1,0 +1,1 @@
+option('platform', type : 'combo', choices : ['native', 'web'], value : 'native', description : 'platform')

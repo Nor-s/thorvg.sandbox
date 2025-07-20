@@ -11,7 +11,7 @@ see docs/01.build.md
 - Loader
 - Saver
 - SVG/Lottie Editing
-- GPU backend
+- ThorVG backend
     - SW
     - WebGPU
 - Profiler

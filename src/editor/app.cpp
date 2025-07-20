@@ -28,6 +28,7 @@ void App::InitInstance(const AppState& state)
 
 void App::DestroyInstance()
 {
+	tvg::Initializer::term();
 }
 
 void App::MainLoop()

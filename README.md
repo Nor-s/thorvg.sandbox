@@ -1,4 +1,4 @@
-# ThorVG Simulator
+# thorvg.sandbox
 
 The goal is to create a tool that fully supports all of ThorVG's features, along with additional extensions.
 

@@ -2,3 +2,5 @@
 builddir
 *.ini
 .DS_Store
+subprojects/SDL2*
+subprojects/pack*

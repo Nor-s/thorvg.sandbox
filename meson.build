@@ -24,7 +24,12 @@ if platform == 'web'
 else
     tvg_config_path = 'build/native/subprojects/thorvg'
     wasm_link_args = []
-    tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=lottie_expressions' ])
+    if host_machine.system() == 'windows'
+        add_project_arguments('-DNOMINMAX', language: 'cpp')
+        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=' ])
+    else
+        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=lottie_expressions' ])
+    endif
 endif
 
 

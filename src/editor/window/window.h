@@ -2,6 +2,7 @@
 #define _EDITOR_WINDOW_WINDOW_H_
 
 #include <core/core.h>
+#include <SDL.h>
 
 namespace editor
 {

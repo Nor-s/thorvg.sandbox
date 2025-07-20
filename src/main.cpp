@@ -22,4 +22,5 @@ int main()
 #endif
 	App::DestroyInstance();
 	TVGLOG("MAIN", "END");
+	return 0;
 }

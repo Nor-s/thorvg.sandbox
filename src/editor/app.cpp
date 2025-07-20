@@ -2,6 +2,8 @@
 #include "window/glWindow.h"
 #include "imgui/imguiCanvas.h"
 
+#include <SDL.h>
+
 #include <tvgGl.h>
 #include <thorvg.h>
 #include <tvgCommon.h>

@@ -21,6 +21,11 @@ public:
 	{
 		memcpy(mClearColor, color, 3 * sizeof(float));
 	}
+
+	virtual void onInit() {};
+	virtual void onUpdate();
+	virtual void onResize() {};
+
 	void draw();
 	void resize(tvg::Size size);
 	uint32_t getTexture();
@@ -32,7 +37,7 @@ public:
 
 	tvg::Size mSize{};
 
-private:
+protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
 	tvg::GlCanvas* mCanvas{nullptr};

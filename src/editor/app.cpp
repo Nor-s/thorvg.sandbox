@@ -102,14 +102,14 @@ void App::draw()
 	{
 		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
 		mCanvasList.push_back(
 			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<LottieExample>()));
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
 		mCanvasList.push_back(
 			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<ParticleExample>()));
 		for (auto& canvas : mCanvasList)

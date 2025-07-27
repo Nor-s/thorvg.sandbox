@@ -160,9 +160,9 @@ GLWindow::GLWindow(const tvg::Size& res)
 
 	// For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the
 	// imgui.ini file. You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
-#ifdef __EMSCRIPTEN__
-	io.IniFilename = NULL;
-#endif
+// #ifdef __EMSCRIPTEN__
+// // 	io.IniFilename = NULL;
+// // #endif
 
 	Style();
 

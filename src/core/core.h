@@ -4,6 +4,8 @@
 #include "platform.h"
 #include "canvas/canvas.h"
 
+#include "system/io.h"
+
 namespace core
 {
 

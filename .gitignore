@@ -1,6 +1,6 @@
 .vscode
 builddir
-*.ini
+imgui.ini
 .DS_Store
 subprojects/SDL2*
 subprojects/pack*

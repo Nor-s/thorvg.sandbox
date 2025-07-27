@@ -5,9 +5,9 @@ project('thorvg_sandbox', 'cpp',
 platform = get_option('platform')
 
 src_dir = '/'.join(meson.current_source_dir().split('\\'))
-add_project_arguments('-DEXAMPLE_DIR="@0@/resources"'.format(src_dir),
-                      language : 'cpp')
+
 if platform == 'web'
+    add_project_arguments('-DEXAMPLE_DIR=""', language : 'cpp')
     tvg_config_path = 'build/wasm/subprojects/thorvg'
     wasm_link_args = [
       '-sWASM=1',
@@ -18,11 +18,13 @@ if platform == 'web'
       '-sFULL_ES3=1',
       '-sMAX_WEBGL_VERSION=2',
       '-sMIN_WEBGL_VERSION=2',
-      '-spreload-file=resources',
+      '--preload-file', '@0@/resources@/'.format(src_dir),
     ]
     # tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','partial=false','static=true','threads=false','b_lto=true'])
     tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','static=true'])
 else
+    add_project_arguments('-DEXAMPLE_DIR="@0@/resources"'.format(src_dir),
+                      language : 'cpp')
     tvg_config_path = 'build/native/subprojects/thorvg'
     wasm_link_args = []
     if host_machine.system() == 'windows'

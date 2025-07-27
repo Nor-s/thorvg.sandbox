@@ -228,7 +228,7 @@ public:
 
 	void onResize() override
 	{
-		if(mIsInit)
+		if (mIsInit)
 		{
 			mCanvas->remove();
 			mExample->content(mCanvas, mSize.x, mSize.y);
@@ -238,7 +238,7 @@ public:
 private:
 	std::unique_ptr<Example> mExample;
 	bool mIsInit = false;
-	bool mBIsResize =false;
+	bool mBIsResize = false;
 };
 
 }	 // namespace tvgexam

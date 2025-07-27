@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-#ifndef _EDITOR_EXAMPLSES_ANIMATION_EXAMPLE_H_
-#define _EDITOR_EXAMPLSES_ANIMATION_EXAMPLE_H_
+#ifndef _EDITOR_EXAMPLES_LOTTIE_EXAMPLE_H_
+#define _EDITOR_EXAMPLES_LOTTIE_EXAMPLE_H_
 
 #include "exampleBase.h"
 
@@ -29,72 +29,105 @@
 /* ThorVG Drawing Contents                                              */
 /************************************************************************/
 
-struct AnimationExample : tvgexam::Example
+#define NUM_PER_ROW 3
+#define NUM_PER_COL 3
+
+struct LottieExample : tvgexam::Example
 {
-	unique_ptr<tvg::Animation> animation;
+	std::vector<unique_ptr<tvg::Animation>> animations;
+	uint32_t w, h;
+	uint32_t size;
+
+	int counter = 0;
 
 	std::string_view toString() override
 	{
-		static std::string str = "animation example";
+		static std::string str = "lottie example";
 		return str;
 	}
 
-	bool content(tvg::Canvas* canvas, uint32_t w, uint32_t h) override
+	void populate(const char* path) override
 	{
-		// The default font for fallback in case
-		tvg::Text::load(EXAMPLE_DIR "/font/Arial.ttf");
+		if (counter >= NUM_PER_ROW * NUM_PER_COL)
+			return;
+
+		// ignore if not lottie.
+		const char* ext = path + strlen(path) - 4;
+		if (strcmp(ext, "json") && strcmp(ext, "lot"))
+			return;
 
 		// Animation Controller
-		animation = unique_ptr<tvg::Animation>(tvg::Animation::gen());
+		auto animation = tvg::Animation::gen();
 		auto picture = animation->picture();
 
-		// Background
-		auto shape = tvg::Shape::gen();
-		shape->appendRect(0, 0, w, h);
-		shape->fill(50, 50, 50);
-
-		canvas->push(shape);
-
-		if (!tvgexam::verify(picture->load(EXAMPLE_DIR "/lottie/sample.json")))
-			return false;
+		if (!tvgexam::verify(picture->load(path)))
+			return;
 
 		// image scaling preserving its aspect ratio
 		float scale;
 		float shiftX = 0.0f, shiftY = 0.0f;
-		float w2, h2;
-		picture->size(&w2, &h2);
+		float w, h;
+		picture->size(&w, &h);
 
-		if (w2 > h2)
+		if (w > h)
 		{
-			scale = w / w2;
-			shiftY = (h - h2 * scale) * 0.5f;
+			scale = size / w;
+			shiftY = (size - h * scale) * 0.5f;
 		}
 		else
 		{
-			scale = h / h2;
-			shiftX = (w - w2 * scale) * 0.5f;
+			scale = size / h;
+			shiftX = (size - w * scale) * 0.5f;
 		}
 
 		picture->scale(scale);
-		picture->translate(shiftX, shiftY);
+		picture->translate((counter % NUM_PER_ROW) * size + shiftX,
+						   (counter / NUM_PER_ROW) * (this->h / NUM_PER_COL) + shiftY);
 
-		canvas->push(picture);
+		animations.push_back(unique_ptr<tvg::Animation>(animation));
 
-		return true;
+		cout << "Lottie: " << path << endl;
+
+		counter++;
 	}
 
 	bool update(tvg::Canvas* canvas, uint32_t elapsed) override
 	{
-		auto progress = tvgexam::progress(elapsed, animation->duration());
-
-		// Update animation frame only when it's changed
-		if (animation->frame(animation->totalFrame() * progress) == tvg::Result(0))
+		for (auto& animation : animations)
 		{
-			canvas->update();
-			return true;
+			auto progress = tvgexam::progress(elapsed, animation->duration());
+			animation->frame(animation->totalFrame() * progress);
 		}
 
-		return false;
+		canvas->update();
+
+		return true;
+	}
+
+	bool content(tvg::Canvas* canvas, uint32_t w, uint32_t h) override
+	{
+		animations.clear();
+		counter = 0;
+
+		// Background
+		auto shape = tvg::Shape::gen();
+		shape->appendRect(0, 0, w, h);
+		shape->fill(75, 75, 75);
+		canvas->push(shape);
+
+		this->w = w;
+		this->h = h;
+		this->size = w / NUM_PER_ROW;
+
+		this->scandir(EXAMPLE_DIR "/lottie");
+
+		// Run animation loop
+		for (auto& animation : animations)
+		{
+			canvas->push(animation->picture());
+		}
+
+		return true;
 	}
 };
 

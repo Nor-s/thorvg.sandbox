@@ -84,7 +84,7 @@ void App::loop()
 				 clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for(auto& canvas: mCanvasList)
+	for (auto& canvas : mCanvasList)
 	{
 		canvas->onUpdate();
 	}
@@ -100,14 +100,23 @@ void App::draw()
 	static bool bIsInit = false;
 	if (!bIsInit)
 	{
-		float clearColor[3] = {1.0f, 1.0f, 1.0f};
+		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, 
-			{500.0f, 500.0f}, 
-			std::make_unique<AnimationExample>()
-		));
-		mCanvasList.back()->clearColor(clearColor);
-		mCanvasList.back()->onInit();
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<LottieExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<ParticleExample>()));
+		for (auto& canvas : mCanvasList)
+		{
+			canvas->clearColor(clearColor);
+			canvas->onInit();
+		}
 		bIsInit = true;
 	}
 	for (auto& canvas : mCanvasList)

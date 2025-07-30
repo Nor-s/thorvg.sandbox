@@ -9,6 +9,8 @@
 #include <tvgCommon.h>
 #include <core/core.h>
 
+#include "examples/examples.h"
+
 App& App::GetInstance()
 {
 	static App instance;
@@ -51,6 +53,7 @@ void App::loop()
 	SDL_Event event;
 	ImGuiIO& io = ImGui::GetIO();
 	(void) io;
+	core::io::deltaTime = io.DeltaTime;
 
 	while (SDL_PollEvent(&event))
 	{
@@ -81,6 +84,11 @@ void App::loop()
 				 clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	for (auto& canvas : mCanvasList)
+	{
+		canvas->onUpdate();
+	}
+
 	draw();
 	drawgui();
 	drawend();
@@ -92,22 +100,23 @@ void App::draw()
 	static bool bIsInit = false;
 	if (!bIsInit)
 	{
-		float clearColor[3] = {1.0f, 1.0f, 1.0f};
-		mCanvasList.push_back(new core::CanvasWrapper(mWindow->mContext, {500.0f, 500.0f}));
-		mCanvasList.back()->clearColor(clearColor);
-		auto shape4 = tvg::Shape::gen();
-		shape4->appendRect(0, 0, 300, 300, 50, 50);	   // x, y, w, h, rx, ry
-		shape4->fill(0, 0, 0);						   // r, g, b
-		mCanvasList.back()->getCanvas()->push(shape4);
-		mCanvasList.back()->draw();
+		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		mCanvasList.push_back(new core::CanvasWrapper(mWindow->mContext, {500.0f, 500.0f}));
-		mCanvasList.back()->clearColor(clearColor);
-		mCanvasList.back()->draw();
-		auto shape2 = tvg::Shape::gen();
-		shape2->appendCircle(150, 150, 150, 150);	 // cx, cy, radiusW, radiusH
-		shape2->fill(255, 125, 59);					 // r, g, b
-		mCanvasList.back()->getCanvas()->push(shape2);
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<LottieExample>()));
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
+		// mCanvasList.push_back(
+			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
+		mCanvasList.push_back(
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<ParticleExample>()));
+		for (auto& canvas : mCanvasList)
+		{
+			canvas->clearColor(clearColor);
+			canvas->onInit();
+		}
 		bIsInit = true;
 	}
 	for (auto& canvas : mCanvasList)
@@ -118,6 +127,36 @@ void App::draw()
 
 void App::drawgui()
 {
+	static ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
+
+	{
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+					   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+		ImGui::Begin("DockSpace", NULL, windowFlags);
+
+		ImGui::PopStyleVar(3);
+
+		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+		// Submit the DockSpace
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+		{
+			ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
+		}
+		ImGui::End();
+	}
+
 	{
 		static bool show_demo_window = true;
 		if (show_demo_window)

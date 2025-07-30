@@ -14,12 +14,17 @@ CanvasWrapper::CanvasWrapper(void* context, tvg::Size size) : rContext(context)
 	resize(size);
 }
 
-void CanvasWrapper::draw()
+void CanvasWrapper::onUpdate()
 {
 	if (mBeforeSize != mSize)
 	{
 		resize(mSize);
+		onResize();
 	}
+}
+
+void CanvasWrapper::draw()
+{
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, mRenderTarget->getResolveFboId());
 		glViewport(0, 0, (int) mSize.x, (int) mSize.y);

@@ -24,7 +24,7 @@ public:
 		tvg::Size resolution;
 		std::string title;
 		bool running = true;
-		AppState() : resolution(800, 600), title("ThorVG Simulator")
+		AppState() : resolution(800, 600), title("thorvg.sandbox")
 		{
 		}
 	};

@@ -4,11 +4,11 @@ project('thorvg_sandbox', 'cpp',
 
 platform = get_option('platform')
 
-
+src_dir = '/'.join(meson.current_source_dir().split('\\'))
 
 if platform == 'web'
+    add_project_arguments('-DEXAMPLE_DIR=""', language : 'cpp')
     tvg_config_path = 'build/wasm/subprojects/thorvg'
-    #   '--preload-file', 'resources',
     wasm_link_args = [
       '-sWASM=1',
       '-sUSE_SDL=2',
@@ -18,10 +18,13 @@ if platform == 'web'
       '-sFULL_ES3=1',
       '-sMAX_WEBGL_VERSION=2',
       '-sMIN_WEBGL_VERSION=2',
+      '--preload-file', '@0@/resources@/'.format(src_dir),
     ]
     # tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','partial=false','static=true','threads=false','b_lto=true'])
     tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','static=true'])
 else
+    add_project_arguments('-DEXAMPLE_DIR="@0@/resources"'.format(src_dir),
+                      language : 'cpp')
     tvg_config_path = 'build/native/subprojects/thorvg'
     wasm_link_args = []
     if host_machine.system() == 'windows'
@@ -47,11 +50,15 @@ imgui_dep = imgui_proj.get_variable('imgui_dep')
 entt_proj = cmake.subproject('entt')
 entt_dep = entt_proj.dependency('EnTT')
 
+example_dep = []
+subdir('src/editor/examples')
+
 dep_list =[
     sdl2_dep,
     imgui_dep,
     entt_dep,
     tvg_lib_dep,
+    example_dep
 ]
 
 # Src Files
@@ -65,6 +72,7 @@ tvg_sandbox_src =[
     'src/editor/window/window.cpp',
     'src/editor/window/glWindow.cpp',
 ]
+
 
 tvg_sandbox_inc = include_directories('src', tvg_config_path)
 

@@ -102,16 +102,8 @@ void App::draw()
 	{
 		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
 		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<LottieExample>()));
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<ParticleExample>()));
+			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}));
 		for (auto& canvas : mCanvasList)
 		{
 			canvas->clearColor(clearColor);
@@ -157,17 +149,15 @@ void App::drawgui()
 		ImGui::End();
 	}
 
-	{
-		static bool show_demo_window = true;
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
-	}
+	// ImGui::ShowDemoWindow(&show_demo_window);
 	// temp code
 	int i = 0;
 	for (auto* canvas : mCanvasList)
 	{
 		editor::ImGuiCanvasView().onDraw("canvas" + std::to_string(i++), *canvas);
 	}
+	editor::ImGuiCanvasView().onDrawSceneInspect();
+	editor::ImGuiCanvasView().onDrawContentBrowser();
 }
 
 void App::drawend()

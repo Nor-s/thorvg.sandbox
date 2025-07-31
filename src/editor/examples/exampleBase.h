@@ -20,20 +20,23 @@
  * SOFTWARE.
  */
 
-#ifndef _EDITOR_EXAMPLES_EXAMPLE_H_
-#define _EDITOR_EXAMPLES_EXAMPLE_H_
+#ifndef _EDITOR_EXAMPLES_EXAMPLE_BASE_H_
+#define _EDITOR_EXAMPLES_EXAMPLE_BASE_H_
 
 // #include "config.h"
 
 #include <core/core.h>
 
+#include <algorithm>
 #include <memory>
 #include <cmath>
 #include <vector>
 #include <fstream>
 #include <iostream>
 #include <cstring>
+
 #include <thorvg.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #ifndef PATH_MAX
@@ -149,7 +152,7 @@ struct Example
 	}
 };
 
-float progress(uint32_t elapsed, float durationInSec, bool rewind = false)
+inline static float progress(uint32_t elapsed, float durationInSec, bool rewind = false)
 {
 	auto duration = uint32_t(durationInSec * 1000.0f);	  // sec -> millisec.
 	if (elapsed == 0 || duration == 0)
@@ -163,7 +166,7 @@ float progress(uint32_t elapsed, float durationInSec, bool rewind = false)
 	return progress;
 }
 
-bool verify(tvg::Result result, std::string failMsg = "")
+inline static bool verify(tvg::Result result, std::string failMsg = "")
 {
 	switch (result)
 	{
@@ -206,39 +209,47 @@ bool verify(tvg::Result result, std::string failMsg = "")
 class ExampleCanvas : public core::CanvasWrapper
 {
 public:
-	ExampleCanvas(void* context, tvg::Size size, std::unique_ptr<Example> example)
-		: core::CanvasWrapper(context, size), mExample(std::move(example))
-	{
-	}
+	ExampleCanvas(void* context, tvg::Size size);
 
 	void onInit() override
 	{
-		mExample->content(mCanvas, mSize.x, mSize.y);
-		mExample->elapsed = 0.0f;
-		mIsInit = true;
+		mCanvas->remove();
+		rExample->content(mCanvas, mSize.x, mSize.y);
+		rExample->elapsed = 0.0f;
 	}
 
 	void onUpdate() override
 	{
+		if(gExampleList[mCurrentExampleIdx].get() != rExample)
+		{
+			rExample = gExampleList[mCurrentExampleIdx].get();
+			onInit();
+		}
 		core::CanvasWrapper::onUpdate();
 
-		mExample->elapsed += static_cast<uint32_t>(core::io::deltaTime * 1000);
-		mExample->update(mCanvas, mExample->elapsed);
+		rExample->elapsed += static_cast<uint32_t>(core::io::deltaTime * 1000);
+		rExample->update(mCanvas, rExample->elapsed);
 	}
 
 	void onResize() override
 	{
-		if (mIsInit)
-		{
-			mCanvas->remove();
-			mExample->content(mCanvas, mSize.x, mSize.y);
-		}
+		mCanvas->remove();
+		rExample->content(mCanvas, mSize.x, mSize.y);
 	}
 
+	void changeExample(uint32_t i)
+	{
+		mCurrentExampleIdx = i;
+	}
+
+
+	bool isExampleCanvas() override {return true;}
+
+	static inline std::vector<std::unique_ptr<Example>> gExampleList;
+
 private:
-	std::unique_ptr<Example> mExample;
-	bool mIsInit = false;
-	bool mBIsResize = false;
+	Example* rExample = nullptr;
+	uint32_t mCurrentExampleIdx = 0;
 };
 
 }	 // namespace tvgexam

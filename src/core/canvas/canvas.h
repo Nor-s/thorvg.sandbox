@@ -25,6 +25,7 @@ public:
 	virtual void onInit() {};
 	virtual void onUpdate();
 	virtual void onResize() {};
+	virtual bool isExampleCanvas() {return false;}
 
 	void draw();
 	void resize(tvg::Size size);

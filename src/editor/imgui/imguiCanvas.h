@@ -14,7 +14,10 @@ namespace editor
 class ImGuiCanvasView
 {
 public:
+	static core::CanvasWrapper* gCurrentCanvas;
 	void onDraw(std::string_view title, core::CanvasWrapper& canvas);
+	void onDrawSceneInspect();
+	void onDrawContentBrowser();
 };
 
 }	 // namespace editor

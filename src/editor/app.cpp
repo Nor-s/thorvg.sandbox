@@ -1,6 +1,7 @@
 #include "app.h"
 #include "window/glWindow.h"
 #include "imgui/imguiCanvas.h"
+#include "imgui/imguiContentBrowser.h"
 
 #include <SDL.h>
 
@@ -8,6 +9,7 @@
 #include <thorvg.h>
 #include <tvgCommon.h>
 #include <core/core.h>
+#include <ImGuiNotify.hpp>
 
 #include "examples/examples.h"
 
@@ -102,8 +104,7 @@ void App::draw()
 	{
 		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}));
+		mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}));
 		for (auto& canvas : mCanvasList)
 		{
 			canvas->clearColor(clearColor);
@@ -158,10 +159,19 @@ void App::drawgui()
 	}
 	editor::ImGuiCanvasView().onDrawSceneInspect();
 	editor::ImGuiCanvasView().onDrawContentBrowser();
+	editor::ImguiContentBrowser().draw();
 }
 
 void App::drawend()
 {
+	// Notifications style setup
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);		 // Disable round borders
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);	 // Disable borders
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.10f, 0.10f, 0.10f, 1.00f));	 // Background color
+	ImGui::RenderNotifications();
+	ImGui::PopStyleVar(2);
+	ImGui::PopStyleColor(1);
+
 	// ImGUI Rendering
 	ImGui::Render();
 	SDL_GL_MakeCurrent(mWindow->mWindow, mWindow->mContext);

@@ -2,6 +2,9 @@
 
 #include "../app.h"
 
+#include <ImGuiNotify.hpp>
+#include <icons/icons.h>
+
 namespace editor
 {
 
@@ -160,14 +163,16 @@ GLWindow::GLWindow(const tvg::Size& res)
 
 	// For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the
 	// imgui.ini file. You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
-// #ifdef __EMSCRIPTEN__
-// // 	io.IniFilename = NULL;
-// // #endif
+	// #ifdef __EMSCRIPTEN__
+	// // 	io.IniFilename = NULL;
+	// // #endif
 
 	Style();
 
 	ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
 	ImGui_ImplOpenGL3_Init(mGlslVersion.c_str());
+
+	ImGui::LoadInternalIcons(io.Fonts);
 }
 
 GLWindow::~GLWindow()

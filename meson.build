@@ -69,6 +69,10 @@ tvg_sandbox_src =[
 
     'src/editor/app.cpp',
     'src/editor/imgui/imguiCanvas.cpp',
+
+    'src/editor/imgui/imguiContentBrowser.cpp',
+    'src/editor/imgui/imguiContentBrowser.h',
+
     'src/editor/window/window.cpp',
     'src/editor/window/glWindow.cpp',
 ]

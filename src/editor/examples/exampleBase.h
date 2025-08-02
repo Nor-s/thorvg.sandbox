@@ -214,6 +214,7 @@ public:
 	void onInit() override
 	{
 		mCanvas->remove();
+		mPaints.clear();
 		rExample->content(mCanvas, mSize.x, mSize.y);
 		rExample->elapsed = 0.0f;
 	}
@@ -235,6 +236,11 @@ public:
 	{
 		mCanvas->remove();
 		rExample->content(mCanvas, mSize.x, mSize.y);
+		for(auto& paint: mPaints)
+		{
+			paint->scale(mSize);
+			mCanvas->push(paint->mHandle);
+		}
 	}
 
 	void changeExample(uint32_t i)

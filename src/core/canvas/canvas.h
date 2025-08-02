@@ -1,12 +1,17 @@
 #ifndef _CORE_CANVAS_CANVAS_H_
 #define _CORE_CANVAS_CANVAS_H_
 
+#include "paintWrapper.h"
+
 // todo: clean header
 #include <tvgGl.h>
 #include <thorvg.h>
 #include <tvgCommon.h>
 #include <tvgGlRenderTarget.h>
 #include <tvgMath.h>
+
+#include <vector>
+#include <memory>
 
 namespace core
 {
@@ -36,12 +41,23 @@ public:
 		return mCanvas;
 	}
 
+	void pushPaint(std::unique_ptr<PaintWrapper> paint)
+	{
+		paint->scale(mSize);
+		mCanvas->push(paint->mHandle);
+		mCanvas->update();
+
+		mPaints.push_back(std::move(paint));
+	}
+
 	tvg::Size mSize{};
 
 protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
 	tvg::GlCanvas* mCanvas{nullptr};
+	std::vector<std::unique_ptr<PaintWrapper>> mPaints;
+
 	float mClearColor[3]{};
 	void* rContext{nullptr};
 	tvg::Size mBeforeSize;

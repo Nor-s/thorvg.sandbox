@@ -1,7 +1,10 @@
 #include "imguiCanvas.h"
 #include <core/core.h>
+#include <ImGuiNotify.hpp>
 
 #include "examples.h"
+
+#include <filesystem>
 
 namespace editor
 {
@@ -19,6 +22,17 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 		if (ImGui::IsWindowFocused())
 		{
 			gCurrentCanvas = &canvas;
+		}
+
+		if(ImGui::BeginDragDropTarget())
+		{
+			if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				auto* path = (const char*)payload->Data;
+                ImGui::InsertNotification({ImGuiToastType::Info, 3000, "File: %s", path});
+				canvas.pushPaint(core::PictureWrapper::Gen(path));
+			}
+			ImGui::EndDragDropTarget();
 		}
 	}
 	ImGui::End();
@@ -49,19 +63,6 @@ void ImGuiCanvasView::onDrawSceneInspect()
 			}
 
 			ImGui::Separator();
-
-			if (ImGui::Button("Square"))
-			{
-			}
-			if (ImGui::Button("Circle"))
-			{
-			}
-			if (ImGui::Button("SVG"))
-			{
-			}
-			if (ImGui::Button("Lottie"))
-			{
-			}
 		}
 	}
 	ImGui::End();

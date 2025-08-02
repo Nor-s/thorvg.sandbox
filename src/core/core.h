@@ -3,6 +3,7 @@
 
 #include "platform.h"
 #include "canvas/canvas.h"
+#include "canvas/paintWrapper.h"
 
 #include "system/io.h"
 

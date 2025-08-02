@@ -1,5 +1,8 @@
 #include "canvas.h"
 
+#include <tvgGlRenderTarget.h>
+#include "core/gpu/gl/glUtil.h"
+
 namespace core
 {
 
@@ -48,9 +51,22 @@ void CanvasWrapper::resize(tvg::Size size)
 
 	mCanvas->target(rContext, mRenderTarget->getResolveFboId(), size.x, size.y, tvg::ColorSpace::ABGR8888S);
 }
+
 uint32_t CanvasWrapper::getTexture()
 {
 	return mRenderTarget->getColorTexture();
+}
+
+unsigned char* CanvasWrapper::getBuffer()
+{
+	if (buffer != nullptr)
+	{
+		delete [] buffer;
+		buffer = nullptr;
+	}
+	buffer = gl::util::ToBuffer(getTexture(), mSize.x, mSize.y);
+
+	return buffer;
 }
 
 }	 // namespace core

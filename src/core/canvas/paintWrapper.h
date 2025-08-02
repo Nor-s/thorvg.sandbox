@@ -13,14 +13,30 @@ public:
     virtual ~PaintWrapper()
     {
         if(mHandle)
-        mHandle->unref();
+            mHandle->unref();
+    }
+
+    void translate(const tvg::Point& xy)
+    {
+        mHandle->translate(xy.x, xy.x);
     }
 
     virtual void scale(const tvg::Size& size) {
         return;
     }
 
-	tvg::Paint* mHandle;
+	tvg::Paint* mHandle = nullptr;
+protected:
+    PaintWrapper() = default;
+
+};
+
+class ShapeWrapper : public PaintWrapper
+{
+public:
+
+protected:
+
 };
 
 class PictureWrapper : public PaintWrapper

@@ -4,14 +4,12 @@
 #include "paintWrapper.h"
 
 // todo: clean header
-#include <tvgGl.h>
 #include <thorvg.h>
-#include <tvgCommon.h>
-#include <tvgGlRenderTarget.h>
-#include <tvgMath.h>
 
 #include <vector>
 #include <memory>
+
+class GlRenderTarget;
 
 namespace core
 {
@@ -40,6 +38,7 @@ public:
 	{
 		return mCanvas;
 	}
+	unsigned char* getBuffer();
 
 	void pushPaint(std::unique_ptr<PaintWrapper> paint)
 	{
@@ -61,6 +60,8 @@ protected:
 	float mClearColor[3]{};
 	void* rContext{nullptr};
 	tvg::Size mBeforeSize;
+
+	unsigned char* buffer = nullptr;
 };
 
 }	 // namespace core

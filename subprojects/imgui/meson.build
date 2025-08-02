@@ -21,7 +21,7 @@ imgui_sources = [
   'imgui_impl_opengl3.cpp',
   'imgui_impl_sdl2.cpp',
   'ImGuiNotify.hpp',
-  'imgui_tex_inspect.h'
+  'imgInspect.h',
 ]
 
 imgui_icons = [

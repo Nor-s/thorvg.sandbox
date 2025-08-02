@@ -66,6 +66,10 @@ tvg_sandbox_src =[
     'src/main.cpp',
 
     'src/core/canvas/canvas.cpp',
+    'src/core/gpu/gl/extraGl.cpp',
+    'src/core/gpu/gl/extraGl.h',
+    'src/core/gpu/gl/glUtil.cpp',
+    'src/core/gpu/gl/glUtil.h',
 
     'src/editor/app.cpp',
     'src/editor/imgui/imguiCanvas.cpp',

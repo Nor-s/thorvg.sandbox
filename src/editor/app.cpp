@@ -28,6 +28,7 @@ void App::InitInstance(const AppState& state)
 
 	// tvgGl.h
 	glInit();
+	extraGlInit();
 }
 
 void App::DestroyInstance()

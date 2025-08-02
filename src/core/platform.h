@@ -10,4 +10,6 @@
 #include <tvgCommon.h>
 #include <tvgGl.h>
 
+#include "gpu/gl/extraGl.h"
+
 #endif

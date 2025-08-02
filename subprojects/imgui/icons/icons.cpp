@@ -8,7 +8,12 @@ extern const char StepMath_compressed_data_base85[];
 
 bool ImGui::LoadInternalIcons(ImFontAtlas *atlas)
 {
-    float icons_size = 13.0f;
+    auto& io = ImGui::GetIO();
+    io.Fonts->AddFontDefault();
+
+    float baseFontSize = 16.0f;
+    float icons_size = 13.0f;//baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+
     ImFontConfig icons_config;
     icons_config.OversampleH = 2;
     icons_config.OversampleV = 2;
@@ -18,11 +23,12 @@ bool ImGui::LoadInternalIcons(ImFontAtlas *atlas)
 
     icons_config.SizePixels = icons_size * 1.0f;
     icons_config.GlyphOffset.y = 1.0f * IM_FLOOR(icons_config.SizePixels / icons_size); // Add +1 offset per 16 units
+    icons_config.GlyphMinAdvanceX = icons_size;
 
     static const ImWchar ki_icons_ranges[] = {ICON_MIN_KI, ICON_MAX_KI, 0};
     atlas->AddFontFromMemoryCompressedBase85TTF(kenney_compressed_data_base85, icons_size, &icons_config, ki_icons_ranges);
 
-    icons_size = 16.0f;
+    // icons_size = 16.0f;
     icons_config.SizePixels = icons_size * 1.0f;
     icons_config.GlyphOffset.y = 4.0f * IM_FLOOR(icons_config.SizePixels / icons_size); // Add +1 offset per 16 units
 
@@ -51,7 +57,7 @@ bool ImGui::LoadInternalIcons(ImFontAtlas *atlas)
 
     // Awesome Icons
     static const ImWchar fa_icons_ranges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
-    atlas->AddFontFromFileTTF("./resources/font/D2Coding.ttf", 16.0f, NULL, atlas->GetGlyphRangesKorean());
+    // atlas->AddFontFromFileTTF("./resources/font/D2Coding.ttf", 16.0f, NULL, atlas->GetGlyphRangesKorean());
     atlas->AddFontFromMemoryCompressedBase85TTF(fa_regular_compressed_data_base85, icons_size, &icons_config, fa_icons_ranges);
     atlas->AddFontFromMemoryCompressedBase85TTF(fa_solid_compressed_data_base85, icons_size, &icons_config, fa_icons_ranges);
 

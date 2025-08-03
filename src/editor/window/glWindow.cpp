@@ -148,7 +148,7 @@ GLWindow::GLWindow(const tvg::Size& res)
 		TVGERR("GL", "Error: SDL_GL_CreateContext(): %s\n", SDL_GetError());
 	}
 	SDL_GL_MakeCurrent(mWindow, mContext);
-	SDL_GL_SetSwapInterval(1);	  // Enable vsync
+	SDL_GL_SetSwapInterval(0);	  // Enable vsync
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

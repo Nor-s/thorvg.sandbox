@@ -6,7 +6,8 @@
 namespace core::gl::util
 {
 
-unsigned char* ToBuffer(uint32_t textureId, int width, int height, bool bIsRGBA = true);
+unsigned char* ToBuffer(uint32_t textureId, int width, int height);
+uint32_t* ToUINTBuffer(uint32_t textureId, int width, int height);
 
 }
 

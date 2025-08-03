@@ -3,6 +3,7 @@
 #include <tvgCommon.h>
 
 PFNGLGETTEXIMAGEPROC            glGetTexImage;
+PFNGLPIXELSTOREIPROC            glPixelStorei;
 
 #ifdef __EMSCRIPTEN__
 
@@ -39,7 +40,7 @@ bool extraGlInit()
     if (!_glLoad()) return false;
     
     GL_FUNCTION_FETCH(glGetTexImage, PFNGLGETTEXIMAGEPROC); 
-
+    GL_FUNCTION_FETCH(glPixelStorei, PFNGLPIXELSTOREIPROC);
     return true;
 }
 

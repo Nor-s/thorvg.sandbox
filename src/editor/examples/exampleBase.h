@@ -209,14 +209,15 @@ inline static bool verify(tvg::Result result, std::string failMsg = "")
 class ExampleCanvas : public core::CanvasWrapper
 {
 public:
-	ExampleCanvas(void* context, tvg::Size size);
+	ExampleCanvas(void* context, tvg::Size size, bool bIsSw);
 
 	void onInit() override
 	{
 		mCanvas->remove();
 		mPaints.clear();
-		rExample->content(mCanvas, mSize.x, mSize.y);
-		rExample->elapsed = 0.0f;
+		mAnimations.clear();
+		mExample->content(mCanvas, mSize.x, mSize.y);
+		mExample->elapsed = 0.0f;
 	}
 
 	void onUpdate() override
@@ -224,18 +225,19 @@ public:
 		if(gExampleList[mCurrentExampleIdx].get() != rExample)
 		{
 			rExample = gExampleList[mCurrentExampleIdx].get();
+			mExample = gMakeExample[mCurrentExampleIdx]();
 			onInit();
 		}
 		core::CanvasWrapper::onUpdate();
 
-		rExample->elapsed += static_cast<uint32_t>(core::io::deltaTime * 1000);
-		rExample->update(mCanvas, rExample->elapsed);
+		// rExample->elapsed += static_cast<uint32_t>(core::io::deltaTime * 1000);
+		mExample->update(mCanvas, mGlobalElapsed);
 	}
 
 	void onResize() override
 	{
 		mCanvas->remove();
-		rExample->content(mCanvas, mSize.x, mSize.y);
+		mExample->content(mCanvas, mSize.x, mSize.y);
 		for(auto& paint: mPaints)
 		{
 			paint->scale(mSize);
@@ -243,19 +245,15 @@ public:
 		}
 	}
 
-	void changeExample(uint32_t i)
-	{
-		mCurrentExampleIdx = i;
-	}
-
-
 	bool isExampleCanvas() override {return true;}
 
 	static inline std::vector<std::unique_ptr<Example>> gExampleList;
+	static inline std::vector<std::function<std::unique_ptr<Example>()>> gMakeExample;
+	uint32_t mCurrentExampleIdx = 0;
 
 private:
 	Example* rExample = nullptr;
-	uint32_t mCurrentExampleIdx = 0;
+	std::unique_ptr<Example> mExample = nullptr;
 };
 
 }	 // namespace tvgexam

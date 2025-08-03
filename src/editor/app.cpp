@@ -105,7 +105,8 @@ void App::draw()
 	{
 		float clearColor[3] = {.1f, 0.2f, 0.2f};
 
-		mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}));
+		mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, false));
+		mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, true));
 		for (auto& canvas : mCanvasList)
 		{
 			canvas->clearColor(clearColor);
@@ -151,12 +152,13 @@ void App::drawgui()
 		ImGui::End();
 	}
 
-	// ImGui::ShowDemoWindow(&show_demo_window);
 	// temp code
 	int i = 0;
 	for (auto* canvas : mCanvasList)
 	{
-		editor::ImGuiCanvasView().onDraw("canvas" + std::to_string(i++), *canvas);
+		std::string title = "canvas" + std::to_string(i++);
+		title += canvas->isSw() ? "(sw)" : "(gl)";
+		editor::ImGuiCanvasView().onDraw(title.c_str(), *canvas);
 	}
 	editor::ImGuiCanvasView().onDrawSceneInspect();
 	editor::ImGuiCanvasView().onDrawContentBrowser();

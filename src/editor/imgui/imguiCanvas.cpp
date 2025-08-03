@@ -35,7 +35,7 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 		ImVec2 mouseUVCoord = (io.MousePos - rc.Min) / rc.GetSize();
 		mouseUVCoord.y = 1.f - mouseUVCoord.y;
 
-		if (io.KeyShift && io.MouseDown[0] && mouseUVCoord.x >= 0.f && mouseUVCoord.y >= 0.f)
+		if (io.KeyShift && mouseUVCoord.x >= 0.f && mouseUVCoord.y >= 0.f)
 		{
 			ImageInspect::inspect(canvas.mSize.x, canvas.mSize.y, canvas.getBuffer(), mouseUVCoord, textureSize);
 		}
@@ -45,8 +45,18 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 			{
 				auto* path = (const char*) payload->Data;
+				auto ext = std::filesystem::path(path).extension();
 				ImGui::InsertNotification({ImGuiToastType::Info, 3000, "File: %s", path});
-				canvas.pushPaint(core::PictureWrapper::Gen(path));
+				if(ext.string() == ".json")
+				{
+					auto [animWrap, pictureWrap] = core::AnimationWrapper::Gen(path);
+					canvas.pushPaint(std::move(pictureWrap));
+					canvas.pushAnimation(std::move(animWrap));
+				}
+				if(ext.string() == ".png" ||ext.string() == ".svg" || ext.string() == ".jpg" || ext.string() == ".webp")
+				{
+					canvas.pushPaint(core::PictureWrapper::Gen(path));
+				}
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -65,22 +75,22 @@ void ImGuiCanvasView::onDrawSceneInspect()
 	{
 		if (gCurrentCanvas != nullptr)
 		{
-			// if (gCurrentCanvas && gCurrentCanvas->isExampleCanvas())
-			// {
-			// 	auto* exampleCanvas = static_cast<tvgexam::ExampleCanvas*>(gCurrentCanvas);
+			if (gCurrentCanvas && gCurrentCanvas->isExampleCanvas())
+			{
+				auto* exampleCanvas = static_cast<tvgexam::ExampleCanvas*>(gCurrentCanvas);
 
-			// 	static int currentExampleIndex = 0;
-			// 	int beforeExampleIdx = currentExampleIndex;
-			// 	ImGui::Combo(
-			// 		"examples", &currentExampleIndex,
-			// 		[](void* data, int n) { return tvgexam::ExampleCanvas::gExampleList[n]->toString().data(); },
-			// 		nullptr, tvgexam::ExampleCanvas::gExampleList.size());
+				int currentExampleIndex = exampleCanvas->mCurrentExampleIdx;
+				int beforeExampleIdx = currentExampleIndex;
+				ImGui::Combo(
+					"examples", &currentExampleIndex,
+					[](void* data, int n) { return tvgexam::ExampleCanvas::gExampleList[n]->toString().data(); },
+					nullptr, tvgexam::ExampleCanvas::gExampleList.size());
 
-			// 	if (beforeExampleIdx != currentExampleIndex)
-			// 	{
-			// 		exampleCanvas->changeExample(currentExampleIndex);
-			// 	}
-			// }
+				if (beforeExampleIdx != currentExampleIndex)
+				{
+					exampleCanvas->mCurrentExampleIdx = currentExampleIndex;
+				}
+			}
 
 			ImGui::Separator();
 		}

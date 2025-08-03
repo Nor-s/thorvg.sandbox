@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 
+
 class GlRenderTarget;
 
 namespace core
@@ -18,7 +19,8 @@ namespace core
 class CanvasWrapper
 {
 public:
-	CanvasWrapper(void* context, tvg::Size size);
+	CanvasWrapper(void* context, tvg::Size size, bool bIsSw);
+	virtual ~CanvasWrapper();
 
 	void clearColor(float color[3])
 	{
@@ -49,19 +51,33 @@ public:
 		mPaints.push_back(std::move(paint));
 	}
 
+	void pushAnimation(std::unique_ptr<AnimationWrapper> anim)
+	{
+		mAnimations.push_back(std::move(anim));
+	}
+
+	bool isSw()
+	{
+		return mIsSw;
+	}
+
 	tvg::Size mSize{};
 
 protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
-	tvg::GlCanvas* mCanvas{nullptr};
+	tvg::Canvas* mCanvas{nullptr};
 	std::vector<std::unique_ptr<PaintWrapper>> mPaints;
+	std::vector<std::unique_ptr<AnimationWrapper>> mAnimations;
 
 	float mClearColor[3]{};
 	void* rContext{nullptr};
 	tvg::Size mBeforeSize;
+	uint32_t mGlobalElapsed = 0;
+	bool mIsSw = false;
 
-	unsigned char* buffer = nullptr;
+	unsigned char* mBuffer = nullptr;
+	uint32_t* mSwBuffer = nullptr;
 };
 
 }	 // namespace core

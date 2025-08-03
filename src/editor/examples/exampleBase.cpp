@@ -10,9 +10,6 @@ namespace tvgexam
 		if(gExampleList.size() == 0)
 		{
 			gMakeExample.push_back([](){
-				return std::make_unique<EmptyExample>();
-			});
-			gMakeExample.push_back([](){
 				return std::make_unique<LottieExample>();
 			});
 			gMakeExample.push_back([](){
@@ -23,6 +20,9 @@ namespace tvgexam
 			});
 			gMakeExample.push_back([](){
 				return std::make_unique<ParticleExample>();
+			});
+			gMakeExample.push_back([](){
+				return std::make_unique<EmptyExample>();
 			});
 			for(auto& makeFunc: gMakeExample)
 			{

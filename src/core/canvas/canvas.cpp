@@ -71,7 +71,7 @@ void CanvasWrapper::draw()
 		int height = mSize.y;
 		int width = mSize.x;
 
-		// todo: optimization, memory allocation
+		// todo: cache buffer
 		uint32_t* tempBuffer = new uint32_t[mSize.x * mSize.y];
 		for (int y = 0; y < height; ++y)
 		{
@@ -82,9 +82,8 @@ void CanvasWrapper::draw()
 		}
 		glBindTexture(GL_TEXTURE_2D, getTexture());
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mSize.x, mSize.y, 0, GL_BGRA, GL_UNSIGNED_BYTE, tempBuffer);
-		delete [] tempBuffer;
-		// glBindTexture(GL_TEXTURE_2D, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mSize.x, mSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, tempBuffer);
+		delete[] tempBuffer;
 	}
 }
 
@@ -101,8 +100,8 @@ void CanvasWrapper::resize(tvg::Size size)
 	{
 		if (mSwBuffer)
 			delete[] mSwBuffer;
-		mSwBuffer = new uint32_t[size.x* size.y];
-		static_cast<SwCanvas*>(mCanvas)->target(mSwBuffer, size.x, size.x, size.y, tvg::ColorSpace::ARGB8888);
+		mSwBuffer = new uint32_t[size.x * size.y];
+		static_cast<SwCanvas*>(mCanvas)->target(mSwBuffer, size.x, size.x, size.y, tvg::ColorSpace::ABGR8888S);
 	}
 	else
 	{
@@ -123,7 +122,8 @@ unsigned char* CanvasWrapper::getBuffer()
 		delete[] mBuffer;
 		mBuffer = nullptr;
 	}
-	mBuffer = gl::util::ToBuffer(getTexture(), mSize.x, mSize.y);
+
+	mBuffer = gl::util::ToBuffer(mRenderTarget->getResolveFboId(), mSize.x, mSize.y);
 
 	return mBuffer;
 }

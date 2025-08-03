@@ -35,7 +35,7 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 		ImVec2 mouseUVCoord = (io.MousePos - rc.Min) / rc.GetSize();
 		mouseUVCoord.y = 1.f - mouseUVCoord.y;
 
-		if (io.KeyShift && mouseUVCoord.x >= 0.f && mouseUVCoord.y >= 0.f)
+		if (ImGui::IsWindowHovered() && io.KeyShift && mouseUVCoord.x >= 0.f && mouseUVCoord.y >= 0.f && rc.Contains({io.MousePos,io.MousePos}))
 		{
 			ImageInspect::inspect(canvas.mSize.x, canvas.mSize.y, canvas.getBuffer(), mouseUVCoord, textureSize);
 		}
@@ -89,6 +89,10 @@ void ImGuiCanvasView::onDrawSceneInspect()
 				if (beforeExampleIdx != currentExampleIndex)
 				{
 					exampleCanvas->mCurrentExampleIdx = currentExampleIndex;
+				}
+				if(ImGui::Button("clear"))
+				{
+					exampleCanvas->onInit();
 				}
 			}
 

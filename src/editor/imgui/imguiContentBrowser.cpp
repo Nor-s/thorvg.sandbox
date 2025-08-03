@@ -6,14 +6,18 @@
 #include <string>
 
 #include <ImGuiNotify.hpp>
+#include <tvgCommon.h>
 
 namespace fs = std::filesystem;
 
+#ifdef __EMSCRIPTEN__
+static fs::path s_CurrentDirectory = "/";
+#else 
 static fs::path s_CurrentDirectory = EXAMPLE_DIR;
+#endif
 
 namespace editor
 {
-
 void ImguiContentBrowser::draw()
 {
 	ImGui::Begin("Content Browser");

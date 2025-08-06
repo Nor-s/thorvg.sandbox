@@ -51,6 +51,12 @@ entt_proj = cmake.subproject('entt')
 entt_dep = entt_proj.dependency('EnTT')
 
 example_dep = []
+core_dep = []
+editor_dep = []
+lottie_dep = []
+subdir('src/core')
+subdir('src/editor')
+subdir('src/lottie')
 subdir('src/editor/examples')
 
 dep_list =[
@@ -58,29 +64,16 @@ dep_list =[
     imgui_dep,
     entt_dep,
     tvg_lib_dep,
-    example_dep
+    example_dep, 
+    core_dep,
+    editor_dep,
+    lottie_dep
 ]
 
 # Src Files
 tvg_sandbox_src =[
     'src/main.cpp',
-
-    'src/core/canvas/canvas.cpp',
-    'src/core/gpu/gl/extraGl.cpp',
-    'src/core/gpu/gl/extraGl.h',
-    'src/core/gpu/gl/glUtil.cpp',
-    'src/core/gpu/gl/glUtil.h',
-
-    'src/editor/app.cpp',
-    'src/editor/imgui/imguiCanvas.cpp',
-
-    'src/editor/imgui/imguiContentBrowser.cpp',
-    'src/editor/imgui/imguiContentBrowser.h',
-
-    'src/editor/window/window.cpp',
-    'src/editor/window/glWindow.cpp',
 ]
-
 
 tvg_sandbox_inc = include_directories('src', tvg_config_path)
 
@@ -97,4 +90,4 @@ executable('thorvg_sandbox',
 )
 
 
-# subdir('test')
+subdir('test')

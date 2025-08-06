@@ -13,6 +13,12 @@ namespace tvgexam
 				return std::make_unique<LottieExample>();
 			});
 			gMakeExample.push_back([](){
+				return std::make_unique<AccessorExample>();
+			});
+			gMakeExample.push_back([](){
+				return std::make_unique<AnimationExample>();
+			});
+			gMakeExample.push_back([](){
 				return std::make_unique<SvgExample>();
 			});
 			gMakeExample.push_back([](){

@@ -5,3 +5,4 @@ build/**
 subprojects/SDL2*
 subprojects/pack*
 *.data
+docs/temp*

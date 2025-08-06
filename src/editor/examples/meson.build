@@ -8,6 +8,7 @@ source_file = [
    meson.current_source_dir().join('boundingBoxExample.h'),
    meson.current_source_dir().join('examples.h'),
    meson.current_source_dir().join('emptyExample.h'),
+   meson.current_source_dir().join('accessorExample.h'),
 ]
 
 example_dep += [declare_dependency(

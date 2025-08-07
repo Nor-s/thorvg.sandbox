@@ -1,11 +1,11 @@
 #ifndef _CORE_CANVAS_PAINT_WRAPPER_H_
 #define _CORE_CANVAS_PAINT_WRAPPER_H_
 
+#include "common/common.h"
 #include <thorvg.h>
-#include <tvgCommon.h>
+#include <thorvg_lottie.h>
 namespace core
 {
-
 class PaintWrapper
 {
 public:
@@ -16,17 +16,17 @@ public:
 			mHandle->unref();
 	}
 
-	void translate(const tvg::Point& xy)
+	void translate(const Vec2& xy)
 	{
 		mHandle->translate(xy.x, xy.x);
 	}
 
-	virtual void scale(const tvg::Size& size)
+	virtual void scale(const Size& size)
 	{
 		return;
 	}
 
-	static void PictureScale(tvg::Picture* picture, const tvg::Size& size)
+	static void PictureScale(tvg::Picture* picture, const Size& size)
 	{
 		float scale = 0.0f, w2 = 0.0f, h2 = 0.0f;
 		picture->size(&w2, &h2);
@@ -71,7 +71,7 @@ public:
 public:
 	~PictureWrapper() = default;
 
-	void scale(const tvg::Size& size) override
+	void scale(const Size& size) override
 	{
 		auto* picture = static_cast<tvg::Picture*>(mHandle);
 		PaintWrapper::PictureScale(picture, size);
@@ -84,14 +84,14 @@ public:
 	static std::pair<std::unique_ptr<AnimationWrapper>, std::unique_ptr<PictureWrapper>> Gen(std::string_view path)
 	{
 		auto animationWrapper = std::make_unique<AnimationWrapper>();
-		auto* anim = animationWrapper->mHandle = tvg::Animation::gen();
+		auto* anim = animationWrapper->mHandle = tvg::LottieAnimation::gen();
 		auto* picture = anim->picture();
 
 		picture->load(path.data());
 
 		return std::make_pair(std::move(animationWrapper), PictureWrapper::Gen(picture));
 	}
-    inline static float Progress(uint32_t elapsed, float durationInSec, bool rewind = false)
+	inline static float Progress(uint32_t elapsed, float durationInSec, bool rewind = false)
 	{
 		auto duration = uint32_t(durationInSec * 1000.0f);	  // sec -> millisec.
 		if (elapsed == 0 || duration == 0)
@@ -107,15 +107,19 @@ public:
 
 public:
 	~AnimationWrapper() = default;
-	
+
 	void frame(uint32_t elapsed)
 	{
 		auto progress = Progress(elapsed, mHandle->duration());
 		mHandle->frame(mHandle->totalFrame() * progress);
 	}
+	tvg::LottieAnimation* handle()
+	{
+		return mHandle;
+	}
 
 private:
-	tvg::Animation* mHandle;
+	tvg::LottieAnimation* mHandle;
 };
 
 }	 // namespace core

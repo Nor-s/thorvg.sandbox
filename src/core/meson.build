@@ -1,9 +1,38 @@
 source_file = [
+    meson.current_source_dir().join('common/common.h'),
+    meson.current_source_dir().join('common/logger.cpp'),
+    meson.current_source_dir().join('common/logger.h'),
+    meson.current_source_dir().join('common/singleInstance.h'),
+    meson.current_source_dir().join('common/timer.h'),
+    meson.current_source_dir().join('common/vec.h'),
+
+    meson.current_source_dir().join('input/input.h'),
+    meson.current_source_dir().join('input/inputAction.h'),
+    meson.current_source_dir().join('input/inputController.h'),
+
     meson.current_source_dir().join('canvas/canvas.cpp'),
+    meson.current_source_dir().join('canvas/canvas.h'),
+    meson.current_source_dir().join('canvas/animationCreatorCanvas.cpp'),
+    meson.current_source_dir().join('canvas/animationCreatorCanvas.h'),
+    meson.current_source_dir().join('canvas/animationCreatorInputController.h'),
+    meson.current_source_dir().join('canvas/animationCreatorInputController.cpp'),
+
+
     meson.current_source_dir().join('gpu/gl/extraGl.cpp'),
     meson.current_source_dir().join('gpu/gl/extraGl.h'),
     meson.current_source_dir().join('gpu/gl/glUtil.cpp'),
     meson.current_source_dir().join('gpu/gl/glUtil.h'),
+
+    meson.current_source_dir().join('animation/animationBuilder.h'),
+    meson.current_source_dir().join('animation/animationBuilder.cpp'),
+
+    meson.current_source_dir().join('scene/scene.h'),
+    meson.current_source_dir().join('scene/scene.cpp'),
+    meson.current_source_dir().join('scene/entity.h'),
+    meson.current_source_dir().join('scene/entity.cpp'),
+
+    meson.current_source_dir().join('scene/component/components.cpp'),
+    meson.current_source_dir().join('scene/component/components.h'),
 ]
 
 core_dep += [declare_dependency(

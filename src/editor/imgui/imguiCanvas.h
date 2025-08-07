@@ -15,7 +15,7 @@ class ImGuiCanvasView
 {
 public:
 	static core::CanvasWrapper* gCurrentCanvas;
-	void onDraw(std::string_view title, core::CanvasWrapper& canvas);
+	void onDraw(std::string_view title, core::CanvasWrapper& canvas, int canvasIndex);
 	void onDrawSceneInspect();
 	void onDrawContentBrowser();
 };

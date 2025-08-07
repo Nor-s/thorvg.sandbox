@@ -8,7 +8,7 @@
 #include "IconsKenney.h"
 
 #define ICON_MD 0
-#define ICON_FA 1
+#define ICON_BIG 1
 namespace ImGui
 {
     IMGUI_API bool LoadInternalIcons(ImFontAtlas *atlas);

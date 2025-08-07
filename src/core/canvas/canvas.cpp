@@ -1,22 +1,21 @@
 #include "canvas.h"
 
-#include <tvgGlRenderTarget.h>
-#include <tvgCanvas.h>
+#include "common/common.h"
 
 #include "core/gpu/gl/glUtil.h"
-
-#include "core/system/io.h"
-
 #include "core/gpu/gl/extraGl.h"
+#include "core/system/io.h"
+#include "core/input/inputController.h"
+
+#include <tvgGlRenderTarget.h>
+#include <tvgCanvas.h>
 
 namespace core
 {
 
-CanvasWrapper::CanvasWrapper(void* context, tvg::Size size, bool bIsSw) : rContext(context), mIsSw(bIsSw)
+CanvasWrapper::CanvasWrapper(void* context, Size size, bool bIsSw) : rContext(context), mIsSw(bIsSw)
 {
 	mRenderTarget = new GlRenderTarget();
-	mRenderTarget->setViewport(tvg::RenderRegion{.min = {0, 0}, .max = {(int) size.x, (int) size.y}});
-	mRenderTarget->init(size.x, size.y, 0);
 
 	if (mIsSw)
 	{
@@ -87,7 +86,7 @@ void CanvasWrapper::draw()
 	}
 }
 
-void CanvasWrapper::resize(tvg::Size size)
+void CanvasWrapper::resize(Size size)
 {
 	mBeforeSize = mSize;
 	mSize = size;
@@ -110,6 +109,11 @@ void CanvasWrapper::resize(tvg::Size size)
 	}
 }
 
+void CanvasWrapper::update()
+{
+	mCanvas->update();
+}
+
 uint32_t CanvasWrapper::getTexture()
 {
 	return mRenderTarget->getColorTexture();
@@ -126,6 +130,11 @@ unsigned char* CanvasWrapper::getBuffer()
 	mBuffer = gl::util::ToBuffer(mRenderTarget->getResolveFboId(), mSize.x, mSize.y);
 
 	return mBuffer;
+}
+
+InputController* CanvasWrapper::getInputController()
+{
+	return nullptr;
 }
 
 }	 // namespace core

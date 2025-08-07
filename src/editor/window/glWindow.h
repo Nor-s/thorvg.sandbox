@@ -11,7 +11,7 @@ namespace editor
 class GLWindow : public Window
 {
 public:
-	GLWindow(const tvg::Size& res);
+	GLWindow(const core::Size& res);
 	~GLWindow();
 
 	void refresh() override;

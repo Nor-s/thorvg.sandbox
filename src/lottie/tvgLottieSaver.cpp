@@ -30,25 +30,24 @@ MapValue processTransform(LottieTransform* transform)
 	return ret;
 }
 
-// LottieObject* LottieParser::parseObject()
 ArrayValue processShapes(LottieLayer* layer)
 {
 	ArrayValue ret;
 	
-		// is not todo....  is not....
-	auto& assets = layer->children;
-	for (auto& asset : assets)
+	auto& shapeLayers= layer->children;
+	for (auto& shapeLayer : shapeLayers)
 	{
 		MapValue val;
-		// id -> djb2Encode
-		val["nm"] = VAL(std::to_string(asset->id));
-		val["hd"] = VAL(asset->hidden);
 
-		switch (asset->type)
+		// todo: id -> djb2Encode
+		val["nm"] = VAL(std::to_string(shapeLayer->id));
+		val["hd"] = VAL(shapeLayer->hidden);
+
+		switch (shapeLayer->type)
 		{
 			case LottieObject::Rect:
 			{
-				auto* rect = static_cast<LottieRect*>(asset);
+				auto* rect = static_cast<LottieRect*>(shapeLayer);
 				// todo: bm
 				val["ty"] = VAL("rc");
 				val["bm"] = VAL(0);
@@ -60,7 +59,7 @@ ArrayValue processShapes(LottieLayer* layer)
 			}
 			case LottieObject::SolidFill:
 			{
-				auto* fill = static_cast<LottieSolidFill*>(asset);
+				auto* fill = static_cast<LottieSolidFill*>(shapeLayer);
 				// todo: bm
 				val["ty"] = VAL("fl");
 				val["bm"] = VAL(0);

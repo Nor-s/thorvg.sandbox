@@ -26,6 +26,8 @@ imgui_sources = [
   'imgui_neo_internal.h',
   'imgui_neo_sequencer.h',
   'imgui_neo_sequencer.cpp',
+  'imgui_helper.cpp',
+  'imgui_helper.h',
 ]
 
 imgui_icons = [

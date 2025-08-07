@@ -3,23 +3,30 @@
 
 #include "paintWrapper.h"
 
-// todo: clean header
 #include <thorvg.h>
 
+#include "common/common.h"
 #include <vector>
 #include <memory>
 
-
 class GlRenderTarget;
-
 namespace core
 {
+class InputController;
+
+enum class CanvasType
+{
+	Base,
+	Example,
+	LottieCreator
+};
 
 // todo: delete move, copy
 class CanvasWrapper
 {
 public:
-	CanvasWrapper(void* context, tvg::Size size, bool bIsSw);
+public:
+	CanvasWrapper(void* context, Size size, bool bIsSw);
 	virtual ~CanvasWrapper();
 
 	void clearColor(float color[3])
@@ -30,10 +37,14 @@ public:
 	virtual void onInit() {};
 	virtual void onUpdate();
 	virtual void onResize() {};
-	virtual bool isExampleCanvas() {return false;}
+	virtual CanvasType type()
+	{
+		return CanvasType::Base;
+	}
 
 	void draw();
-	void resize(tvg::Size size);
+	void resize(Size size);
+	void update();
 	uint32_t getTexture();
 
 	tvg::Canvas* getCanvas()
@@ -42,7 +53,7 @@ public:
 	}
 	unsigned char* getBuffer();
 
-	void pushPaint(std::unique_ptr<PaintWrapper> paint)
+	virtual void pushPaint(std::unique_ptr<PaintWrapper> paint)
 	{
 		paint->scale(mSize);
 		mCanvas->push(paint->mHandle);
@@ -51,33 +62,37 @@ public:
 		mPaints.push_back(std::move(paint));
 	}
 
-	void pushAnimation(std::unique_ptr<AnimationWrapper> anim)
+	virtual void pushAnimation(std::unique_ptr<AnimationWrapper> anim)
 	{
 		mAnimations.push_back(std::move(anim));
 	}
+
+	virtual InputController* getInputController();
 
 	bool isSw()
 	{
 		return mIsSw;
 	}
 
-	tvg::Size mSize{};
+	Size mSize{};
 
 protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
 	tvg::Canvas* mCanvas{nullptr};
-	std::vector<std::unique_ptr<PaintWrapper>> mPaints;
-	std::vector<std::unique_ptr<AnimationWrapper>> mAnimations;
 
 	float mClearColor[3]{};
 	void* rContext{nullptr};
-	tvg::Size mBeforeSize;
+	Size mBeforeSize;
 	uint32_t mGlobalElapsed = 0;
 	bool mIsSw = false;
 
 	unsigned char* mBuffer = nullptr;
 	uint32_t* mSwBuffer = nullptr;
+
+	// imported image, svg, lottie..
+	std::vector<std::unique_ptr<PaintWrapper>> mPaints;
+	std::vector<std::unique_ptr<AnimationWrapper>> mAnimations;
 };
 
 }	 // namespace core

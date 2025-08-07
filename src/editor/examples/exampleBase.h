@@ -209,7 +209,7 @@ inline static bool verify(tvg::Result result, std::string failMsg = "")
 class ExampleCanvas : public core::CanvasWrapper
 {
 public:
-	ExampleCanvas(void* context, tvg::Size size, bool bIsSw);
+	ExampleCanvas(void* context, core::Size size, bool bIsSw);
 
 	void onInit() override
 	{
@@ -222,7 +222,7 @@ public:
 
 	void onUpdate() override
 	{
-		if(gExampleList[mCurrentExampleIdx].get() != rExample)
+		if (gExampleList[mCurrentExampleIdx].get() != rExample)
 		{
 			rExample = gExampleList[mCurrentExampleIdx].get();
 			mExample = gMakeExample[mCurrentExampleIdx]();
@@ -238,14 +238,17 @@ public:
 	{
 		mCanvas->remove();
 		mExample->content(mCanvas, mSize.x, mSize.y);
-		for(auto& paint: mPaints)
+		for (auto& paint : mPaints)
 		{
 			paint->scale(mSize);
 			mCanvas->push(paint->mHandle);
 		}
 	}
 
-	bool isExampleCanvas() override {return true;}
+	core::CanvasType type() override
+	{
+		return core::CanvasType::Example;
+	}
 
 	static inline std::vector<std::unique_ptr<Example>> gExampleList;
 	static inline std::vector<std::function<std::unique_ptr<Example>()>> gMakeExample;

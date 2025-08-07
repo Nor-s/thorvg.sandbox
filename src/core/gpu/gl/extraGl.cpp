@@ -1,6 +1,5 @@
 #include "extraGl.h"
 
-#include <tvgCommon.h>
 #ifdef __EMSCRIPTEN__
 
 bool extraGlInit()
@@ -26,7 +25,6 @@ static bool _glLoad()
 		_libGL = dlopen("/System/Library/Frameworks/OpenGL.framework/OpenGL", RTLD_LAZY);
 	if (_libGL)
 		return true;
-	TVGERR("GL_ENGINE", "Cannot find gl library.");
 	return false;
 }
 
@@ -39,7 +37,6 @@ static void* _getProcAddress(const char* procName)
 	procName = (procType) _getProcAddress(#procName);           \
 	if (!procName)                                              \
 	{                                                           \
-		TVGERR("GL_ENGINE", "%s is not supported.", #procName); \
 		return false;                                           \
 	}
 

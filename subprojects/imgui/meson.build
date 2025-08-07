@@ -22,6 +22,10 @@ imgui_sources = [
   'imgui_impl_sdl2.cpp',
   'ImGuiNotify.hpp',
   'imgInspect.h',
+  'imgui_neo_internal.cpp',
+  'imgui_neo_internal.h',
+  'imgui_neo_sequencer.h',
+  'imgui_neo_sequencer.cpp',
 ]
 
 imgui_icons = [

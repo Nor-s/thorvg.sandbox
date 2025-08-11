@@ -12,7 +12,7 @@
 
 #include <ImGuiNotify.hpp>
 #include <imgInspect.h>
-
+#include <imgui_internal.h>
 #include <filesystem>
 
 namespace editor
@@ -26,9 +26,11 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 	auto& io = ImGui::GetIO();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
-	 
+
 	if (ImGui::Begin(title.data(), 0, windowFlags | ImGuiWindowFlags_NoScrollbar ))
 	{
+		bool isDraggingTitle = ImGui::IsItemHovered() && ImGui::IsItemClicked();
+		bool isMoving = ImGui::GetCurrentContext()->MovingWindow == ImGui::GetCurrentWindow();
 		ImVec2 canvasSize = ImGui::GetContentRegionAvail();
 		auto textureSize = ImVec2(canvas.mSize.x, canvas.mSize.y);
 		ImGui::ImageWithBg(canvas.getTexture(), textureSize, ImVec2{0, 1}, ImVec2{1, 0});
@@ -82,8 +84,10 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 
 		// todo: push when change focus, resize
 		auto updateSize = core::Size{max(1.0f, canvasSize.x), max(1.0f, canvasSize.y)};
-		App::PushEvent<CanvasFocusEvent>(canvasIndex, ImGui::IsWindowFocused());
-		App::PushEvent<CanvasResizeEvent>(canvasIndex, updateSize);
+		bool needResize = canvasSize.x != textureSize.x || canvasSize.y != textureSize.y;
+		App::PushEvent<CanvasFocusEvent>(canvasIndex, ImGui::IsWindowFocused()&&!isDraggingTitle&&!needResize&&!isMoving);
+		if(needResize)
+			App::PushEvent<CanvasResizeEvent>(canvasIndex, updateSize);
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();

@@ -18,13 +18,16 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	mRegistry.view<ShapeComponent>().each([](auto entity, auto& shape) { shape.shape->unref(); });
 	mTvgScene->unref();
 }
 
 Entity Scene::CreateEntity(Scene* scene, std::string_view name)
 {
 	static int id = 1;
+
 	Entity entity(scene);
+
 	entity.addComponent<IDComponent>(id++);
 	entity.addComponent<TransformComponent>();
 	entity.addComponent<NameComponent>(name.empty() ? "Entity" : name);
@@ -38,15 +41,16 @@ Entity Scene::createEntity(std::string_view name)
 	return CreateEntity(this, name);
 }
 
-Entity Scene::createRectLayer(std::string_view name, Vec2 xy, Vec2 wh)
+Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 {
 	auto entity = CreateEntity(this, name);
 	auto& id = entity.getComponent<IDComponent>();
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& rect = entity.addComponent<RectPathComponent>();
-	auto& shape = entity.addComponent<ShpaeComponent>();
+	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 	auto color = solidFill.color;
+
 	transform.anchorPoint = {xy.x, xy.y};
 	transform.position = transform.anchorPoint;
 	rect.scale = wh;
@@ -68,11 +72,51 @@ Entity Scene::createRectLayer(std::string_view name, Vec2 xy, Vec2 wh)
 
 	return entity;
 }
+Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh)
+{
+	Entity entity = createRectFillLayer(name, xy, wh);
+	auto& stroke = entity.addComponent<StrokeComponent>();
+	auto& shape = entity.getComponent<ShapeComponent>();
+	shape.shape->strokeWidth(stroke.width);
+	shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
+	updateCanvas();
+	return entity;
+}
+Entity Scene::createBbox(Vec2 xy, Vec2 wh)
+{
+	auto entity = CreateEntity(this, "bbox");
+	auto& id = entity.getComponent<IDComponent>();
+	auto& transform = entity.getComponent<TransformComponent>();
+	auto& rect = entity.addComponent<RectPathComponent>();
+	auto& shape = entity.addComponent<ShapeComponent>();
+	auto& stroke = entity.addComponent<StrokeComponent>();
+
+	transform.anchorPoint = {xy.x, xy.y};
+	transform.position = transform.anchorPoint;
+	rect.scale = wh;
+	rect.radius = 0.0f;
+	rect.position = {0.0f, 0.0f};
+
+	auto bound = tvg::Shape::gen();
+	bound->moveTo(xy.x, xy.y);
+	bound->lineTo(xy.x + wh.w, xy.y);
+	bound->lineTo(xy.x + wh.w, xy.y + wh.h);
+	bound->lineTo(xy.x, xy.y + wh.h);
+	bound->close();
+	bound->strokeWidth(stroke.width);
+	bound->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
+	shape.shape = bound;
+	shape.shape->ref();
+	mTvgScene->push(shape.shape);
+
+	updateCanvas();
+	return entity;
+}
 void Scene::destroyEntity(core::Entity& entity)
 {
-	if(entity.hasComponent<ShpaeComponent>())
+	if (entity.hasComponent<ShapeComponent>())
 	{
-		auto& shape = entity.getComponent<ShpaeComponent>();
+		auto& shape = entity.getComponent<ShapeComponent>();
 		shape.shape->unref();
 		mTvgScene->remove(shape.shape);
 		updateCanvas();

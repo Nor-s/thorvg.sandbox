@@ -26,7 +26,9 @@ public:
 		return mRegistry;
 	}
 	Entity createEntity(std::string_view name);
-	Entity createRectLayer(std::string_view name, Vec2 xy, Vec2 wh);
+	Entity createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh);
+	Entity createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh);
+	Entity createBbox(Vec2 xy, Vec2 wh);
 	void destroyEntity(core::Entity& entity);
 	void pushCanvas(CanvasWrapper* canvas);
 	void updateCanvas();

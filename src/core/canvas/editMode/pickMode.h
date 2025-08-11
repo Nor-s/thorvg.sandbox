@@ -2,19 +2,21 @@
 #define _CORE_CANVAS_EDITMODE_PICKMODE_H_
 
 #include "editMode.h"
+#include "scene/entity.h"
 
 namespace core
 {
+class Scene;
 class PickMode : public EditMode
 {
 	struct Context
 	{
-		std::vector<tvg::Paint*> rPickedPaint;
 		// for outline
-		tvg::Scene* tempScene{nullptr};
-		tvg::Shape* mOutline{nullptr};
-		tvg::Shape* mScalePoint[4]{nullptr, nullptr, nullptr, nullptr};
-        tvg::Paint* mPick{nullptr};
+		std::unique_ptr<Scene> tempScene;
+		std::vector<Entity> pickedEntity;
+		Vec2 startPoint;
+		Entity bbox;
+		Entity drag;
 	};
 
 public:

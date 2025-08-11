@@ -1,6 +1,9 @@
 #ifndef __CORE_ENTITY_COMPONENTS_H_
 #define __CORE_ENTITY_COMPONENTS_H_
 
+#include "common/common.h"
+#include "../entity.h"
+
 #include <string>
 #include <string_view>
 #include <memory>
@@ -8,7 +11,6 @@
 
 #include <thorvg.h>
 
-#include "common/common.h"
 
 namespace core
 {
@@ -40,8 +42,9 @@ struct RelationshipComponent
 	}
 };
 
-struct ShpaeComponent
+struct ShapeComponent
 {
+	Entity owner;
 	tvg::Shape* shape{nullptr};
 };
 
@@ -62,7 +65,7 @@ struct RectPathComponent
 	float radius{0.0};
 	Vec2 position{0.0f, 0.0f};
 	Vec2 scale{100.0f, 100.0f};
-	FloatKeyFrame radius;
+	FloatKeyFrame radiusKeyframes;
 	VectorKeyFrame positionKeyframes;
 	VectorKeyFrame scaleKeyframes;
 };
@@ -132,7 +135,7 @@ struct TransformKeyframeComponent
 };
 struct SolidFillComponent
 {
-	Vec3 color{255.0f, 0.0f, 0.0f};
+	Vec3 color{63.0f, 63.0f, 255.0f};
 	float alpha{255.0f};
 	tvg::FillRule rule{tvg::FillRule::NonZero};
 	ColorKeyFrame colorKeyframe;
@@ -141,9 +144,9 @@ struct SolidFillComponent
 
 struct StrokeComponent
 {
-	Vec3 color{255.0f, 0.0f, 0.0f};
-	float width;
-	tvg::StrokeJoin join;
+	Vec3 color{63.0f, 127.0f, 255.0f};
+	float width{2.0f};
+	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;
 };

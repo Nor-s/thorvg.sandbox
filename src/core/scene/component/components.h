@@ -44,15 +44,29 @@ struct ShpaeComponent
 {
 	tvg::Shape* shape{nullptr};
 };
+
+template <typename T>
+struct Keyframes
+{
+	bool isEnable;
+	std::vector<T> frames;
+};
+
+using FloatKeyFrame = Keyframes<float>;
+using VectorKeyFrame = Keyframes<Vec2>;
+using ColorKeyFrame = Keyframes<Vec3>;
+
 // shape
-struct RectComponent
+struct RectPathComponent
 {
 	float radius{0.0};
 	Vec2 position{0.0f, 0.0f};
-	Vec2 dimension{100.0f, 100.0f};
+	Vec2 scale{100.0f, 100.0f};
+	FloatKeyFrame radius;
+	VectorKeyFrame positionKeyframes;
+	VectorKeyFrame scaleKeyframes;
 };
 
-// property
 struct TransformComponent
 {
 	Vec2 anchorPoint{0.0f, 0.0f};
@@ -110,50 +124,28 @@ struct TransformComponent
 		m->e22 *= cosVal;
 	}
 };
+struct TransformKeyframeComponent
+{
+	VectorKeyFrame positionKeyframes;
+	VectorKeyFrame scaleKeyframes;
+	FloatKeyFrame rotationKeyframes;
+};
 struct SolidFillComponent
 {
-	Vec4 color{255, 0, 0, 255};
+	Vec3 color{255.0f, 0.0f, 0.0f};
+	float alpha{255.0f};
 	tvg::FillRule rule{tvg::FillRule::NonZero};
+	ColorKeyFrame colorKeyframe;
+	FloatKeyFrame alphaKeyframe;
 };
 
-// keyframe
-struct ColorKeyframes
+struct StrokeComponent
 {
-	std::vector<Vec3> color;
-};
-struct OpacityKeyframes
-{
-	std::vector<float> alpha;
-};
-struct AnchorKeyframes
-{
-	std::vector<Vec2> point;
-};
-struct PositionKeyframes
-{
-	std::vector<Vec2> position;
-};
-struct ScaleKeyframes
-{
-	std::vector<Vec2> scale;
-};
-struct RotationKeyframes
-{
-	std::vector<float> rotation;
-};
-
-// for rect
-struct RectDimensionKeyframes
-{
-	std::vector<Vec2> dimension;
-};
-struct RectRadiusKeyframes
-{
-	std::vector<float> radius;
-};
-struct RectPositionKeyframes
-{
-	std::vector<Vec2> radius;
+	Vec3 color{255.0f, 0.0f, 0.0f};
+	float width;
+	tvg::StrokeJoin join;
+	ColorKeyFrame colorKeyframe;
+	FloatKeyFrame widthKeyframe;
 };
 
 }	 // namespace core

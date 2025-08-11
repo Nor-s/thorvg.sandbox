@@ -43,22 +43,22 @@ Entity Scene::createRectLayer(std::string_view name, Vec2 xy, Vec2 wh)
 	auto entity = CreateEntity(this, name);
 	auto& id = entity.getComponent<IDComponent>();
 	auto& transform = entity.getComponent<TransformComponent>();
-	auto& rect = entity.addComponent<RectComponent>();
+	auto& rect = entity.addComponent<RectPathComponent>();
 	auto& shape = entity.addComponent<ShpaeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 	auto color = solidFill.color;
 	transform.anchorPoint = {xy.x, xy.y};
 	transform.position = transform.anchorPoint;
-	rect.dimension = wh;
+	rect.scale = wh;
 	rect.radius = 0.0f;
 	rect.position = {0.0f, 0.0f};
 
 	// push shape
 	transform.update();
 	shape.shape = tvg::Shape::gen();
-	shape.shape->appendRect(rect.position.x, rect.position.y, rect.dimension.x, rect.dimension.y);
+	shape.shape->appendRect(rect.position.x, rect.position.y, rect.scale.x, rect.scale.y);
 	shape.shape->fillRule(solidFill.rule);
-	shape.shape->fill(color.x, color.y, color.z, color.a);
+	shape.shape->fill(color.x, color.y, color.z, solidFill.alpha);
 	shape.shape->transform(transform.transform);
 	shape.shape->id = id.id;
 	shape.shape->ref();

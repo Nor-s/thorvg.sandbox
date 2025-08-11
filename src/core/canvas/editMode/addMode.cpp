@@ -32,7 +32,6 @@ void AddMode::onDragLeftMouse(const InputValue& inputValue)
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 
 	mContext.newEntity = mContext.tempScene->createRectLayer("Rect", start, end - start);
-	mContext.tempScene->updateCanvas();
 }
 void AddMode::onEndLeftMouse(const InputValue& inputValue)
 {

@@ -24,6 +24,7 @@ void AddMode::onStarClickLefttMouse(const InputValue& inputValue)
 void AddMode::onDragLeftMouse(const InputValue& inputValue)
 {
 	auto endPoint = inputValue.get<Vec2>();
+	LOG_CRITICAL("mouse add: {} {}", endPoint.x, endPoint.y);
 	auto startPoint = mContext.startPoint;
 	auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
 	auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
@@ -31,7 +32,7 @@ void AddMode::onDragLeftMouse(const InputValue& inputValue)
 	if(mContext.newEntity.mHandle != entt::null)
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 
-	mContext.newEntity = mContext.tempScene->createRectLayer("Rect", start, end - start);
+	mContext.newEntity = mContext.tempScene->createRectFillLayer("Rect", start, end - start);
 }
 void AddMode::onEndLeftMouse(const InputValue& inputValue)
 {
@@ -44,7 +45,12 @@ void AddMode::onEndLeftMouse(const InputValue& inputValue)
 	{
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 	}
-	rCanvas->mScene->createRectLayer("Rect", start, end - start);
+	auto wh = end-start;
+	float threshold = 20.0f;
+	if(wh.w > threshold && wh.h > threshold)
+	{
+		rCanvas->mScene->createRectFillLayer("Rect", start, wh);
+	}
 }
 void AddMode::onInputDetach(const InputValue& inputValue)
 {

@@ -18,6 +18,10 @@ struct Vector2
 		};
 		struct
 		{
+			T w, h;
+		};
+		struct
+		{
 			T r, g;
 		};
 		T value[2] = {
@@ -160,6 +164,12 @@ using Vec3 = Vector3<float>;
 using Vec4 = Vector4<float>;
 
 // dot product
+template <typename T>
+T operator*(const Vector2<T>& a, const Vector2<T>& b)
+{
+	return a.x * b.x + a.y * b.y;
+}
+
 template <typename T>
 T operator*(const Vector3<T>& a, const Vector3<T>& b)
 {

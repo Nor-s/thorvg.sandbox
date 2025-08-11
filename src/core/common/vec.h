@@ -257,6 +257,15 @@ const Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b)
 	return ret;
 }
 
+template <typename T>
+const Vector2<T> abs(const Vector2<T> a)
+{
+	Vector2<T> ret; 
+	ret.x = std::abs(a.x);
+	ret.y = std::abs(a.y);
+	return ret;
+}
+
 }	 // namespace core
 
 #endif

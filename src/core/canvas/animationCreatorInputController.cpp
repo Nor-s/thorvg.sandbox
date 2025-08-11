@@ -8,6 +8,9 @@
 
 #include "common/common.h"
 
+#include "editMode/pickMode.h"
+#include "editMode/addMode.h"
+
 namespace core
 {
 
@@ -21,60 +24,81 @@ AnimationCreatorInputController::AnimationCreatorInputController(AnimationCreato
 						&ThisClass::onStarClickLefttMouse);
 	mHandle->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN), InputTrigger::Triggered, this,
 						&ThisClass::onDragLeftMouse);
-	mHandle->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN), InputTrigger::Ended, this,
-						&ThisClass::onEndLeftMouse);
+	mHandle->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN), InputTrigger::Ended, this, &ThisClass::onEndLeftMouse);
+	mHandle->bindAction(InputAction(InputType::INPUT_DETACH), InputTrigger::Triggered, this, &ThisClass::onInputDetach);
 }
 
-void AnimationCreatorInputController::setMode(EditMode mode)
+void AnimationCreatorInputController::setMode(EditModeType mode)
 {
-    LOG_INFO("change edit mode: {}", (int)mMode);
+	LOG_INFO("change edit mode: {}", (int) mMode);
 	mMode = mode;
+	mEditMode = nullptr;
 }
 
 void AnimationCreatorInputController::onStarClickLefttMouse(const InputValue& inputValue)
 {
-    LOG_INFO("start edit: mode is {}", (int)mMode);
-    
+	LOG_INFO("start edit: mode is {}", (int) mMode);
+
 	switch (mMode)
 	{
-		case EditMode::PICK:
+		case EditModeType::PICK:
 		{
-			mInputCB = std::make_unique<PickCB>();
-			mInputCB->onStarClickLefttMouse(inputValue);
+			if(mEditMode == nullptr)
+				mEditMode = std::make_unique<PickMode>(rCanvas);
 			break;
 		}
-		case EditMode::ADD_SQUARE:
-		case EditMode::ADD_ELLIPSE:
-		case EditMode::ADD_POLYGON:
-		case EditMode::ADD_STAR:
+		case EditModeType::ADD_SQUARE:
+		case EditModeType::ADD_ELLIPSE:
+		case EditModeType::ADD_POLYGON:
+		case EditModeType::ADD_STAR:
 		{
 			// TODO
-			mInputCB = nullptr;
+			if(mEditMode == nullptr)
+				mEditMode = std::make_unique<AddMode>(rCanvas, mMode);
 			break;
 		}
-		case EditMode::ADD_PEN_PATH:
+		case EditModeType::ADD_PEN_PATH:
 		{
 			// TODO
-			mInputCB = nullptr;
+			mEditMode = nullptr;
 			break;
 		}
-		case EditMode::EDIT_PEN_PATH:
+		case EditModeType::EDIT_PEN_PATH:
 		{
 			// TODO
-			mInputCB = nullptr;
+			mEditMode = nullptr;
 			break;
 		}
 	};
+
+	if(mEditMode)
+	{
+		mEditMode->onStarClickLefttMouse(inputValue);
+	}
 }
 
 void AnimationCreatorInputController::onDragLeftMouse(const InputValue& inputValue)
 {
-    LOG_INFO("trigger edit: mode is {}", (int)mMode);
+	LOG_INFO("trigger edit: mode is {}", (int) mMode);
+	if (mEditMode == nullptr)
+		return;
+	mEditMode->onDragLeftMouse(inputValue);
 }
 
 void AnimationCreatorInputController::onEndLeftMouse(const InputValue& inputValue)
 {
-    LOG_INFO("end edit: mode is {}", (int)mMode);
+	LOG_INFO("end edit: mode is {}", (int) mMode);
+	if (mEditMode == nullptr)
+		return;
+	mEditMode->onEndLeftMouse(inputValue);
 }
+void AnimationCreatorInputController::onInputDetach(const InputValue& inputValue)
+{
+	LOG_INFO("detach input");
+	if (mEditMode)
+		mEditMode->onInputDetach(inputValue);
+	mEditMode = nullptr;
+}
+
 
 }	 // namespace core

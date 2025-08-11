@@ -38,7 +38,7 @@ Entity Scene::createEntity(std::string_view name)
 	return CreateEntity(this, name);
 }
 
-Entity Scene::createRectLayer(std::string_view name)
+Entity Scene::createRectLayer(std::string_view name, Vec2 xy, Vec2 wh)
 {
 	auto entity = CreateEntity(this, name);
 	auto& id = entity.getComponent<IDComponent>();
@@ -47,23 +47,43 @@ Entity Scene::createRectLayer(std::string_view name)
 	auto& shape = entity.addComponent<ShpaeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 	auto color = solidFill.color;
-	rect.radius = 0.0;
+	transform.anchorPoint = {xy.x, xy.y};
+	transform.position = transform.anchorPoint;
+	rect.dimension = wh;
+	rect.radius = 0.0f;
+	rect.position = {0.0f, 0.0f};
+
+	// push shape
+	transform.update();
 	shape.shape = tvg::Shape::gen();
-	shape.shape->appendRect(transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
+	shape.shape->appendRect(rect.position.x, rect.position.y, rect.dimension.x, rect.dimension.y);
 	shape.shape->fillRule(solidFill.rule);
 	shape.shape->fill(color.x, color.y, color.z, color.a);
-    shape.shape->id = id.id;
-
+	shape.shape->transform(transform.transform);
+	shape.shape->id = id.id;
 	shape.shape->ref();
 	mTvgScene->push(shape.shape);
 
-    updateCanvas();
+	updateCanvas();
 
 	return entity;
 }
+void Scene::destroyEntity(core::Entity& entity)
+{
+	if(entity.hasComponent<ShpaeComponent>())
+	{
+		auto& shape = entity.getComponent<ShpaeComponent>();
+		shape.shape->unref();
+		mTvgScene->remove(shape.shape);
+		updateCanvas();
+	}
+
+	mRegistry.destroy(entity.mHandle);
+	entity.mHandle = entt::null;
+}
 void Scene::pushCanvas(CanvasWrapper* canvas)
 {
-    rCanvasList.push_back(canvas);
+	rCanvasList.push_back(canvas);
 }
 
 void Scene::updateCanvas()

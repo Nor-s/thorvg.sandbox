@@ -13,17 +13,17 @@ void ImGuiShapePanel::draw(core::AnimationCreatorCanvas* canvas)
 	struct ToolButton
 	{
 		const char* icon;
-		core::EditMode mode;
+		core::EditModeType mode;
 	};
 
 	ToolButton toolButtons[] = {
-		{ICON_FA_HAND, core::EditMode::NONE},
-		{ICON_KI_CURSOR, core::EditMode::PICK},
-		{ICON_KI_BUTTON_SQUARE, core::EditMode::ADD_SQUARE},
-		{ICON_KI_BUTTON_CIRCLE, core::EditMode::ADD_ELLIPSE},
-		{ICON_KI_BUTTON_TRIANGLE, core::EditMode::ADD_POLYGON},
-		{ICON_KI_STAR, core::EditMode::ADD_STAR},
-		{ICON_KI_PENCIL, core::EditMode::ADD_PEN_PATH},
+		{ICON_FA_HAND, core::EditModeType::NONE},
+		{ICON_KI_CURSOR, core::EditModeType::PICK},
+		{ICON_KI_BUTTON_SQUARE, core::EditModeType::ADD_SQUARE},
+		{ICON_KI_BUTTON_CIRCLE, core::EditModeType::ADD_ELLIPSE},
+		{ICON_KI_BUTTON_TRIANGLE, core::EditModeType::ADD_POLYGON},
+		{ICON_KI_STAR, core::EditModeType::ADD_STAR},
+		{ICON_KI_PENCIL, core::EditModeType::ADD_PEN_PATH},
 	};
 
 	ImVec2 buttonSize(40.0f, 40.0f);

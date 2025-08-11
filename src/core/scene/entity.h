@@ -40,8 +40,8 @@ public:
 		return rScene->mRegistry.try_get<T>(mHandle) != nullptr;
 	}
 
-private:
 	entt::entity mHandle{entt::null};
+private:
 	core::Scene* rScene{nullptr};
 };
 

@@ -1,6 +1,7 @@
 #ifndef _CORE_SCENE_SCENE_H_
 #define _CORE_SCENE_SCENE_H_
 
+#include "common/common.h"
 #include <entt/entt.hpp>
 #include <thorvg.h>
 
@@ -9,7 +10,6 @@ namespace core
 
 class CanvasWrapper;
 class Entity;
-
 
 class Scene
 {
@@ -24,10 +24,15 @@ public:
 		return mRegistry;
 	}
 	Entity createEntity(std::string_view name);
-	Entity createRectLayer(std::string_view name);
-
+	Entity createRectLayer(std::string_view name, Vec2 xy, Vec2 wh);
+	void destroyEntity(core::Entity& entity);
 	void pushCanvas(CanvasWrapper* canvas);
 	void updateCanvas();
+
+	tvg::Scene* getScene() 
+	{
+		return mTvgScene;
+	}
 
 protected:
 	friend class Entity;

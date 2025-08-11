@@ -5,13 +5,12 @@
 #include <vector>
 #include <memory>
 
-#include "scene.h"
 
 #include <entt/entt.hpp>
 
 namespace core
 {
-
+class Scene;
 class Entity
 {
 public:
@@ -20,25 +19,13 @@ public:
 	virtual ~Entity() = default;
 
 	template <class T>
-	T& getComponent()
-	{
-		assert(hasComponent<T>());
-		return rScene->mRegistry.get<T>(mHandle);
-	}
+	T& getComponent();
 
 	template <typename T, typename... Args>
-	T& addComponent(Args&&... args)
-	{
-		assert(!hasComponent<T>());
-		return rScene->mRegistry.emplace<T>(mHandle, std::forward<Args>(args)...);
-	}
+	T& addComponent(Args&&... args);
 
 	template <typename T>
-	bool hasComponent()
-	{
-		assert(mHandle != entt::null);
-		return rScene->mRegistry.try_get<T>(mHandle) != nullptr;
-	}
+	bool hasComponent();
 
 	entt::entity mHandle{entt::null};
 private:

@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "scene.h"
 
 namespace core
 {

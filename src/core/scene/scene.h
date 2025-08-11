@@ -1,9 +1,11 @@
 #ifndef _CORE_SCENE_SCENE_H_
 #define _CORE_SCENE_SCENE_H_
 
+#include "entity.h"
+
 #include "common/common.h"
-#include <entt/entt.hpp>
 #include <thorvg.h>
+
 
 namespace core
 {
@@ -43,5 +45,7 @@ protected:
 };
 
 }	 // namespace core
+
+#include "entity.hpp"
 
 #endif

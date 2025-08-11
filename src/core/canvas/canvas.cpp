@@ -95,6 +95,7 @@ void CanvasWrapper::resize(Size size)
 	mRenderTarget->setViewport(tvg::RenderRegion{.min = {0, 0}, .max = {(int) size.x, (int) size.y}});
 	mRenderTarget->init(size.x, size.y, 0);
 
+	mCanvas->sync();
 	if (mIsSw)
 	{
 		if (mSwBuffer)

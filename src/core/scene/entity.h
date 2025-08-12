@@ -15,8 +15,11 @@ class Entity
 {
 public:
 	Entity() = default;
+	Entity(Scene* scene, uint32_t id);
 	Entity(Scene* scene);
 	virtual ~Entity() = default;
+
+	void moveByDelta(const Vec2& delta);
 
 	template <class T>
 	T& getComponent();

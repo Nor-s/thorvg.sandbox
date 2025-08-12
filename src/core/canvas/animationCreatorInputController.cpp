@@ -79,7 +79,6 @@ void AnimationCreatorInputController::onStarClickLefttMouse(const InputValue& in
 
 void AnimationCreatorInputController::onDragLeftMouse(const InputValue& inputValue)
 {
-	LOG_INFO("trigger edit: mode is {}", (int) mMode);
 	if (mEditMode == nullptr)
 		return;
 	mEditMode->onDragLeftMouse(inputValue);

@@ -16,8 +16,9 @@ namespace core
 {
 
 class GlGeometry;
+class Scene;
 
-using EntityID = int32_t;
+using EntityID = uint32_t;
 
 struct NameComponent
 {
@@ -33,7 +34,7 @@ struct IDComponent
 };
 struct RelationshipComponent
 {
-	EntityID parentId{-1};
+	EntityID parentId{0};
 	std::vector<EntityID> children;
 
 	RelationshipComponent() = default;
@@ -58,6 +59,11 @@ struct Keyframes
 using FloatKeyFrame = Keyframes<float>;
 using VectorKeyFrame = Keyframes<Vec2>;
 using ColorKeyFrame = Keyframes<Vec3>;
+
+struct SceneComponent
+{
+	Scene* scene{nullptr};
+};
 
 // shape
 struct RectPathComponent
@@ -145,7 +151,7 @@ struct SolidFillComponent
 struct StrokeComponent
 {
 	Vec3 color{63.0f, 127.0f, 255.0f};
-	float width{2.0f};
+	float width{3.0f};
 	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;

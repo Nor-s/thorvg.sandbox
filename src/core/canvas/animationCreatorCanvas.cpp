@@ -15,7 +15,7 @@ AnimationCreatorCanvas::AnimationCreatorCanvas(void* context, Size size, bool bI
 	: CanvasWrapper(context, size, bIsSw)
 {
 	mBuilder = std::make_unique<AnimationBuilder>();
-	mScene = std::make_unique<core::Scene>();
+	mScene = std::make_unique<core::Scene>(true);
 	mScene->pushCanvas(this);
 	mCanvas->push(mScene->mTvgScene);
 	mInputController = std::make_unique<AnimationCreatorInputController>(this);

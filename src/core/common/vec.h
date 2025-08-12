@@ -81,6 +81,12 @@ struct Vector3
 		value[1] = x;
 		value[2] = x;
 	}
+	Vector3(Vector2<T> xy, float z)
+	{
+		value[0] = xy.x;
+		value[1] = xy.y;
+		value[2] = z;
+	}
 	Vector3(T x, T y, T z)
 	{
 		value[0] = x;
@@ -181,6 +187,11 @@ Vector2<T> operator-(const Vector2<T>& a, const Vector2<T>& b)
 {
 	return Vector2<T>{a.x - b.x, a.y - b.y};
 }
+template <typename T>
+Vector2<T> operator+(const Vector2<T>& a, const Vector2<T>& b)
+{
+	return Vector2<T>{a.x + b.x, a.y + b.y};
+}
 
 template <typename T>
 Vector3<T> operator+(const Vector3<T>& a, const Vector3<T>& b)
@@ -254,7 +265,6 @@ const T normalize(const T& a)
 {
 	return a / length(a);
 }
-
 template <typename T>
 const Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b)
 {
@@ -265,6 +275,12 @@ const Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b)
 	ret.z = a.x * b.y - a.y * b.x;
 
 	return ret;
+}
+
+template <typename T>
+T cross(const Vector2<T>& lhs, const Vector2<T>& rhs)
+{
+    return lhs.x*rhs.y - rhs.x*lhs.y;
 }
 
 template <typename T>

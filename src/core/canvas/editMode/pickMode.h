@@ -13,15 +13,19 @@ class PickMode : public EditMode
 	{
 		// for outline
 		std::unique_ptr<Scene> tempScene;
-		std::vector<Entity> pickedEntity;
+		tvg::Paint* currentSelectedPaint{nullptr};
+		Scene* currentSelectedScene{nullptr};
 		Vec2 startPoint;
+		Vec2 beforePoint;
 		Entity bbox;
+		Entity currentObb;
 		Entity drag;
 	};
 
 public:
     PickMode(AnimationCreatorCanvas* canvas);
     ~PickMode();
+	bool pick(const InputValue& inputValue, tvg::Paint* paint, int depth);
 	void onStarClickLefttMouse(const InputValue& inputValue) override;
 	void onDragLeftMouse(const InputValue& inputValue) override;
 	void onEndLeftMouse(const InputValue& inputValue) override;

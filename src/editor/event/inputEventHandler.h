@@ -9,6 +9,10 @@ class InputEventHandler
 	{
 		bool leftMouseDown{false};
 		core::Vec2 mousePos{};
+		void init()
+		{
+			leftMouseDown = false;
+		}
 	};
 
 public:

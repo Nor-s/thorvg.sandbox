@@ -77,6 +77,7 @@ bool PickMode::pick(const InputValue& inputValue, tvg::Paint* paint, int depth)
 
 void PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 {
+	mContext.isLeftMouseDown = true;
 	mContext.startPoint = inputValue.get<Vec2>();
 	mContext.beforePoint = mContext.startPoint;
 	// pick process
@@ -103,6 +104,8 @@ void PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 }
 void PickMode::onDragLeftMouse(const InputValue& inputValue)
 {
+	if(mContext.isLeftMouseDown == false) return;
+
 	auto endPoint = inputValue.get<Vec2>();
 	auto startPoint = mContext.startPoint;
 	auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
@@ -132,10 +135,13 @@ void PickMode::onDragLeftMouse(const InputValue& inputValue)
 }
 void PickMode::onEndLeftMouse(const InputValue& inputValue)
 {
+	if(mContext.isLeftMouseDown == false) return;
 	if (mContext.drag.mHandle != entt::null)
 		mContext.tempScene->destroyEntity(mContext.drag);
+	mContext.isLeftMouseDown = false;
 }
 void PickMode::onInputDetach(const InputValue& inputValue)
 {
+	mContext.isLeftMouseDown = false;
 }
 }	 // namespace core

@@ -8,7 +8,7 @@ void InputEventHandler::setInputContoller(InputController* inputController)
 	if (rInputController && rInputController != inputController)
 	{
 		rInputController->broadcast(InputType::INPUT_DETACH, InputTrigger::Triggered, 1.0f);
-		mState = State{};
+		mState.init();
 	}
 	rInputController = inputController;
     if(rInputController)
@@ -39,6 +39,7 @@ void InputEventHandler::processEvent(const SDL_Event& event)
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				mState.mousePos = {mouseX, mouseY};
 				rInputController->broadcast(InputType::MOUSE_LEFT_DOWN, InputTrigger::Started, {mouseX, mouseY});
 				mState.leftMouseDown = true;
 			}
@@ -48,6 +49,7 @@ void InputEventHandler::processEvent(const SDL_Event& event)
 		{
 			if (mState.leftMouseDown&&event.button.button == SDL_BUTTON_LEFT)
 			{
+				mState.mousePos = {mouseX, mouseY};
 				rInputController->broadcast(InputType::MOUSE_LEFT_DOWN, InputTrigger::Ended, {mouseX, mouseY});
 				mState.leftMouseDown = false;
 			}

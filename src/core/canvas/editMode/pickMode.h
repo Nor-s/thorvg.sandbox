@@ -20,6 +20,7 @@ class PickMode : public EditMode
 		Entity bbox;
 		Entity currentObb;
 		Entity drag;
+		bool isLeftMouseDown{false};
 	};
 
 public:

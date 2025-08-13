@@ -67,8 +67,8 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 	auto color = solidFill.color;
 
-	transform.anchorPoint = {xy.x, xy.y};
-	transform.position = transform.anchorPoint;
+	transform.anchorPoint = {0.0f, 0.0f}; // center of the local, center of the rect
+	transform.position = {xy.x + wh.w/2.0f, xy.y + wh.h/2.0f};
 	rect.scale = wh;
 	rect.radius = 0.0f;
 	rect.position = {0.0f, 0.0f};
@@ -97,7 +97,14 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	auto& path = entity.addComponent<PathComponent>();
 	auto& stroke = entity.addComponent<StrokeComponent>();
 	stroke.color = {255.0f, 127.0f, 63.0f};
-	transform.position = points[0];
+	auto minx = std::min({points[0].x, points[1].x, points[2].x, points[3].x});
+	auto maxx = std::max({points[0].x, points[1].x, points[2].x, points[3].x});
+	auto miny = std::min({points[0].y, points[1].y, points[2].y, points[3].y});
+	auto maxy = std::max({points[0].y, points[1].y, points[2].y, points[3].y});
+	auto width = maxx - minx;
+	auto height = maxy - miny;
+	transform.anchorPoint = {0.0f, 0.0f}; // oring of the local, center of the bbox
+	transform.position = {minx + width / 2.0f, miny + height / 2.0f};
 
 	auto bound = tvg::Shape::gen();
 	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
@@ -105,10 +112,13 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	path.pathCommands.push_back(tvg::PathCommand::LineTo);
 	path.pathCommands.push_back(tvg::PathCommand::LineTo);
 	path.pathCommands.push_back(tvg::PathCommand::Close);
-	auto p1 = points[1] - points[0];
-	auto p2 = points[2] - points[0];
-	auto p3 = points[3] - points[0];
-	path.points.emplace_back(0, 0);
+	path.center = tvg::Point{width/2, height/2};
+	auto minp = Vec2{minx, miny};
+	auto p0 = points[0] - minp;
+	auto p1 = points[1] - minp;
+	auto p2 = points[2] - minp;
+	auto p3 = points[3] - minp;
+	path.points.emplace_back(p0.x, p0.y);
 	path.points.emplace_back(p1.x, p1.y);
 	path.points.emplace_back(p2.x, p2.y);
 	path.points.emplace_back(p3.x, p3.y);
@@ -168,13 +178,19 @@ void Scene::onUpdate()
 		transform.update();
 		shape.shape->transform(transform.transform);
 		shape.shape->reset();
-		shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &path.points[0], path.points.size());
+		auto pathPoint = path.points;
+		// todo: path update -> center update
+		std::for_each(pathPoint.begin(), pathPoint.end(), [&transform, &path](tvg::Point& p) {
+			p.x = p.x -  path.center.x - transform.anchorPoint.x;
+			p.y = p.y - path.center.y - transform.anchorPoint.y;
+		});
+		shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &pathPoint[0], path.points.size());
 	});
 	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& rect, ShapeComponent& shape) {
 		transform.update();
 		shape.shape->transform(transform.transform);
 		shape.shape->reset();
-		shape.shape->appendRect(rect.position.x, rect.position.y, rect.scale.x, rect.scale.y, rect.radius, rect.radius);
+		shape.shape->appendRect(rect.position.x - rect.scale.x/2.0f + transform.anchorPoint.x, rect.position.y - rect.scale.y/2.0f + transform.anchorPoint.y, rect.scale.x, rect.scale.y, rect.radius, rect.radius);
 	});
 	mRegistry.view<ShapeComponent, SolidFillComponent>().each([](auto entity, ShapeComponent& shape, SolidFillComponent& fill) {
 		shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);

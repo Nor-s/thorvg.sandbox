@@ -23,7 +23,6 @@ void AddMode::onUpdate()
 	{
 		mContext.tempScene->onUpdate();
 	}
-
 }
 void AddMode::onStarClickLefttMouse(const InputValue& inputValue)
 {

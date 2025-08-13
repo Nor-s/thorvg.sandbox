@@ -80,6 +80,7 @@ struct PathComponent
 {
 	std::vector<tvg::PathCommand> pathCommands;
 	std::vector<tvg::Point> points;
+	tvg::Point center;
 };
 
 struct TransformComponent

@@ -103,6 +103,7 @@ void PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 
 	if(isPicked && mContext.currentSelectedScene)
 	{
+		auto& t = mContext.currentSelectedScene->getEntityById(mContext.currentSelectedPaint->id).getComponent<TransformComponent>();
 		std::array<Vec2, 4> points = GetObb(mContext.currentSelectedPaint);
 		mContext.bbox = mContext.tempScene->createObb(points);
 	}

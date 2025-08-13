@@ -35,7 +35,6 @@ public:
 	Entity createEntity(std::string_view name);
 	Entity createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh);
 	Entity createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh);
-	Entity createBbox(Vec2 xy, Vec2 wh);
 	Entity createObb(const std::array<Vec2, 4>& points);
 
 	Entity getEntityById(uint32_t id);
@@ -49,6 +48,8 @@ public:
 	{
 		return mTvgScene;
 	}
+
+	void onUpdate();
 
 	uint32_t mId;
 	const bool mIsMainScene;

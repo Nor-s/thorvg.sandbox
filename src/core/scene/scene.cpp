@@ -74,17 +74,10 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 	rect.position = {0.0f, 0.0f};
 
 	// push shape
-	transform.update();
 	shape.shape = tvg::Shape::gen();
-	shape.shape->appendRect(rect.position.x, rect.position.y, rect.scale.x, rect.scale.y);
-	shape.shape->fillRule(solidFill.rule);
-	shape.shape->fill(color.x, color.y, color.z, solidFill.alpha);
-	shape.shape->transform(transform.transform);
 	shape.shape->id = id.id;
 	shape.shape->ref();
 	mTvgScene->push(shape.shape);
-
-	updateCanvas();
 
 	return entity;
 }
@@ -92,40 +85,6 @@ Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh)
 {
 	Entity entity = createRectFillLayer(name, xy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
-	auto& shape = entity.getComponent<ShapeComponent>();
-	shape.shape->strokeWidth(stroke.width);
-	shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
-	updateCanvas();
-	return entity;
-}
-Entity Scene::createBbox(Vec2 xy, Vec2 wh)
-{
-	auto entity = CreateEntity(this, "bbox");
-	auto& id = entity.getComponent<IDComponent>();
-	auto& transform = entity.getComponent<TransformComponent>();
-	auto& rect = entity.addComponent<RectPathComponent>();
-	auto& shape = entity.addComponent<ShapeComponent>();
-	auto& stroke = entity.addComponent<StrokeComponent>();
-
-	transform.anchorPoint = {xy.x, xy.y};
-	transform.position = transform.anchorPoint;
-	rect.scale = wh;
-	rect.radius = 0.0f;
-	rect.position = {0.0f, 0.0f};
-
-	auto bound = tvg::Shape::gen();
-	bound->moveTo(xy.x, xy.y);
-	bound->lineTo(xy.x + wh.w, xy.y);
-	bound->lineTo(xy.x + wh.w, xy.y + wh.h);
-	bound->lineTo(xy.x, xy.y + wh.h);
-	bound->close();
-	bound->strokeWidth(stroke.width);
-	bound->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
-	shape.shape = bound;
-	shape.shape->ref();
-	mTvgScene->push(shape.shape);
-
-	updateCanvas();
 	return entity;
 }
 
@@ -133,20 +92,26 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 {
 	auto entity = CreateEntity(this, "oob");
 	auto& transform = entity.getComponent<TransformComponent>();
-	auto& rect = entity.addComponent<RectPathComponent>();
 	auto& id = entity.getComponent<IDComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
+	auto& path = entity.addComponent<PathComponent>();
 	auto& stroke = entity.addComponent<StrokeComponent>();
 	stroke.color = {255.0f, 127.0f, 63.0f};
+	transform.position = points[0];
 
 	auto bound = tvg::Shape::gen();
-	bound->moveTo(points[0].x, points[0].y);
-	bound->lineTo(points[1].x, points[1].y);
-	bound->lineTo(points[2].x, points[2].y);
-	bound->lineTo(points[3].x, points[3].y);
-	bound->close();
-	bound->strokeWidth(stroke.width);
-	bound->strokeFill(stroke.color.r, stroke.color.g, stroke.color.b, 255);
+	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
+	path.pathCommands.push_back(tvg::PathCommand::LineTo);
+	path.pathCommands.push_back(tvg::PathCommand::LineTo);
+	path.pathCommands.push_back(tvg::PathCommand::LineTo);
+	path.pathCommands.push_back(tvg::PathCommand::Close);
+	auto p1 = points[1] - points[0];
+	auto p2 = points[2] - points[0];
+	auto p3 = points[3] - points[0];
+	path.points.emplace_back(0, 0);
+	path.points.emplace_back(p1.x, p1.y);
+	path.points.emplace_back(p2.x, p2.y);
+	path.points.emplace_back(p3.x, p3.y);
 
 	shape.shape = bound;
 	shape.shape->ref();
@@ -195,6 +160,37 @@ void Scene::pushCanvas(CanvasWrapper* canvas)
 void Scene::updateCanvas()
 {
 	std::for_each(rCanvasList.begin(), rCanvasList.end(), [](CanvasWrapper* canvas) { canvas->update(); });
+}
+
+void Scene::onUpdate()
+{
+	mRegistry.view<TransformComponent, PathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, PathComponent& path, ShapeComponent& shape) {
+		transform.update();
+		shape.shape->transform(transform.transform);
+		shape.shape->reset();
+		shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &path.points[0], path.points.size());
+	});
+	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& rect, ShapeComponent& shape) {
+		transform.update();
+		shape.shape->transform(transform.transform);
+		shape.shape->reset();
+		shape.shape->appendRect(rect.position.x, rect.position.y, rect.scale.x, rect.scale.y, rect.radius, rect.radius);
+	});
+	mRegistry.view<ShapeComponent, SolidFillComponent>().each([](auto entity, ShapeComponent& shape, SolidFillComponent& fill) {
+		shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);
+		shape.shape->fillRule(fill.rule);
+	});
+	mRegistry.view<ShapeComponent, StrokeComponent>().each([](auto entity, ShapeComponent& shape, StrokeComponent& stroke) {
+		shape.shape->strokeWidth(stroke.width);
+		shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
+	});
+	mRegistry.view<SceneComponent>().each([this](auto entity, SceneComponent& scene) {
+		if (scene.scene->mId != this->mId)
+		{
+			scene.scene->onUpdate();
+		}
+	});
+	updateCanvas();
 }
 
 }	 // namespace core

@@ -21,6 +21,7 @@ class AddMode : public EditMode
 public:
 	AddMode(AnimationCreatorCanvas* canvas, EditModeType type);
 	~AddMode();
+	void onUpdate() override;
 	void onStarClickLefttMouse(const InputValue& inputValue) override;
 	void onDragLeftMouse(const InputValue& inputValue) override;
 	void onEndLeftMouse(const InputValue& inputValue) override;

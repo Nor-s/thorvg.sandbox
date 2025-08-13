@@ -4,6 +4,7 @@
 #include "common/common.h"
 #include <thorvg.h>
 #include <thorvg_lottie.h>
+
 namespace core
 {
 class PaintWrapper

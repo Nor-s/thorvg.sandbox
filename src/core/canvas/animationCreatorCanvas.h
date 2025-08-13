@@ -27,6 +27,8 @@ public:
 	}
 	InputController* getInputController() override;
 
+	void onUpdate() override;
+
 	std::unique_ptr<core::Scene> mScene;
 	std::unique_ptr<AnimationCreatorInputController> mInputController;
 

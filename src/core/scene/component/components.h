@@ -76,6 +76,12 @@ struct RectPathComponent
 	VectorKeyFrame scaleKeyframes;
 };
 
+struct PathComponent
+{
+	std::vector<tvg::PathCommand> pathCommands;
+	std::vector<tvg::Point> points;
+};
+
 struct TransformComponent
 {
 	Vec2 anchorPoint{0.0f, 0.0f};

@@ -40,6 +40,14 @@ bool IsInner(const std::array<Vec2, 4>& q, Vec2 p)
 	return (s1 == s2) && (s2 == s3) && (s3 == s4);
 }
 
+void PickMode::onUpdate()
+{
+	if (mContext.tempScene)
+	{
+		mContext.tempScene->onUpdate();;
+	}
+}
+
 bool PickMode::pick(const InputValue& inputValue, tvg::Paint* paint, int depth)
 {
 	if (!paint)
@@ -129,11 +137,8 @@ void PickMode::onDragLeftMouse(const InputValue& inputValue)
 
 	// drag process
 	mContext.drag = mContext.tempScene->createRectFillStrokeLayer("drag", start, end - start);
-	auto& shape = mContext.drag.getComponent<ShapeComponent>();
 	auto& fill = mContext.drag.getComponent<SolidFillComponent>();
 	fill.alpha *= 0.3f;
-	shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);
-	mContext.tempScene->updateCanvas();
 }
 void PickMode::onEndLeftMouse(const InputValue& inputValue)
 {

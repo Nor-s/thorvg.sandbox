@@ -17,6 +17,14 @@ AddMode::~AddMode()
 {
 	rCanvas->getCanvas()->remove(mContext.tempScene->getScene());
 }
+void AddMode::onUpdate()
+{
+	if(mContext.tempScene)
+	{
+		mContext.tempScene->onUpdate();
+	}
+
+}
 void AddMode::onStarClickLefttMouse(const InputValue& inputValue)
 {
 	mContext.startPoint = inputValue.get<Vec2>();

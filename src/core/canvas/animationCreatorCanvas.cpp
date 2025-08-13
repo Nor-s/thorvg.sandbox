@@ -28,4 +28,10 @@ InputController* AnimationCreatorCanvas::getInputController()
 	return nullptr;
 }
 
+void AnimationCreatorCanvas::onUpdate()
+{
+	CanvasWrapper::onUpdate();
+	mScene->onUpdate();
+	mInputController->onUpdate();
+}
 }	 // namespace core

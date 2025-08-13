@@ -44,14 +44,11 @@ void CanvasWrapper::onUpdate()
 	{
 		anim->frame(mGlobalElapsed);
 	}
-	if (mAnimations.size() > 0)
-	{
-		mCanvas->update();
-	}
 }
 
 void CanvasWrapper::draw()
 {
+	mCanvas->update();
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, mRenderTarget->getResolveFboId());
 		glViewport(0, 0, (int) mSize.x, (int) mSize.y);

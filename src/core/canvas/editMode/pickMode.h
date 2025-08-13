@@ -27,6 +27,7 @@ class PickMode : public EditMode
 public:
     PickMode(AnimationCreatorCanvas* canvas);
     ~PickMode();
+	void onUpdate() override;
 	bool pick(const InputValue& inputValue, tvg::Paint* paint, int depth);
 	void onStarClickLefttMouse(const InputValue& inputValue) override;
 	void onDragLeftMouse(const InputValue& inputValue) override;

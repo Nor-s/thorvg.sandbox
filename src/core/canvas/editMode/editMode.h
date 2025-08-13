@@ -26,6 +26,7 @@ class EditMode
 {
 public:
 	virtual ~EditMode() = default;
+	virtual void onUpdate() {}
 	virtual void onStarClickLefttMouse(const InputValue& inputValue) = 0;
 	virtual void onDragLeftMouse(const InputValue& inputValue) = 0;
 	virtual void onMoveMouse(const InputValue& inputValue) {};

@@ -32,6 +32,7 @@ public:
 	{
 		return mMode;
 	}
+	void onUpdate();
 
 	void onStarClickLefttMouse(const InputValue& inputValue);
 	void onDragLeftMouse(const InputValue& inputValue);

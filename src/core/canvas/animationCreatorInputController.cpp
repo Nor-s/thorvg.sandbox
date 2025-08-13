@@ -30,6 +30,14 @@ AnimationCreatorInputController::AnimationCreatorInputController(AnimationCreato
 	mHandle->bindAction(InputAction(InputType::INPUT_ATTACH), InputTrigger::Triggered, this, &ThisClass::onInputAttach);
 }
 
+void AnimationCreatorInputController::onUpdate()
+{
+	if (mEditMode)
+	{
+		mEditMode->onUpdate();
+	}
+}
+
 void AnimationCreatorInputController::setMode(EditModeType mode)
 {
 	LOG_INFO("change edit mode: {}", (int) mMode);

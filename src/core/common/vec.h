@@ -28,6 +28,10 @@ struct Vector2
 			0,
 		};
 	};
+	Vector2(const Vector2& v)
+		: x(v.x), y(v.y)
+	{
+	}
 	Vector2()
 	{
 		memset(value, 0, sizeof value);

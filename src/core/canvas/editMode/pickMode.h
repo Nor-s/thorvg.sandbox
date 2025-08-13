@@ -20,6 +20,7 @@ class PickMode : public EditMode
 		Entity bbox;
 		Entity currentObb;
 		Entity drag;
+		Entity hover;
 		bool isLeftMouseDown{false};
 	};
 
@@ -29,6 +30,7 @@ public:
 	bool pick(const InputValue& inputValue, tvg::Paint* paint, int depth);
 	void onStarClickLefttMouse(const InputValue& inputValue) override;
 	void onDragLeftMouse(const InputValue& inputValue) override;
+	void onMoveMouse(const InputValue& inputValue) override;
 	void onEndLeftMouse(const InputValue& inputValue) override;
 	void onInputDetach(const InputValue& inputValue) override;
 

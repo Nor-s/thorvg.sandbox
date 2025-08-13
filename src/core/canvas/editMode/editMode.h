@@ -28,6 +28,7 @@ public:
 	virtual ~EditMode() = default;
 	virtual void onStarClickLefttMouse(const InputValue& inputValue) = 0;
 	virtual void onDragLeftMouse(const InputValue& inputValue) = 0;
+	virtual void onMoveMouse(const InputValue& inputValue) {};
 	virtual void onEndLeftMouse(const InputValue& inputValue) = 0;
 	virtual void onInputDetach(const InputValue& inputValue) = 0;
 };

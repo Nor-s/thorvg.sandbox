@@ -35,10 +35,15 @@ public:
 
 	void onStarClickLefttMouse(const InputValue& inputValue);
 	void onDragLeftMouse(const InputValue& inputValue);
+	void onMoveMouse(const InputValue& inputValue);
 	void onEndLeftMouse(const InputValue& inputValue);
 	void onInputDetach(const InputValue& inputValue);
+	void onInputAttach(const InputValue& inputValue);
 
 	std::unique_ptr<InputController> mHandle;
+
+private:
+	void applyEditMode();
 
 private:
 	std::unique_ptr<EditMode> mEditMode;

@@ -90,7 +90,9 @@ void PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 		isPicked |= pick(inputValue, paint, 0);
 	}
 	if(mContext.bbox.mHandle != entt::null)
-			mContext.tempScene->destroyEntity(mContext.bbox);
+		mContext.tempScene->destroyEntity(mContext.bbox);
+
+
 	if(isPicked && mContext.currentSelectedScene)
 	{
 		std::array<Vec2, 4> points = GetObb(mContext.currentSelectedPaint);
@@ -140,8 +142,28 @@ void PickMode::onEndLeftMouse(const InputValue& inputValue)
 		mContext.tempScene->destroyEntity(mContext.drag);
 	mContext.isLeftMouseDown = false;
 }
+void PickMode::onMoveMouse(const InputValue& inputValue)
+{
+	if(mContext.hover.mHandle != entt::null)
+			mContext.tempScene->destroyEntity(mContext.hover);
+	if(mContext.isLeftMouseDown) return;
+	auto& paints = rCanvas->getCanvas()->paints();
+	bool isPicked = false;
+	for (auto& paint : paints)
+	{
+		if(paint->id == mContext.tempScene->mId) continue;
+		isPicked |= pick(inputValue, paint, 0);
+	}
+	if(isPicked && mContext.currentSelectedScene)
+	{
+		std::array<Vec2, 4> points = GetObb(mContext.currentSelectedPaint);
+		mContext.hover = mContext.tempScene->createObb(points);
+		LOG_INFO("hover: {}", mContext.hover.getComponent<IDComponent>().id);
+	}
+}
 void PickMode::onInputDetach(const InputValue& inputValue)
 {
 	mContext.isLeftMouseDown = false;
+
 }
 }	 // namespace core

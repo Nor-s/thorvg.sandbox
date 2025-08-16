@@ -14,16 +14,6 @@ class InputController;
 
 class AnimationCreatorInputController
 {
-	struct ShapeAddContext
-	{
-		std::unique_ptr<core::Scene> tempScene;
-		tvg::Shape* mNewShape = nullptr;
-	};
-	struct PathEditContext
-	{
-		std::vector<tvg::Shape*> mPathPoint;
-	};
-
 public:
 	using ThisClass = AnimationCreatorInputController;
 	AnimationCreatorInputController(AnimationCreatorCanvas* canvas);
@@ -34,12 +24,12 @@ public:
 	}
 	void onUpdate();
 
-	void onStarClickLefttMouse(const InputValue& inputValue);
-	void onDragLeftMouse(const InputValue& inputValue);
-	void onMoveMouse(const InputValue& inputValue);
-	void onEndLeftMouse(const InputValue& inputValue);
-	void onInputDetach(const InputValue& inputValue);
-	void onInputAttach(const InputValue& inputValue);
+	bool onStarClickLefttMouse(const InputValue& inputValue);
+	bool onDragLeftMouse(const InputValue& inputValue);
+	bool onMoveMouse(const InputValue& inputValue);
+	bool onEndLeftMouse(const InputValue& inputValue);
+	bool onInputDetach(const InputValue& inputValue);
+	bool onInputAttach(const InputValue& inputValue);
 
 	std::unique_ptr<InputController> mHandle;
 

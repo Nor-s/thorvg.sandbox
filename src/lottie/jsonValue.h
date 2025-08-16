@@ -29,7 +29,7 @@ using ArrayValue = std::vector<std::unique_ptr<Value>>;
 
 struct Value
 {
-	using ValueType = std::variant<int, bool, float, RGB24, tvg::Point, std::string, MapValue, ArrayValue>;
+	using ValueType = std::variant<int, bool, float, RGB32, tvg::Point, std::string, MapValue, ArrayValue>;
 	ValueType data;
 
 	// Value(const ValueType& v) : data(v) {}
@@ -51,9 +51,9 @@ static void value(std::stringstream& sst, const std::string& str)
 {
 	sst << "\"" << str << "\"";
 }
-static void value(std::stringstream& sst, const RGB24& v)
+static void value(std::stringstream& sst, const RGB32& v)
 {
-	sst << "[" << v.rgb[0]/255.0 << "," << v.rgb[1]/255.0 << "," << v.rgb[2]/255.0 << "]";
+	sst << "[" << v.r/255.0 << "," << v.g/255.0 << "," << v.b/255.0 << "]";
 }
 static void value(std::stringstream& sst, const tvg::Point& v)
 {

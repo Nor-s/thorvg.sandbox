@@ -42,7 +42,6 @@ public:
 
 	void destroyEntity(core::Entity& entity);
 	void pushCanvas(CanvasWrapper* canvas);
-	void updateCanvas();
 
 	tvg::Scene* getScene() 
 	{

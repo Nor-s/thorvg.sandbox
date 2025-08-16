@@ -24,15 +24,16 @@ void AddMode::onUpdate()
 		mContext.tempScene->onUpdate();
 	}
 }
-void AddMode::onStarClickLefttMouse(const InputValue& inputValue)
+bool AddMode::onStarClickLefttMouse(const InputValue& inputValue)
 {
 	mContext.startPoint = inputValue.get<Vec2>();
+	return true;
 }
-void AddMode::onDragLeftMouse(const InputValue& inputValue)
+bool AddMode::onDragLeftMouse(const InputValue& inputValue)
 {
 	auto endPoint = inputValue.get<Vec2>();
-	LOG_CRITICAL("mouse add: {} {}", endPoint.x, endPoint.y);
 	auto startPoint = mContext.startPoint;
+	LOG_INFO("onDragLeftMouse: start {} {}, end {} {}", startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 	auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
 	auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
 
@@ -40,8 +41,9 @@ void AddMode::onDragLeftMouse(const InputValue& inputValue)
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 
 	mContext.newEntity = mContext.tempScene->createRectFillLayer("Rect", start, end - start);
+	return true;
 }
-void AddMode::onEndLeftMouse(const InputValue& inputValue)
+bool AddMode::onEndLeftMouse(const InputValue& inputValue)
 {
 	auto endPoint = inputValue.get<Vec2>();
 	auto startPoint = mContext.startPoint;
@@ -58,9 +60,11 @@ void AddMode::onEndLeftMouse(const InputValue& inputValue)
 	{
 		rCanvas->mScene->createRectFillLayer("Rect", start, wh);
 	}
+	return true;
 }
-void AddMode::onInputDetach(const InputValue& inputValue)
+bool AddMode::onInputDetach(const InputValue& inputValue)
 {
+	return false;
 }
 
 }	 // namespace core

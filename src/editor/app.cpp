@@ -21,13 +21,9 @@ App& App::GetInstance()
 void App::InitInstance(const AppState& state)
 {
 	tvg::Initializer::init(0);
-
 	GetInstance().mState = state;
 	GetInstance().init();
 
-	// tvgGl.h
-	glInit();
-	extraGlInit();
 }
 
 void App::DestroyInstance()
@@ -48,7 +44,11 @@ void App::init()
 {
 	mEventController = std::make_unique<editor::EventStack>();
 	mWindow = std::make_unique<editor::GLWindow>(mState.resolution);
-	mWindow->show();
+
+	// tvgGl.h
+	glInit();
+	extraGlInit();
+
 
 	// mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, false));
 	// mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, true));
@@ -60,6 +60,7 @@ void App::init()
 		canvas->onInit();
 	}
 	focusCanvas(0);
+	mWindow->show();
 }
 
 void App::loop()

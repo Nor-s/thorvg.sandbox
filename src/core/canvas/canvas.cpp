@@ -1,11 +1,12 @@
 #include "canvas.h"
 
+#include "core/input/inputController.h"
+
 #include "common/common.h"
 
 #include "core/gpu/gl/glUtil.h"
 #include "core/gpu/gl/extraGl.h"
 #include "core/system/io.h"
-#include "core/input/inputController.h"
 
 #include <tvgGlRenderTarget.h>
 #include <tvgCanvas.h>

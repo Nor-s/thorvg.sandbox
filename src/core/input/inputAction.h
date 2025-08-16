@@ -9,18 +9,22 @@ namespace core
 class InputAction
 {
 public:
-	InputAction(InputType type) : mType(type)
+	InputAction(InputType type, int priority = 0, bool useCapture=true) : mType(type), mPriority(priority), mUseCapture(useCapture)
 	{
 	}
-	InputType getType() const 
+	InputType getType() const
 	{
 		return mType;
 	}
 
 private:
+	friend class InputActionBinding;
+	friend class InputController;
 	InputType mType;
+	int mPriority{0};
+	bool mUseCapture{false};
 };
 
-}	 // namespace ns
+}	 // namespace core
 
 #endif

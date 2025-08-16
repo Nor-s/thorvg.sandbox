@@ -20,6 +20,9 @@ public:
 	virtual ~Entity() = default;
 
 	void moveByDelta(const Vec2& delta);
+	void hide();
+	void show();
+	bool isHidden() const { return mIsHide; }
 
 	template <class T>
 	T& getComponent();
@@ -33,6 +36,7 @@ public:
 	entt::entity mHandle{entt::null};
 private:
 	core::Scene* rScene{nullptr};
+	bool mIsHide{false};
 };
 
 }	 // namespace core

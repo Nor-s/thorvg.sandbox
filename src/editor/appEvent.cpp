@@ -42,6 +42,9 @@ bool App::processEvent()
 	ImGuiIO& io = ImGui::GetIO();
 	core::io::deltaTime = io.DeltaTime;
 
+	if(rInputController)
+		rInputController->sync();
+
 	while (SDL_PollEvent(&event))
 	{
 		ImGui_ImplSDL2_ProcessEvent(&event);

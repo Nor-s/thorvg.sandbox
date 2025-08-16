@@ -22,10 +22,10 @@ public:
 	AddMode(AnimationCreatorCanvas* canvas, EditModeType type);
 	~AddMode();
 	void onUpdate() override;
-	void onStarClickLefttMouse(const InputValue& inputValue) override;
-	void onDragLeftMouse(const InputValue& inputValue) override;
-	void onEndLeftMouse(const InputValue& inputValue) override;
-	void onInputDetach(const InputValue& inputValue) override;
+	bool onStarClickLefttMouse(const InputValue& inputValue) override;
+	bool onDragLeftMouse(const InputValue& inputValue) override;
+	bool onEndLeftMouse(const InputValue& inputValue) override;
+	bool onInputDetach(const InputValue& inputValue) override;
 
 private:
 	AnimationCreatorCanvas* rCanvas;

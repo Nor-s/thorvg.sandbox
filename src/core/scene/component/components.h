@@ -164,6 +164,7 @@ struct StrokeComponent
 	FloatKeyFrame widthKeyframe;
 };
 
+
 }	 // namespace core
 
 #endif

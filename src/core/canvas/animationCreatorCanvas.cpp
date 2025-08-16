@@ -1,12 +1,13 @@
 #include "animationCreatorCanvas.h"
 
-#include "animation/animationBuilder.h"
-#include "scene/scene.h"
-#include <memory>
-
 #include "core/input/inputController.h"
 #include "core/input/inputAction.h"
 #include "animationCreatorInputController.h"
+
+
+#include "animation/animationBuilder.h"
+#include "scene/scene.h"
+#include <memory>
 
 namespace core
 {

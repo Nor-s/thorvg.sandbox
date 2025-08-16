@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "inputAction.h"
 
@@ -16,7 +17,8 @@ public:
 	InputActionBinding(const InputAction& action, InputTrigger triggerState) : mAction(action), mTrigger(triggerState)
 	{
 	}
-	virtual void execute(const InputValue& inputValue) = 0;
+	virtual ~InputActionBinding() = default;
+	virtual bool execute(const InputValue& inputValue) {return false;}
 
 	InputTrigger getInputTrigger() const
 	{
@@ -27,8 +29,15 @@ public:
 		return mAction;
 	}
 
+	bool operator<(const InputActionBinding& other) const
+	{
+		return mAction.mPriority < other.mAction.mPriority;
+	}
+	
+	bool mIsDeleted{false};
+
 private:
-	const InputAction& mAction;
+	const InputAction mAction;
 	InputTrigger mTrigger;
 };
 
@@ -40,10 +49,11 @@ public:
 		: InputActionBinding(action, triggerState), mFunc(func)
 	{
 	}
+	virtual ~InputActionFunctionBinding() = default;
 
-	virtual void execute(const InputValue& inputValue) override
+	virtual bool execute(const InputValue& inputValue) override
 	{
-		mFunc(inputValue);
+		return mFunc(inputValue);
 	}
 
 private:
@@ -61,10 +71,11 @@ public:
 		: InputActionBinding(action, triggerState), rClassPointer(classPointer), mFunc(func)
 	{
 	}
+	virtual ~InputActionMemberFunctionBinding() = default;
 
-	virtual void execute(const InputValue& inputValue) override
+	virtual bool execute(const InputValue& inputValue) override
 	{
-		(rClassPointer->*mFunc)(inputValue);
+		return (rClassPointer->*mFunc)(inputValue);
 	}
 
 private:
@@ -76,38 +87,92 @@ class InputController
 {
 public:
 	template <typename TClass>
-	void bindAction(const InputAction& action,
-					InputTrigger triggerState,
-					TClass* object,
-					void (TClass::*func)(const InputValue& inputValue))
+	InputActionBinding* bindAction(const InputAction& action,
+								   InputTrigger triggerState,
+								   TClass* object,
+								   bool (TClass::*func)(const InputValue& inputValue))
 	{
 		auto* actionEvent =
 			new InputActionMemberFunctionBinding<TClass, decltype(func)>(object, func, action, triggerState);
-		inputActions_[action.getType()].emplace_back(actionEvent);
+		mBindingActions.push_back(actionEvent);
+		return actionEvent;
 	}
-	void bindAction(const InputAction& action, InputTrigger triggerState, void (*func)(const InputValue& inputValue))
+	InputActionBinding* bindAction(const InputAction& action,
+								   InputTrigger triggerState,
+								   bool (*func)(const InputValue& inputValue))
 	{
 		auto* actionEvent = new InputActionFunctionBinding<decltype(func)>(func, action, triggerState);
-		inputActions_[action.getType()].emplace_back(actionEvent);
+		mBindingActions.push_back(actionEvent);
+		return actionEvent;
+	}
+	void unbinding(InputActionBinding* actionBinding)
+	{
+		actionBinding->mIsDeleted = true;
+		mUnbindingActions.push_back(actionBinding);
+	}
+	void sync()
+	{
+		bool isChanged = mBindingActions.size() > 0 || mUnbindingActions.size() > 0;
+		std::unordered_set<InputType> inputTypes;
+
+		for(auto* actionBinding : mBindingActions)
+		{
+			inputTypes.insert(actionBinding->getAction().getType());
+			mInputActions[actionBinding->getAction().getType()].emplace_back(actionBinding);
+		}
+		mBindingActions.clear();
+
+		for(auto* actionBinding : mUnbindingActions)
+		{
+			inputTypes.insert(actionBinding->getAction().getType());
+			auto& actions = mInputActions[actionBinding->getAction().getType()];
+			auto it = std::remove_if(actions.begin(), actions.end(), [actionBinding](InputActionBinding* binding) {
+				return binding == actionBinding;
+			});
+			assert(it != actions.end());
+
+			delete actionBinding;
+			actions.erase(it, actions.end());
+		}
+		mUnbindingActions.clear();
+
+		if (isChanged)
+		{
+			for(auto& inputType : inputTypes)
+			{
+				auto& inputActionBindings = mInputActions[inputType];
+				std::sort(inputActionBindings.begin(), inputActionBindings.end(), [](const InputActionBinding* a, const InputActionBinding* b) {
+					return *a < *b;
+				});
+			}
+		}
 	}
 	void broadcast(InputType inputType, InputTrigger triggerState, const InputValue& value)
 	{
-		for (auto& inputActionBinding : inputActions_[inputType])
+		bool isCaptured = false;
+		auto& inputActionBindings = mInputActions[inputType];
+		for (auto it = inputActionBindings.rbegin(); it != inputActionBindings.rend(); ++it)
 		{
+			auto* inputActionBinding = *it;
 			if (HasFlag(inputActionBinding->getInputTrigger(), triggerState))
 			{
-				inputActionBinding->execute(value);
+				if (inputActionBinding->mIsDeleted || inputActionBinding->getAction().mUseCapture && isCaptured)
+					continue;
+
+				isCaptured |= inputActionBinding->execute(value);
 			}
 		}
 	}
 	size_t size() const
 	{
-		return inputActions_.size();
+		return mInputActions.size();
 	}
 
 private:
 	// TODO: delete input action binding
-	std::unordered_map<InputType, std::vector<InputActionBinding*>> inputActions_;
+	std::unordered_map<InputType, std::vector<InputActionBinding*>> mInputActions;
+	std::vector<InputActionBinding*> mUnbindingActions;
+	std::vector<InputActionBinding*> mBindingActions;
 };
 
 }	 // namespace core

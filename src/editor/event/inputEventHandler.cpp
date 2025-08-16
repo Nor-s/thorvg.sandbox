@@ -22,7 +22,7 @@ void InputEventHandler::processEvent(const SDL_Event& event)
     auto& io = ImGui::GetIO();
 	if (rInputController == nullptr)
 		return;
-
+	
 	const auto mouseOffset = core::io::mouseOffset;
 	const auto mouseX = event.motion.x + mouseOffset.x;
 	const auto mouseY = event.motion.y + mouseOffset.y;

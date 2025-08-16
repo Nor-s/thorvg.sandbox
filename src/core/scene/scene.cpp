@@ -65,7 +65,6 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 	auto& rect = entity.addComponent<RectPathComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
-	auto color = solidFill.color;
 
 	transform.anchorPoint = {0.0f, 0.0f}; // center of the local, center of the rect
 	transform.position = {xy.x + wh.w/2.0f, xy.y + wh.h/2.0f};
@@ -128,8 +127,6 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	shape.shape->id = id.id;
 	mTvgScene->push(shape.shape);
 
-	updateCanvas();
-
 	return entity;
 }
 
@@ -154,9 +151,8 @@ void Scene::destroyEntity(core::Entity& entity)
 	if (entity.hasComponent<ShapeComponent>())
 	{
 		auto& shape = entity.getComponent<ShapeComponent>();
-		shape.shape->unref();
 		mTvgScene->remove(shape.shape);
-		updateCanvas();
+		shape.shape->unref();
 	}
 	mEntityMap.erase(entity.getComponent<IDComponent>().id);
 	mRegistry.destroy(entity.mHandle);
@@ -167,17 +163,12 @@ void Scene::pushCanvas(CanvasWrapper* canvas)
 	rCanvasList.push_back(canvas);
 }
 
-void Scene::updateCanvas()
-{
-	std::for_each(rCanvasList.begin(), rCanvasList.end(), [](CanvasWrapper* canvas) { canvas->update(); });
-}
-
 void Scene::onUpdate()
 {
 	mRegistry.view<TransformComponent, PathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, PathComponent& path, ShapeComponent& shape) {
 		transform.update();
-		shape.shape->transform(transform.transform);
 		shape.shape->reset();
+		shape.shape->transform(transform.transform);
 		auto pathPoint = path.points;
 		// todo: path update -> center update
 		std::for_each(pathPoint.begin(), pathPoint.end(), [&transform, &path](tvg::Point& p) {
@@ -188,8 +179,8 @@ void Scene::onUpdate()
 	});
 	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& rect, ShapeComponent& shape) {
 		transform.update();
-		shape.shape->transform(transform.transform);
 		shape.shape->reset();
+		shape.shape->transform(transform.transform);
 		shape.shape->appendRect(rect.position.x - rect.scale.x/2.0f + transform.anchorPoint.x, rect.position.y - rect.scale.y/2.0f + transform.anchorPoint.y, rect.scale.x, rect.scale.y, rect.radius, rect.radius);
 	});
 	mRegistry.view<ShapeComponent, SolidFillComponent>().each([](auto entity, ShapeComponent& shape, SolidFillComponent& fill) {
@@ -206,7 +197,6 @@ void Scene::onUpdate()
 			scene.scene->onUpdate();
 		}
 	});
-	updateCanvas();
 }
 
 }	 // namespace core

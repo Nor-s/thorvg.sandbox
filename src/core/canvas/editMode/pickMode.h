@@ -3,24 +3,28 @@
 
 #include "editMode.h"
 #include "scene/entity.h"
+#include "../shapeUtil.h"
 
 namespace core
 {
 class Scene;
+class Bbox;
+
 class PickMode : public EditMode
 {
 	struct Context
 	{
 		// for outline
 		std::unique_ptr<Scene> tempScene;
-		tvg::Paint* currentSelectedPaint{nullptr};
-		Scene* currentSelectedScene{nullptr};
+		PickInfo pickInfo;
 		Vec2 startPoint;
 		Vec2 beforePoint;
-		Entity bbox;
-		Entity currentObb;
-		Entity drag;
-		Entity hover;
+
+		std::unique_ptr<Bbox> bbox = nullptr;
+		// Entity bbox;
+		// Entity currentObb;
+		// Entity drag;
+		// Entity hover;
 		bool isLeftMouseDown{false};
 	};
 
@@ -29,11 +33,12 @@ public:
     ~PickMode();
 	void onUpdate() override;
 	bool pick(const InputValue& inputValue, tvg::Paint* paint, int depth);
-	void onStarClickLefttMouse(const InputValue& inputValue) override;
-	void onDragLeftMouse(const InputValue& inputValue) override;
-	void onMoveMouse(const InputValue& inputValue) override;
-	void onEndLeftMouse(const InputValue& inputValue) override;
-	void onInputDetach(const InputValue& inputValue) override;
+	bool pick(const InputValue& inputValue);
+	bool onStarClickLefttMouse(const InputValue& inputValue) override;
+	bool onDragLeftMouse(const InputValue& inputValue) override;
+	bool onMoveMouse(const InputValue& inputValue) override;
+	bool onEndLeftMouse(const InputValue& inputValue) override;
+	bool onInputDetach(const InputValue& inputValue) override;
 
 private:
 	AnimationCreatorCanvas* rCanvas;

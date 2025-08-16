@@ -1,6 +1,10 @@
 #ifndef _CORE_CORE_H_
 #define _CORE_CORE_H_
 
+#include "input/input.h"
+#include "input/inputAction.h"
+#include "input/inputController.h"
+
 #include "common/common.h"
 
 #include "platform.h"
@@ -14,11 +18,6 @@
 #include "canvas/paintWrapper.h"
 
 #include "animation/animationBuilder.h"
-
-#include "input/input.h"
-#include "input/inputAction.h"
-#include "input/inputController.h"
-
 #include "system/io.h"
 
 namespace core

@@ -27,11 +27,11 @@ class EditMode
 public:
 	virtual ~EditMode() = default;
 	virtual void onUpdate() {}
-	virtual void onStarClickLefttMouse(const InputValue& inputValue) = 0;
-	virtual void onDragLeftMouse(const InputValue& inputValue) = 0;
-	virtual void onMoveMouse(const InputValue& inputValue) {};
-	virtual void onEndLeftMouse(const InputValue& inputValue) = 0;
-	virtual void onInputDetach(const InputValue& inputValue) = 0;
+	virtual bool onStarClickLefttMouse(const InputValue& inputValue) = 0;
+	virtual bool onDragLeftMouse(const InputValue& inputValue) = 0;
+	virtual bool onMoveMouse(const InputValue& inputValue) {};
+	virtual bool onEndLeftMouse(const InputValue& inputValue) = 0;
+	virtual bool onInputDetach(const InputValue& inputValue) = 0;
 };
 
 }	 // namespace core

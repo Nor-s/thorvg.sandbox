@@ -1,10 +1,13 @@
 #include "animationCreatorInputController.h"
-#include "canvas.h"
-#include "animationCreatorCanvas.h"
 
 #include "input/input.h"
 #include "input/inputAction.h"
 #include "input/inputController.h"
+
+#include "canvas.h"
+#include "animationCreatorCanvas.h"
+
+
 
 #include "common/common.h"
 
@@ -45,49 +48,54 @@ void AnimationCreatorInputController::setMode(EditModeType mode)
 	applyEditMode();
 }
 
-void AnimationCreatorInputController::onStarClickLefttMouse(const InputValue& inputValue)
+bool AnimationCreatorInputController::onStarClickLefttMouse(const InputValue& inputValue)
 {
 	LOG_INFO("start edit: mode is {}", (int) mMode);
 	if (mEditMode == nullptr)
-		return;
+		return false;
 
-	mEditMode->onStarClickLefttMouse(inputValue);
+	return mEditMode->onStarClickLefttMouse(inputValue);
 }
 
-void AnimationCreatorInputController::onDragLeftMouse(const InputValue& inputValue)
+bool AnimationCreatorInputController::onDragLeftMouse(const InputValue& inputValue)
 {
 	if (mEditMode == nullptr)
-		return;
+		return false;
 
-	mEditMode->onDragLeftMouse(inputValue);
+	return mEditMode->onDragLeftMouse(inputValue);
 }
-void AnimationCreatorInputController::onMoveMouse(const InputValue& inputValue)
+bool AnimationCreatorInputController::onMoveMouse(const InputValue& inputValue)
 {
 	if(mEditMode == nullptr)
-		return;
+		return false;
 
-	mEditMode->onMoveMouse(inputValue);
+	return mEditMode->onMoveMouse(inputValue);
 }
 
-void AnimationCreatorInputController::onEndLeftMouse(const InputValue& inputValue)
+bool AnimationCreatorInputController::onEndLeftMouse(const InputValue& inputValue)
 {
 	LOG_INFO("end edit: mode is {}", (int) mMode);
 	if (mEditMode == nullptr)
-		return;
+		return false;
 
-	mEditMode->onEndLeftMouse(inputValue);
+	return mEditMode->onEndLeftMouse(inputValue);
 }
-void AnimationCreatorInputController::onInputDetach(const InputValue& inputValue)
+bool AnimationCreatorInputController::onInputDetach(const InputValue& inputValue)
 {
 	LOG_INFO("detach input");
-	if (mEditMode)
-		mEditMode->onInputDetach(inputValue);
+
+	if (mEditMode == nullptr)
+		return false;
+
+	return mEditMode->onInputDetach(inputValue);
 }
-void AnimationCreatorInputController::onInputAttach(const InputValue& inputValue)
+bool AnimationCreatorInputController::onInputAttach(const InputValue& inputValue)
 {
 	applyEditMode();
+	return true;
 }
 
+// todo: no reset unique_ptr
 void AnimationCreatorInputController::applyEditMode()
 {
 	switch (mMode)

@@ -30,6 +30,10 @@ void PickMode::onUpdate()
 {
 	if (mContext.tempScene)
 	{
+		if(mContext.bbox)
+		{
+			mContext.bbox->onUpdate();
+		}
 		mContext.tempScene->onUpdate();
 	}
 }

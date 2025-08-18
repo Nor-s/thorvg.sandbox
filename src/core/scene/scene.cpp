@@ -57,7 +57,37 @@ Entity Scene::createEntity(std::string_view name)
 	return CreateEntity(this, name);
 }
 
-Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
+Entity Scene::createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+{
+	auto entity = CreateEntity(this, name);
+	auto& id = entity.getComponent<IDComponent>();
+	auto& transform = entity.getComponent<TransformComponent>();
+	auto& rect = entity.addComponent<ElipsePathComponent>();
+	auto& shape = entity.addComponent<ShapeComponent>();
+	auto& solidFill = entity.addComponent<SolidFillComponent>();
+
+	transform.localCenterPosition = minXy + wh *0.5f;
+	transform.anchorPoint = {0.0f, 0.0f}; 
+	rect.scale = wh;
+	rect.position = {0.0f, 0.0f};
+
+	// push shape
+	shape.shape = tvg::Shape::gen();
+	shape.shape->id = id.id;
+	shape.shape->ref();
+	mTvgScene->push(shape.shape);
+
+	return entity;
+}
+
+Entity Scene::createEllipseFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+{
+	Entity entity = createEllipseFillLayer(name, minXy, wh);
+	auto& stroke = entity.addComponent<StrokeComponent>();
+	return entity;
+}
+
+Entity Scene::createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 {
 	auto entity = CreateEntity(this, name);
 	auto& id = entity.getComponent<IDComponent>();
@@ -66,8 +96,8 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 
-	transform.anchorPoint = {0.0f, 0.0f}; // center of the local, center of the rect
-	transform.position = {xy.x + wh.w/2.0f, xy.y + wh.h/2.0f};
+	transform.localCenterPosition = minXy + wh *0.5f;
+	transform.anchorPoint = {0.0f, 0.0f}; 
 	rect.scale = wh;
 	rect.radius = 0.0f;
 	rect.position = {0.0f, 0.0f};
@@ -80,9 +110,9 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh)
 
 	return entity;
 }
-Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh)
+Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 {
-	Entity entity = createRectFillLayer(name, xy, wh);
+	Entity entity = createRectFillLayer(name, minXy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
 	return entity;
 }
@@ -95,7 +125,6 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& path = entity.addComponent<PathComponent>();
 	auto& stroke = entity.addComponent<StrokeComponent>();
-	stroke.color = {255.0f, 127.0f, 63.0f};
 	auto minx = std::min({points[0].x, points[1].x, points[2].x, points[3].x});
 	auto maxx = std::max({points[0].x, points[1].x, points[2].x, points[3].x});
 	auto miny = std::min({points[0].y, points[1].y, points[2].y, points[3].y});
@@ -103,7 +132,7 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	auto width = maxx - minx;
 	auto height = maxy - miny;
 	transform.anchorPoint = {0.0f, 0.0f}; // oring of the local, center of the bbox
-	transform.position = {minx + width / 2.0f, miny + height / 2.0f};
+	transform.localCenterPosition = {minx + width*0.5f, miny + height*0.5f};
 
 	auto bound = tvg::Shape::gen();
 	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
@@ -112,11 +141,11 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	path.pathCommands.push_back(tvg::PathCommand::LineTo);
 	path.pathCommands.push_back(tvg::PathCommand::Close);
 	path.center = tvg::Point{width/2, height/2};
-	auto minp = Vec2{minx, miny};
-	auto p0 = points[0] - minp;
-	auto p1 = points[1] - minp;
-	auto p2 = points[2] - minp;
-	auto p3 = points[3] - minp;
+	auto centerp = transform.localCenterPosition;
+	auto p0 = points[0] - centerp;
+	auto p1 = points[1] - centerp;
+	auto p2 = points[2] - centerp;
+	auto p3 = points[3] - centerp;
 	path.points.emplace_back(p0.x, p0.y);
 	path.points.emplace_back(p1.x, p1.y);
 	path.points.emplace_back(p2.x, p2.y);
@@ -170,18 +199,20 @@ void Scene::onUpdate()
 		shape.shape->reset();
 		shape.shape->transform(transform.transform);
 		auto pathPoint = path.points;
-		// todo: path update -> center update
-		std::for_each(pathPoint.begin(), pathPoint.end(), [&transform, &path](tvg::Point& p) {
-			p.x = p.x -  path.center.x - transform.anchorPoint.x;
-			p.y = p.y - path.center.y - transform.anchorPoint.y;
-		});
+		// todo: path update
 		shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &pathPoint[0], path.points.size());
 	});
-	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& rect, ShapeComponent& shape) {
+	mRegistry.view<TransformComponent, ElipsePathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, ElipsePathComponent& path, ShapeComponent& shape) {
 		transform.update();
 		shape.shape->reset();
 		shape.shape->transform(transform.transform);
-		shape.shape->appendRect(rect.position.x - rect.scale.x/2.0f + transform.anchorPoint.x, rect.position.y - rect.scale.y/2.0f + transform.anchorPoint.y, rect.scale.x, rect.scale.y, rect.radius, rect.radius);
+		shape.shape->appendCircle(path.position.x, path.position.y, path.scale.x*0.5f, path.scale.y*0.5f);
+	});
+	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& path, ShapeComponent& shape) {
+		transform.update();
+		shape.shape->reset();
+		shape.shape->transform(transform.transform);
+		shape.shape->appendRect(path.position.x - path.scale.x/2.0f, path.position.y - path.scale.y/2.0f, path.scale.x, path.scale.y, path.radius, path.radius);
 	});
 	mRegistry.view<ShapeComponent, SolidFillComponent>().each([](auto entity, ShapeComponent& shape, SolidFillComponent& fill) {
 		shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);

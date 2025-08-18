@@ -16,39 +16,47 @@ class Scene;
 
 class Bbox
 {
-    enum ControlPoint
-    {
-        TopLeftScale = 0,
-        TopRightScale,
-        BottomLeftScale,
-        BottomRightScale,
-        // TopCenterScale,
-        // BottomCenterScale,
-        // LeftCenterScale,
-        // RightCenterScale,
-        TopLeftRotate,
-        TopRightRotate,
-        BottomLeftRotate,
-        BottomRightRotate,
-        ControlPointCount
-    };
+	enum ControlType
+	{
+		AnchorPoint = 0,
+		BoxArea,
+		TopLeftScale,
+		TopRightScale,
+		BottomLeftScale,
+		BottomRightScale,
+		// TopCenterScale,
+		// BottomCenterScale,
+		// LeftCenterScale,
+		// RightCenterScale,
+		TopLeftRotate,
+		TopRightRotate,
+		BottomLeftRotate,
+		BottomRightRotate,
+		ControlTypeCount
+	};
+
 public:
 	Bbox(InputController* inputController, core::Scene* scene, Entity target);
 	~Bbox();
 
-    void retarget(Entity target);
+	void retarget(Entity target);
 
-    bool onStartClickLeftMouse(const InputValue& inputValue);
-    bool onDragLeftMouse(const InputValue& inputValue);
-    bool onEndLeftMouse(const InputValue& inputValue);
+	void onUpdate();
+	bool onStartClickLeftMouse(const InputValue& inputValue);
+	bool onDragLeftMouse(const InputValue& inputValue);
+	bool onEndLeftMouse(const InputValue& inputValue);
 
 private:
-    Entity rTarget;
-    Scene* rScene{nullptr};
-    InputController* rInputController{nullptr};
-    std::array<std::unique_ptr<ControlBox>, ControlPointCount> mControlBox;
-    std::vector<InputActionBinding*> mInputActionBindings;
-
+	Entity rTarget;
+	Scene* rScene{nullptr};
+	InputController* rInputController{nullptr};
+	Vec2 mCurrentScale{1.0f, 1.0f};
+	Vec2 mStartPoint{0.0f, 0.0f};
+	Vec2 mBeforePoint{0.0f, 0.0f};
+	Vec2 mCurrentPoint{0.0f, 0.0f};
+	ControlType mCurrentControlType{ControlTypeCount};
+	std::array<std::unique_ptr<ControlBox>, ControlTypeCount> mControlBox;
+	std::vector<InputActionBinding*> mInputActionBindings;
 };
 
 }	 // namespace core

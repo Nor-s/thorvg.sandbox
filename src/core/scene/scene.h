@@ -33,8 +33,10 @@ public:
 		return mRegistry;
 	}
 	Entity createEntity(std::string_view name);
-	Entity createRectFillLayer(std::string_view name, Vec2 xy, Vec2 wh);
-	Entity createRectFillStrokeLayer(std::string_view name, Vec2 xy, Vec2 wh);
+	Entity createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh);
+	Entity createEllipseFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh);
+	Entity createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh);
+	Entity createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh);
 	Entity createObb(const std::array<Vec2, 4>& points);
 
 	Entity getEntityById(uint32_t id);

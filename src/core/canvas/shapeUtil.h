@@ -29,6 +29,15 @@ static bool IsInner(const std::array<Vec2, 4>& q, Vec2 p)
 	const bool s4 = cross(q[3] - q[0], p - q[0]) >= 0.0f;
 	return (s1 == s2) && (s2 == s3) && (s3 == s4);
 }
+static bool IsInner(tvg::Paint* p, Vec2 point)
+{
+	auto obb = GetObb(p);
+	return IsInner(obb, point);
+}
+static Vec2 GetCenter(const std::array<Vec2, 4>& q)
+{
+	return (q[0] + q[1] + q[2] + q[3])/ 4.0f;
+}
 
 struct PickInfo
 {

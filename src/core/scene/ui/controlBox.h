@@ -7,87 +7,81 @@
 namespace core
 {
 
-class IFunction 
+class IFunction
 {
 public:
-    virtual bool invoke() = 0;
+	virtual bool invoke() = 0;
 };
 
-template<typename Func>
-class LambdaWrapper : public IFunction 
+template <typename Func>
+class LambdaWrapper : public IFunction
 {
 public:
-    LambdaWrapper(Func func)
-    : mFunc(func)
-    {
-    }
-    virtual bool invoke() override 
-    {
-        return mFunc();
-    }
+	LambdaWrapper(Func func) : mFunc(func)
+	{
+	}
+	virtual bool invoke() override
+	{
+		return mFunc();
+	}
 
 private:
-    Func mFunc;
+	Func mFunc;
 };
 
-template<typename F>
-auto MakeLambda(F&& f) {
-    using FnType = std::decay_t<F>;
-    return std::make_unique<LambdaWrapper<FnType>>(std::forward<F>(f));
+template <typename F>
+auto MakeLambda(F&& f)
+{
+	using FnType = std::decay_t<F>;
+	return std::make_unique<LambdaWrapper<FnType>>(std::forward<F>(f));
 }
 
 class ControlBox
 {
 public:
-    // for cursor shape
-    enum class Type
-    {
-        Move,
-        Rotate,
-        Scale
-    };
+	// for cursor shape
+	enum class Type
+	{
+		Move,
+		Rotate,
+		Scale
+	};
+
+	enum class ShapeType
+	{
+		Rect,
+		Ellipse
+	};
 
 public:
-    ControlBox(Scene* scene, Vec2 xy, Vec2 wh ,Type type);
-    ~ControlBox();
+	ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType shape = ShapeType::Rect);
+	ControlBox(Scene* scene, const std::array<Vec2, 4>& obbPoints, Type type = Type::Move);
+	~ControlBox();
 
-    void moveTo(Vec2 xy);
+	void moveTo(Vec2 xy);
+	bool onLeftDown(Vec2 xy);
 
-    bool onLeftDrag() 
-    {
-        if (mOnLeftDrag) 
-        {
-            return mOnLeftDrag->invoke();
-        }
-        return false;
-    }
-    bool onLeftUp()
-    {
-        if (mOnLeftUp) 
-        {
-            return mOnLeftUp->invoke();
-        }
-        return false;
-    }
+	bool onLeftDrag()
+	{
+		if (mOnLeftDrag)
+		{
+			return mOnLeftDrag->invoke();
+		}
+		return false;
+	}
 
-    void setOnLeftDrag(std::unique_ptr<IFunction> onLeftDrag) 
-    {
-        mOnLeftDrag = std::move(onLeftDrag);
-    }
-    void setOnLeftUp(std::unique_ptr<IFunction> onLeftUp)
-    {
-        mOnLeftUp = std::move(onLeftUp);
-    }
+	void setOnLeftDrag(std::unique_ptr<IFunction> onLeftDrag)
+	{
+		mOnLeftDrag = std::move(onLeftDrag);
+	}
 
-    void setVisible(bool visible);
-    bool isVisible() const;
+	void setVisible(bool visible);
+	bool isVisible() const;
 
 private:
-    Scene* rScene{nullptr};
-    Entity mEntity;
-    std::unique_ptr<IFunction> mOnLeftDrag;
-    std::unique_ptr<IFunction> mOnLeftUp;
-
+	Scene* rScene{nullptr};
+	Entity mEntity;
+	std::unique_ptr<IFunction> mOnLeftDrag;
 };
 
 }	 // namespace core

@@ -76,6 +76,14 @@ struct RectPathComponent
 	VectorKeyFrame scaleKeyframes;
 };
 
+struct ElipsePathComponent
+{
+	Vec2 position{0.0f, 0.0f};
+	Vec2 scale{100.0f, 100.0f};
+	VectorKeyFrame positionKeyframes;
+	VectorKeyFrame scaleKeyframes;
+};
+
 struct PathComponent
 {
 	std::vector<tvg::PathCommand> pathCommands;
@@ -85,17 +93,19 @@ struct PathComponent
 
 struct TransformComponent
 {
-	Vec2 anchorPoint{0.0f, 0.0f};
-	Vec2 position{0.0f, 0.0f};
+	Vec2 anchorPoint{0.0f, 0.9f}; // local anchor
+	Vec2 localCenterPosition{0.0f, 0.0f}; // center of layer
 	Vec2 scale{1.0f, 1.0f};
 	float rotation{};
 	tvg::Matrix transform;
+	// todo: parent transform
 	void update()
 	{
 		transform = identity();
 		applyScale(&transform, scale);
 		applyRotate(&transform, rotation);
-		applyTranslate(&transform, position);
+		applyTranslate(&transform, localCenterPosition);
+		applyTranslateR(&transform, anchorPoint);
 	}
 	static inline void identity(tvg::Matrix* m)
 	{
@@ -124,7 +134,12 @@ struct TransformComponent
 		m->e11 *= p.x;
 		m->e22 *= p.y;
 	}
-
+	static inline void applyTranslateR(tvg::Matrix* m, const Vec2& p)
+	{
+	    if (p.x == 0.0f && p.y == 0.0f) return;
+	    m->e13 += (p.x * m->e11 + p.y * m->e12);
+	    m->e23 += (p.x * m->e21 + p.y * m->e22);
+	}
 	void applyRotate(tvg::Matrix* m, float degree)
 	{
 		if (degree == 0.0f)
@@ -148,7 +163,7 @@ struct TransformKeyframeComponent
 };
 struct SolidFillComponent
 {
-	Vec3 color{63.0f, 63.0f, 255.0f};
+	Vec3 color = Style::DefaultFillColor;
 	float alpha{255.0f};
 	tvg::FillRule rule{tvg::FillRule::NonZero};
 	ColorKeyFrame colorKeyframe;
@@ -157,7 +172,7 @@ struct SolidFillComponent
 
 struct StrokeComponent
 {
-	Vec3 color{63.0f, 127.0f, 255.0f};
+	Vec3 color = Style::DefaultStrokeColor;
 	float width{3.0f};
 	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;

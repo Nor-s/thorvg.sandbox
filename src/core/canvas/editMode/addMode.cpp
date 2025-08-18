@@ -7,7 +7,7 @@ namespace core
 {
 AddMode::AddMode(AnimationCreatorCanvas* canvas, EditModeType type)
 {
-    type = mType;
+	mType = type;
 	rCanvas = canvas;
 	mContext.tempScene = std::make_unique<core::Scene>();
 	mContext.tempScene->pushCanvas(rCanvas);
@@ -19,7 +19,7 @@ AddMode::~AddMode()
 }
 void AddMode::onUpdate()
 {
-	if(mContext.tempScene)
+	if (mContext.tempScene)
 	{
 		mContext.tempScene->onUpdate();
 	}
@@ -37,10 +37,19 @@ bool AddMode::onDragLeftMouse(const InputValue& inputValue)
 	auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
 	auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
 
-	if(mContext.newEntity.mHandle != entt::null)
+	if (mContext.newEntity.mHandle != entt::null)
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 
-	mContext.newEntity = mContext.tempScene->createRectFillLayer("Rect", start, end - start);
+	switch (mType)
+	{
+		case EditModeType::ADD_SQUARE:
+			mContext.newEntity = mContext.tempScene->createRectFillLayer("Rect", start, end - start);
+			break;
+		default:
+			mContext.newEntity = mContext.tempScene->createEllipseFillLayer("Elipse", start, end - start);
+			break;
+	};
+
 	return true;
 }
 bool AddMode::onEndLeftMouse(const InputValue& inputValue)
@@ -50,15 +59,23 @@ bool AddMode::onEndLeftMouse(const InputValue& inputValue)
 	auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
 	auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
 
-	if(mContext.newEntity.mHandle != entt::null)
+	if (mContext.newEntity.mHandle != entt::null)
 	{
 		mContext.tempScene->destroyEntity(mContext.newEntity);
 	}
-	auto wh = end-start;
+	auto wh = end - start;
 	float threshold = 20.0f;
-	if(wh.w > threshold && wh.h > threshold)
+	if (wh.w > threshold && wh.h > threshold)
 	{
-		rCanvas->mScene->createRectFillLayer("Rect", start, wh);
+		switch (mType)
+		{
+			case EditModeType::ADD_SQUARE:
+				rCanvas->mScene->createRectFillLayer("Rect", start, wh);
+				break;
+			default:
+				rCanvas->mScene->createEllipseFillLayer("Ellipse", start, wh);
+				break;
+		};
 	}
 	return true;
 }

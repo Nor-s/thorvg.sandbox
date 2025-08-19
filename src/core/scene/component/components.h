@@ -11,7 +11,6 @@
 
 #include <thorvg.h>
 
-
 namespace core
 {
 
@@ -93,19 +92,27 @@ struct PathComponent
 
 struct TransformComponent
 {
-	Vec2 anchorPoint{0.0f, 0.9f}; // local anchor
-	Vec2 localCenterPosition{0.0f, 0.0f}; // center of layer
+	Vec2 anchorPoint{0.0f, 0.0f};			 // local anchor
+	Vec2 worldPosition{0.0f, 0.0f};			 // world position
+	Vec2 localCenterPosition{0.0f, 0.0f};	 // center of layer
 	Vec2 scale{1.0f, 1.0f};
 	float rotation{};
 	tvg::Matrix transform;
+
 	// todo: parent transform
 	void update()
 	{
 		transform = identity();
-		applyScale(&transform, scale);
-		applyRotate(&transform, rotation);
 		applyTranslate(&transform, localCenterPosition);
-		applyTranslateR(&transform, anchorPoint);
+		applyRotateR(&transform, rotation);
+		applyScaleR(&transform, scale);
+		applyTranslateR(&transform, anchorPoint * -1.0f);
+		worldPosition = localCenterPosition + anchorPoint;
+	}
+	tvg::Matrix inverse() const
+	{
+		auto ret = identity();
+		return inverse(&transform, &ret) ? ret : identity();
 	}
 	static inline void identity(tvg::Matrix* m)
 	{
@@ -119,7 +126,6 @@ struct TransformComponent
 		m->e32 = 0.0f;
 		m->e33 = 1.0f;
 	}
-
 	static inline constexpr const tvg::Matrix identity()
 	{
 		return {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f};
@@ -129,32 +135,76 @@ struct TransformComponent
 		m->e13 += p.x;
 		m->e23 += p.y;
 	}
-	static inline void applyScale(tvg::Matrix* m, const Vec2& p)
+	static inline void applyScaleR(tvg::Matrix* m, const Vec2& p)
 	{
 		m->e11 *= p.x;
+		m->e21 *= p.x;
+		m->e12 *= p.y;
 		m->e22 *= p.y;
 	}
 	static inline void applyTranslateR(tvg::Matrix* m, const Vec2& p)
 	{
-	    if (p.x == 0.0f && p.y == 0.0f) return;
-	    m->e13 += (p.x * m->e11 + p.y * m->e12);
-	    m->e23 += (p.x * m->e21 + p.y * m->e22);
+		if (p.x == 0.0f && p.y == 0.0f)
+			return;
+		m->e13 += (p.x * m->e11 + p.y * m->e12);
+		m->e23 += (p.x * m->e21 + p.y * m->e22);
 	}
-	void applyRotate(tvg::Matrix* m, float degree)
+	static void applyRotateR(tvg::Matrix* m, float degree)
 	{
 		if (degree == 0.0f)
 			return;
 
-		auto radian = degree / 180.0f * float(M_PI);
-		auto cosVal = cosf(radian);
-		auto sinVal = sinf(radian);
+		const float rad = degree * float(M_PI) / 180.0f;
+		const float c = cosf(rad);
+		const float s = sinf(rad);
 
-		m->e12 = m->e11 * -sinVal;
-		m->e11 *= cosVal;
-		m->e21 = m->e22 * sinVal;
-		m->e22 *= cosVal;
+		const float e11 = m->e11, e12 = m->e12, e13 = m->e13;
+		const float e21 = m->e21, e22 = m->e22, e23 = m->e23;
+
+		m->e11 = c * e11 + s * e12;
+		m->e21 = c * e21 + s * e22;
+		m->e12 = -s * e11 + c * e12;
+		m->e22 = -s * e21 + c * e22;
+	}
+	
+	static bool inverse(const tvg::Matrix* m, tvg::Matrix* out)
+	{
+		auto det = m->e11 * (m->e22 * m->e33 - m->e32 * m->e23) - m->e12 * (m->e21 * m->e33 - m->e23 * m->e31) +
+				   m->e13 * (m->e21 * m->e32 - m->e22 * m->e31);
+
+		auto invDet = 1.0f / det;
+		if (std::isinf(invDet))
+			return false;
+
+		out->e11 = (m->e22 * m->e33 - m->e32 * m->e23) * invDet;
+		out->e12 = (m->e13 * m->e32 - m->e12 * m->e33) * invDet;
+		out->e13 = (m->e12 * m->e23 - m->e13 * m->e22) * invDet;
+		out->e21 = (m->e23 * m->e31 - m->e21 * m->e33) * invDet;
+		out->e22 = (m->e11 * m->e33 - m->e13 * m->e31) * invDet;
+		out->e23 = (m->e21 * m->e13 - m->e11 * m->e23) * invDet;
+		out->e31 = (m->e21 * m->e32 - m->e31 * m->e22) * invDet;
+		out->e32 = (m->e31 * m->e12 - m->e11 * m->e32) * invDet;
+		out->e33 = (m->e11 * m->e22 - m->e21 * m->e12) * invDet;
+
+		return true;
 	}
 };
+inline static void operator*=(Vec2& pt, const tvg::Matrix& m)
+{
+    auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
+    auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
+    pt.x = tx;
+    pt.y = ty;
+}
+
+
+inline static Vec2 operator*(const Vec2& pt, const tvg::Matrix& m)
+{
+    auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
+    auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
+    return {tx, ty};
+}
+
 struct TransformKeyframeComponent
 {
 	VectorKeyFrame positionKeyframes;
@@ -173,12 +223,12 @@ struct SolidFillComponent
 struct StrokeComponent
 {
 	Vec3 color = Style::DefaultStrokeColor;
+	float alpha{255.0f};
 	float width{3.0f};
 	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;
 };
-
 
 }	 // namespace core
 

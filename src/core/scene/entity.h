@@ -24,6 +24,8 @@ public:
 	void show();
 	bool isHidden() const { return mIsHide; }
 
+	void update();
+
 	template <class T>
 	T& getComponent();
 

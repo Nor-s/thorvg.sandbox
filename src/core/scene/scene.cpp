@@ -75,6 +75,8 @@ Entity Scene::createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 	shape.shape = tvg::Shape::gen();
 	shape.shape->id = id.id;
 	shape.shape->ref();
+
+	entity.update();
 	mTvgScene->push(shape.shape);
 
 	return entity;
@@ -84,6 +86,7 @@ Entity Scene::createEllipseFillStrokeLayer(std::string_view name, Vec2 minXy, Ve
 {
 	Entity entity = createEllipseFillLayer(name, minXy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
+	entity.update();
 	return entity;
 }
 
@@ -106,6 +109,8 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 	shape.shape = tvg::Shape::gen();
 	shape.shape->id = id.id;
 	shape.shape->ref();
+
+	entity.update();
 	mTvgScene->push(shape.shape);
 
 	return entity;
@@ -114,6 +119,7 @@ Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 
 {
 	Entity entity = createRectFillLayer(name, minXy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
+	entity.update();
 	return entity;
 }
 
@@ -154,6 +160,8 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	shape.shape = bound;
 	shape.shape->ref();
 	shape.shape->id = id.id;
+
+	entity.update();
 	mTvgScene->push(shape.shape);
 
 	return entity;
@@ -175,8 +183,7 @@ Entity Scene::tryGetEntityById(uint32_t id)
 
 void Scene::destroyEntity(core::Entity& entity)
 {
-	LOG_INFO("Destroying entity: {}", entity.getComponent<IDComponent>().id);
-
+	// LOG_INFO("Destroying entity: {}", entity.getComponent<IDComponent>().id);
 	if (entity.hasComponent<ShapeComponent>())
 	{
 		auto& shape = entity.getComponent<ShapeComponent>();
@@ -220,7 +227,7 @@ void Scene::onUpdate()
 	});
 	mRegistry.view<ShapeComponent, StrokeComponent>().each([](auto entity, ShapeComponent& shape, StrokeComponent& stroke) {
 		shape.shape->strokeWidth(stroke.width);
-		shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, 255);
+		shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, stroke.alpha);
 	});
 	mRegistry.view<SceneComponent>().each([this](auto entity, SceneComponent& scene) {
 		if (scene.scene->mId != this->mId)

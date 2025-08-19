@@ -43,5 +43,50 @@ void Entity::show()
 		mIsHide = false;
 	}
 }
+void Entity::update()
+{
+    auto& transform = getComponent<TransformComponent>();
+    transform.update();
+
+    auto& shape = getComponent<ShapeComponent>();
+    shape.shape->reset();
+    shape.shape->transform(transform.transform);
+
+    if (hasComponent<PathComponent>())
+    {
+        auto& path = getComponent<PathComponent>();
+        if (!path.pathCommands.empty() && !path.points.empty())
+        {
+            shape.shape->appendPath(path.pathCommands.data(), path.pathCommands.size(),
+                                    path.points.data(),        path.points.size());
+        }
+    }
+    else if (hasComponent<ElipsePathComponent>())
+    {
+        auto& path = getComponent<ElipsePathComponent>();
+        shape.shape->appendCircle(path.position.x, path.position.y,
+                                  path.scale.x * 0.5f, path.scale.y * 0.5f);
+    }
+    else if (hasComponent<RectPathComponent>())
+    {
+        auto& path = getComponent<RectPathComponent>();
+        const float x = path.position.x - path.scale.x * 0.5f;
+        const float y = path.position.y - path.scale.y * 0.5f;
+        shape.shape->appendRect(x, y, path.scale.x, path.scale.y, path.radius, path.radius);
+    }
+
+    if (hasComponent<SolidFillComponent>())
+    {
+        auto& fill = getComponent<SolidFillComponent>();
+        shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);
+        shape.shape->fillRule(fill.rule);
+    }
+    if (hasComponent<StrokeComponent>())
+    {
+        auto& stroke = getComponent<StrokeComponent>();
+        shape.shape->strokeWidth(stroke.width);
+        shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, stroke.alpha);
+    }
+}
 
 }	 // namespace core

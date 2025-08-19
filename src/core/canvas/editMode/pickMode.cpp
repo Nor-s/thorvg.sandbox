@@ -57,6 +57,7 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 		{
 			mContext.bbox->retarget(
 				mContext.pickInfo.currentSelectedScene->getEntityById(mContext.pickInfo.currentSelectedPaint->id));
+			return mContext.bbox->onStartClickLeftMouse(inputValue);
 		}
 	}
 	else
@@ -72,6 +73,8 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 }
 bool PickMode::onDragLeftMouse(const InputValue& inputValue)
 {
+	if(mContext.bbox)
+		return mContext.bbox->onDragLeftMouse(inputValue);
 	// if (mContext.isLeftMouseDown == false)
 	// 	return;
 

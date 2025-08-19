@@ -82,6 +82,7 @@ private:
 	Scene* rScene{nullptr};
 	Entity mEntity;
 	std::unique_ptr<IFunction> mOnLeftDrag;
+	std::array<Vec2, 4> mObbPoints;
 };
 
 }	 // namespace core

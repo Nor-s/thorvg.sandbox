@@ -2,6 +2,7 @@
 #define _CORE_CANVAS_EDITMODE_BBOX_H_
 
 #include "scene/entity.h"
+#include "scene/component/components.h"
 
 #include <array>
 
@@ -18,8 +19,8 @@ class Bbox
 {
 	enum ControlType
 	{
-		AnchorPoint = 0,
-		BoxArea,
+		BoxArea = 0,
+		AnchorPoint,
 		TopLeftScale,
 		TopRightScale,
 		BottomLeftScale,
@@ -49,8 +50,8 @@ public:
 private:
 	Entity rTarget;
 	Scene* rScene{nullptr};
+	TransformComponent mBeforeTransform;
 	InputController* rInputController{nullptr};
-	Vec2 mCurrentScale{1.0f, 1.0f};
 	Vec2 mStartPoint{0.0f, 0.0f};
 	Vec2 mBeforePoint{0.0f, 0.0f};
 	Vec2 mCurrentPoint{0.0f, 0.0f};

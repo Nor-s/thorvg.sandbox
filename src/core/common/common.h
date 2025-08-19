@@ -20,6 +20,8 @@ struct Style
     inline static const Vec3 ControlBoxInnerColor{250.0f, 250.0f, 255.0f};
     inline static const Vec3 DefaultStrokeColor{4.0f, 5.0f, 5.0f};
     inline static const Vec3 DefaultFillColor{127.0f, 127.0f, 127.0f};
+
+    inline static const float BBoxControlBoxWidth{10.0f};
 };
 
 }	 // namespace core

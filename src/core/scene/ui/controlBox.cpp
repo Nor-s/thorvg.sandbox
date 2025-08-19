@@ -20,15 +20,20 @@ ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType 
         mEntity = rScene->createRectFillStrokeLayer("ControlBox", center - wh/2.0f, wh);
     }
     auto& stroke = mEntity.getComponent<StrokeComponent>();
+    auto& fill = mEntity.getComponent<SolidFillComponent>();
     stroke.color = Style::ControlBoxOutlineColor;
 
     switch(type)
     {
         case Type::Move:
+        {
+            fill.alpha = 0.0f;
+            break;
+        }
         case Type::Rotate:
         {
-            auto& fill = mEntity.getComponent<SolidFillComponent>();
-            fill.alpha = 0.0f; // invisible
+            fill.alpha = 0.0f;
+            stroke.alpha = 0.0f;
             break;
         }
         case Type::Scale:
@@ -38,11 +43,14 @@ ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType 
             break;
         }
     }
+    auto& shape = mEntity.getComponent<ShapeComponent>();
+    mObbPoints = GetObb(shape.shape);
 }
 
 ControlBox::ControlBox(Scene* scene, const std::array<Vec2, 4>& obbPoints, Type type)
 {
 	rScene = scene;
+    mObbPoints = obbPoints;
     mEntity = rScene->createObb(obbPoints);
 
     auto& stroke = mEntity.getComponent<StrokeComponent>();
@@ -61,8 +69,7 @@ void ControlBox::moveTo(Vec2 xy)
 }
 bool ControlBox::onLeftDown(Vec2 xy)
 {
-    auto& shape = mEntity.getComponent<ShapeComponent>();
-    if(IsInner(shape.shape, xy))
+    if(IsInner(mObbPoints, xy))
     {
         return true;
     }

@@ -28,8 +28,7 @@ struct Vector2
 			0,
 		};
 	};
-	Vector2(const Vector2& v)
-		: x(v.x), y(v.y)
+	Vector2(const Vector2& v) : x(v.x), y(v.y)
 	{
 	}
 	Vector2()
@@ -49,7 +48,7 @@ struct Vector2
 	}
 	bool operator==(const Vector2& rhs)
 	{
-		return x == rhs.x &&  y == rhs.y;
+		return x == rhs.x && y == rhs.y;
 	}
 	bool operator!=(const Vector2& rhs)
 	{
@@ -197,7 +196,18 @@ Vector2<T> operator+(const Vector2<T>& a, const Vector2<T>& b)
 template <typename T>
 Vector2<T> operator/(const Vector2<T>& a, const T& b)
 {
-	return {a.x/b, a.y/b};
+	return {a.x / b, a.y / b};
+}
+template <typename T>
+Vector2<T> operator/(const Vector2<T>& a, const Vector2<T>& b)
+{
+	auto copyB = b;
+	if (abs(b.x) < 0.0001f)
+		copyB.x = 0.0001f;
+	if (abs(b.y) < 0.0001f)
+		copyB.y = 0.0001f;
+
+	return {a.x / copyB.x, a.y / copyB.y};
 }
 
 template <typename T>
@@ -276,7 +286,9 @@ float length(const T& a)
 template <typename T>
 const T normalize(const T& a)
 {
-	return a / length(a);
+	auto len = length(a);
+	assert(len > 0.00001f);
+	return a / len;
 }
 template <typename T>
 const Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b)
@@ -293,16 +305,26 @@ const Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b)
 template <typename T>
 T cross(const Vector2<T>& lhs, const Vector2<T>& rhs)
 {
-    return lhs.x*rhs.y - rhs.x*lhs.y;
+	return lhs.x * rhs.y - rhs.x * lhs.y;
 }
 
 template <typename T>
 const Vector2<T> abs(const Vector2<T> a)
 {
-	Vector2<T> ret; 
+	Vector2<T> ret;
 	ret.x = std::abs(a.x);
 	ret.y = std::abs(a.y);
 	return ret;
+}
+
+inline static float ToRadian(float angle)
+{
+	return angle * (M_PI / 180.0f);
+}
+
+inline static float ToDegree(float radian)
+{
+	return radian * (180.0f / M_PI);
 }
 
 }	 // namespace core

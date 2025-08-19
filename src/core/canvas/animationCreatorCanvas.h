@@ -7,7 +7,6 @@ namespace core
 {
 
 class Scene;
-class AnimationBuilder;
 class AnimationCreatorInputController;
 
 class AnimationCreatorCanvas : public CanvasWrapper
@@ -21,10 +20,6 @@ public:
 		return CanvasType::LottieCreator;
 	}
 
-	AnimationBuilder* builder()
-	{
-		return mBuilder.get();
-	}
 	InputController* getInputController() override;
 
 	void onUpdate() override;
@@ -32,8 +27,6 @@ public:
 	std::unique_ptr<core::Scene> mScene;
 	std::unique_ptr<AnimationCreatorInputController> mInputController;
 
-private:
-	std::unique_ptr<AnimationBuilder> mBuilder;
 };
 
 }	 // namespace core

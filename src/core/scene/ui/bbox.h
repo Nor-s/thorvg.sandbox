@@ -46,6 +46,7 @@ public:
 	bool onStartClickLeftMouse(const InputValue& inputValue);
 	bool onDragLeftMouse(const InputValue& inputValue);
 	bool onEndLeftMouse(const InputValue& inputValue);
+	bool onMoveMouse(const InputValue& inputValue);
 
 private:
 	Entity rTarget;
@@ -58,6 +59,7 @@ private:
 	ControlType mCurrentControlType{ControlTypeCount};
 	std::array<std::unique_ptr<ControlBox>, ControlTypeCount> mControlBox;
 	std::vector<InputActionBinding*> mInputActionBindings;
+	bool mIsDrag{false};
 };
 
 }	 // namespace core

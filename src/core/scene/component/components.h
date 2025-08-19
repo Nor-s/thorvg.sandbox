@@ -16,9 +16,6 @@ namespace core
 
 class GlGeometry;
 class Scene;
-
-using EntityID = uint32_t;
-
 struct NameComponent
 {
 	std::string name{};

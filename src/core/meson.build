@@ -28,9 +28,6 @@ source_file = [
     meson.current_source_dir().join('gpu/gl/glUtil.cpp'),
     meson.current_source_dir().join('gpu/gl/glUtil.h'),
 
-    meson.current_source_dir().join('animation/animationBuilder.h'),
-    meson.current_source_dir().join('animation/animationBuilder.cpp'),
-
     meson.current_source_dir().join('scene/scene.h'),
     meson.current_source_dir().join('scene/scene.cpp'),
     meson.current_source_dir().join('scene/entity.h'),
@@ -42,6 +39,9 @@ source_file = [
 
     meson.current_source_dir().join('scene/component/components.cpp'),
     meson.current_source_dir().join('scene/component/components.h'),
+
+    meson.current_source_dir().join('interface/editInterface.h'),
+    meson.current_source_dir().join('interface/editInterface.cpp'),
 ]
 
 core_dep += [declare_dependency(

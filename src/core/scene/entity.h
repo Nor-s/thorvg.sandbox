@@ -8,8 +8,11 @@
 
 #include <entt/entt.hpp>
 
+
 namespace core
 {
+using EntityID = uint32_t;
+
 class Scene;
 class Entity
 {
@@ -34,6 +37,9 @@ public:
 
 	template <typename T>
 	bool hasComponent();
+
+	const EntityID getId();
+	const bool isNull() const;
 
 	entt::entity mHandle{entt::null};
 private:

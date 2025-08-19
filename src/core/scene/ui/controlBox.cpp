@@ -13,11 +13,11 @@ ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType 
 	rScene = scene;
     if (shapeType == ShapeType::Ellipse)
     {
-        mEntity = rScene->createEllipseFillStrokeLayer("ControlBox", center - wh/2.0f, wh);
+        mEntity = rScene->createEllipseFillStrokeLayer(center - wh/2.0f, wh);
     }
     else
     {
-        mEntity = rScene->createRectFillStrokeLayer("ControlBox", center - wh/2.0f, wh);
+        mEntity = rScene->createRectFillStrokeLayer(center - wh/2.0f, wh);
     }
     auto& stroke = mEntity.getComponent<StrokeComponent>();
     auto& fill = mEntity.getComponent<SolidFillComponent>();

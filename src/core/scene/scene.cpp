@@ -11,9 +11,9 @@
 namespace core
 {
 std::unordered_map<tvg::Scene*, Scene*> Scene::gSceneMap;
+std::unordered_map<uint32_t, Entity> Scene::gEntityMap;
 
-Scene::Scene(bool isMainScene)
-	: mIsMainScene(isMainScene)
+Scene::Scene(bool isMainScene) : mIsMainScene(isMainScene)
 {
 	auto entity = Scene::CreateEntity(this, "Scene");
 	auto& scene = entity.addComponent<SceneComponent>();
@@ -41,7 +41,7 @@ Entity Scene::CreateEntity(Scene* scene, std::string_view name)
 	entity.addComponent<TransformComponent>();
 	entity.addComponent<NameComponent>(name.empty() ? "Entity" : name);
 	entity.addComponent<RelationshipComponent>();
-	scene->mEntityMap[id] = entity;
+	scene->gEntityMap[id] = entity;
 	id++;
 
 	return entity;
@@ -52,22 +52,31 @@ Scene* Scene::FindScene(tvg::Scene* scene)
 	return gSceneMap[scene];
 }
 
+Entity Scene::FindEntity(uint32_t entityId)
+{
+	if (auto it = gEntityMap.find(entityId); it != gEntityMap.end())
+	{
+		return it->second;
+	}
+	return Entity();
+}
+
 Entity Scene::createEntity(std::string_view name)
 {
 	return CreateEntity(this, name);
 }
 
-Entity Scene::createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+Entity Scene::createEllipseFillLayer(Vec2 minXy, Vec2 wh)
 {
-	auto entity = CreateEntity(this, name);
+	auto entity = CreateEntity(this, "Ellipse Layer");
 	auto& id = entity.getComponent<IDComponent>();
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& rect = entity.addComponent<ElipsePathComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 
-	transform.localCenterPosition = minXy + wh *0.5f;
-	transform.anchorPoint = {0.0f, 0.0f}; 
+	transform.localCenterPosition = minXy + wh * 0.5f;
+	transform.anchorPoint = {0.0f, 0.0f};
 	rect.scale = wh;
 	rect.position = {0.0f, 0.0f};
 
@@ -82,25 +91,25 @@ Entity Scene::createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 	return entity;
 }
 
-Entity Scene::createEllipseFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+Entity Scene::createEllipseFillStrokeLayer(Vec2 minXy, Vec2 wh)
 {
-	Entity entity = createEllipseFillLayer(name, minXy, wh);
+	Entity entity = createEllipseFillLayer(minXy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
 	entity.update();
 	return entity;
 }
 
-Entity Scene::createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+Entity Scene::createRectFillLayer(Vec2 minXy, Vec2 wh)
 {
-	auto entity = CreateEntity(this, name);
+	auto entity = CreateEntity(this, "Rect Layer");
 	auto& id = entity.getComponent<IDComponent>();
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& rect = entity.addComponent<RectPathComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& solidFill = entity.addComponent<SolidFillComponent>();
 
-	transform.localCenterPosition = minXy + wh *0.5f;
-	transform.anchorPoint = {0.0f, 0.0f}; 
+	transform.localCenterPosition = minXy + wh * 0.5f;
+	transform.anchorPoint = {0.0f, 0.0f};
 	rect.scale = wh;
 	rect.radius = 0.0f;
 	rect.position = {0.0f, 0.0f};
@@ -115,9 +124,9 @@ Entity Scene::createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh)
 
 	return entity;
 }
-Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh)
+Entity Scene::createRectFillStrokeLayer(Vec2 minXy, Vec2 wh)
 {
-	Entity entity = createRectFillLayer(name, minXy, wh);
+	Entity entity = createRectFillLayer(minXy, wh);
 	auto& stroke = entity.addComponent<StrokeComponent>();
 	entity.update();
 	return entity;
@@ -125,7 +134,7 @@ Entity Scene::createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 
 
 Entity Scene::createObb(const std::array<Vec2, 4>& points)
 {
-	auto entity = CreateEntity(this, "oob");
+	auto entity = CreateEntity(this, "obb");
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& id = entity.getComponent<IDComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
@@ -137,8 +146,8 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	auto maxy = std::max({points[0].y, points[1].y, points[2].y, points[3].y});
 	auto width = maxx - minx;
 	auto height = maxy - miny;
-	transform.anchorPoint = {0.0f, 0.0f}; // oring of the local, center of the bbox
-	transform.localCenterPosition = {minx + width*0.5f, miny + height*0.5f};
+	transform.anchorPoint = {0.0f, 0.0f};	 // oring of the local, center of the bbox
+	transform.localCenterPosition = {minx + width * 0.5f, miny + height * 0.5f};
 
 	auto bound = tvg::Shape::gen();
 	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
@@ -146,7 +155,7 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 	path.pathCommands.push_back(tvg::PathCommand::LineTo);
 	path.pathCommands.push_back(tvg::PathCommand::LineTo);
 	path.pathCommands.push_back(tvg::PathCommand::Close);
-	path.center = tvg::Point{width/2, height/2};
+	path.center = tvg::Point{width / 2, height / 2};
 	auto centerp = transform.localCenterPosition;
 	auto p0 = points[0] - centerp;
 	auto p1 = points[1] - centerp;
@@ -169,14 +178,14 @@ Entity Scene::createObb(const std::array<Vec2, 4>& points)
 
 Entity Scene::getEntityById(uint32_t id)
 {
-	auto it = mEntityMap.find(id);
-	assert(it != mEntityMap.end());
+	auto it = gEntityMap.find(id);
+	assert(it != gEntityMap.end());
 	return it->second;
 }
 Entity Scene::tryGetEntityById(uint32_t id)
 {
-	auto it = mEntityMap.find(id);
-	if (it == mEntityMap.end())
+	auto it = gEntityMap.find(id);
+	if (it == gEntityMap.end())
 		return Entity();
 	return it->second;
 }
@@ -190,7 +199,7 @@ void Scene::destroyEntity(core::Entity& entity)
 		mTvgScene->remove(shape.shape);
 		shape.shape->unref();
 	}
-	mEntityMap.erase(entity.getComponent<IDComponent>().id);
+	gEntityMap.erase(entity.getComponent<IDComponent>().id);
 	mRegistry.destroy(entity.mHandle);
 	entity.mHandle = entt::null;
 }
@@ -201,40 +210,53 @@ void Scene::pushCanvas(CanvasWrapper* canvas)
 
 void Scene::onUpdate()
 {
-	mRegistry.view<TransformComponent, PathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, PathComponent& path, ShapeComponent& shape) {
-		transform.update();
-		shape.shape->reset();
-		shape.shape->transform(transform.transform);
-		auto pathPoint = path.points;
-		// todo: path update
-		shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &pathPoint[0], path.points.size());
-	});
-	mRegistry.view<TransformComponent, ElipsePathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, ElipsePathComponent& path, ShapeComponent& shape) {
-		transform.update();
-		shape.shape->reset();
-		shape.shape->transform(transform.transform);
-		shape.shape->appendCircle(path.position.x, path.position.y, path.scale.x*0.5f, path.scale.y*0.5f);
-	});
-	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each([](auto entity, TransformComponent& transform, RectPathComponent& path, ShapeComponent& shape) {
-		transform.update();
-		shape.shape->reset();
-		shape.shape->transform(transform.transform);
-		shape.shape->appendRect(path.position.x - path.scale.x/2.0f, path.position.y - path.scale.y/2.0f, path.scale.x, path.scale.y, path.radius, path.radius);
-	});
-	mRegistry.view<ShapeComponent, SolidFillComponent>().each([](auto entity, ShapeComponent& shape, SolidFillComponent& fill) {
-		shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);
-		shape.shape->fillRule(fill.rule);
-	});
-	mRegistry.view<ShapeComponent, StrokeComponent>().each([](auto entity, ShapeComponent& shape, StrokeComponent& stroke) {
-		shape.shape->strokeWidth(stroke.width);
-		shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, stroke.alpha);
-	});
-	mRegistry.view<SceneComponent>().each([this](auto entity, SceneComponent& scene) {
-		if (scene.scene->mId != this->mId)
+	mRegistry.view<TransformComponent, PathComponent, ShapeComponent>().each(
+		[](auto entity, TransformComponent& transform, PathComponent& path, ShapeComponent& shape)
 		{
-			scene.scene->onUpdate();
-		}
-	});
+			transform.update();
+			shape.shape->reset();
+			shape.shape->transform(transform.transform);
+			auto pathPoint = path.points;
+			// todo: path update
+			shape.shape->appendPath(&path.pathCommands[0], path.pathCommands.size(), &pathPoint[0], path.points.size());
+		});
+	mRegistry.view<TransformComponent, ElipsePathComponent, ShapeComponent>().each(
+		[](auto entity, TransformComponent& transform, ElipsePathComponent& path, ShapeComponent& shape)
+		{
+			transform.update();
+			shape.shape->reset();
+			shape.shape->transform(transform.transform);
+			shape.shape->appendCircle(path.position.x, path.position.y, path.scale.x * 0.5f, path.scale.y * 0.5f);
+		});
+	mRegistry.view<TransformComponent, RectPathComponent, ShapeComponent>().each(
+		[](auto entity, TransformComponent& transform, RectPathComponent& path, ShapeComponent& shape)
+		{
+			transform.update();
+			shape.shape->reset();
+			shape.shape->transform(transform.transform);
+			shape.shape->appendRect(path.position.x - path.scale.x / 2.0f, path.position.y - path.scale.y / 2.0f,
+									path.scale.x, path.scale.y, path.radius, path.radius);
+		});
+	mRegistry.view<ShapeComponent, SolidFillComponent>().each(
+		[](auto entity, ShapeComponent& shape, SolidFillComponent& fill)
+		{
+			shape.shape->fill(fill.color.x, fill.color.y, fill.color.z, fill.alpha);
+			shape.shape->fillRule(fill.rule);
+		});
+	mRegistry.view<ShapeComponent, StrokeComponent>().each(
+		[](auto entity, ShapeComponent& shape, StrokeComponent& stroke)
+		{
+			shape.shape->strokeWidth(stroke.width);
+			shape.shape->strokeFill(stroke.color.x, stroke.color.y, stroke.color.z, stroke.alpha);
+		});
+	mRegistry.view<SceneComponent>().each(
+		[this](auto entity, SceneComponent& scene)
+		{
+			if (scene.scene->mId != this->mId)
+			{
+				scene.scene->onUpdate();
+			}
+		});
 }
 
 }	 // namespace core

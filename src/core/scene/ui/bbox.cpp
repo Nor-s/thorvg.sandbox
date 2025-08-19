@@ -9,6 +9,8 @@
 
 #include "common/common.h"
 
+#include "interface/editInterface.h"
+
 namespace core
 {
 
@@ -22,7 +24,8 @@ Bbox::Bbox(InputController* inputController, core::Scene* scene, Entity target) 
 															   InputTrigger::Triggered, this, &Bbox::onDragLeftMouse));
 	mInputActionBindings.push_back(inputController->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN, 2, true),
 															   InputTrigger::Ended, this, &Bbox::onEndLeftMouse));
-
+	mInputActionBindings.push_back(inputController->bindAction(InputAction(InputType::MOUSE_MOVE, 2, true),
+															   InputTrigger::Ended, this, &Bbox::onMoveMouse));
 	retarget(target);
 }
 
@@ -34,7 +37,7 @@ Bbox::~Bbox()
 	}
 }
 
-// must update after target entity update
+// must update after update target entity
 void Bbox::onUpdate()
 {
 	if (rTarget.mHandle == entt::null || !rTarget.hasComponent<ShapeComponent>() ||
@@ -67,57 +70,57 @@ void Bbox::retarget(Entity target)
 	};
 	auto moveBox = [this]()
 	{
-		rTarget.moveByDelta(mCurrentPoint - mBeforePoint);
+		auto diff = mCurrentPoint - mBeforePoint;
+
+		UpdateEntityDeltaPositionCurrentFrame(rTarget.getId(), diff.x, diff.y, false);
+
 		return true;
 	};
 	auto scaleLambda = [this]()
 	{
-        const auto start = mStartPoint;
-        const auto current = mCurrentPoint;
+		const auto start = mStartPoint;
+		const auto current = mCurrentPoint;
 
-        const auto inverse =  mBeforeTransform.inverse();
-        const auto localStart = start*inverse;
-        const auto localCurrent = current*inverse;
-        const auto ratio = (localCurrent/localStart);
-        const auto currentScale = Vec2{mBeforeTransform.scale.x * ratio.x, mBeforeTransform.scale.y * ratio.y};
+		const auto inverse = mBeforeTransform.inverse();
+		const auto localStart = start * inverse;
+		const auto localCurrent = current * inverse;
+		const auto ratio = (localCurrent / localStart);
+		const auto currentScale = Vec2{mBeforeTransform.scale.x * ratio.x, mBeforeTransform.scale.y * ratio.y};
 
-		auto& transform = rTarget.getComponent<TransformComponent>();
-		transform.scale = currentScale;
+		UpdateEntityScaleCurrentFrame(rTarget.getId(), currentScale.x, currentScale.y, false);
 
 		return true;
 	};
 	auto rotationLambda = [this]()
 	{
-		auto& transform = rTarget.getComponent<TransformComponent>();
-
 		const auto pivot = mBeforeTransform.worldPosition;
-		auto before = mBeforePoint - pivot; 
+		auto before = mBeforePoint - pivot;
 		auto current = mCurrentPoint - pivot;
 
 		const auto beforeLen = length(before);
 		const auto currentLen = length(current);
-		if (beforeLen < 1e-6f || currentLen< 1e-6f)
+		if (beforeLen < 1e-6f || currentLen < 1e-6f)
 			return true;
 
-        before = normalize(before);
-        current = normalize(current);
+		before = normalize(before);
+		current = normalize(current);
 
-		const auto dot = before*current;
+		const auto dot = before * current;
 		const auto cross = core::cross(before, current);
 		const auto rad = std::atan2(cross, dot);
-		const auto deg = ToDegree(rad);
+		const auto diff = ToDegree(rad);
 
-		transform.rotation +=  deg;
+		UpdateEntityDeltaRotationCurrentFrame(rTarget.getId(), diff, false);
+
 		return true;
 	};
-	// todo: case by case - scale, + scale
 	// todo: scale mode, dimension mode
 	// todo: reset -> hide & show & move
+	// todo: reset unique_ptr -> move point, change transform box (apply target transform)
 	std::array<Vec2, 4> points = GetObb(targetShape.shape);
 	const auto centerPoint = GetCenter(points);
 	auto wh = Vec2{Style::BBoxControlBoxWidth, Style::BBoxControlBoxWidth};
 
-	// todo: reset unique_ptr -> move point, change transform box (apply target transform)
 	mControlBox[AnchorPoint] =
 		std::make_unique<ControlBox>(rScene, centerPoint, wh, ControlBox::Type::Move, ControlBox::ShapeType::Ellipse);
 
@@ -134,7 +137,7 @@ void Bbox::retarget(Entity target)
 	mControlBox[BottomRightScale] = std::make_unique<ControlBox>(rScene, points[3], wh, ControlBox::Type::Scale);
 	mControlBox[BottomRightScale]->setOnLeftDrag(MakeLambda(scaleLambda));
 
-	wh = wh * 5.0f;	   // make it bigger for rotate
+	wh = Vec2{Style::BBoxRotationControlBoxWidth, Style::BBoxRotationControlBoxWidth};
 	mControlBox[TopLeftRotate] =
 		std::make_unique<ControlBox>(rScene, points[0], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
 	mControlBox[TopLeftRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
@@ -147,7 +150,6 @@ void Bbox::retarget(Entity target)
 	mControlBox[BottomRightRotate] =
 		std::make_unique<ControlBox>(rScene, points[3], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
 	mControlBox[BottomRightRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
-
 }
 
 bool Bbox::onStartClickLeftMouse(const InputValue& inputValue)
@@ -157,7 +159,7 @@ bool Bbox::onStartClickLeftMouse(const InputValue& inputValue)
 
 	if (mCurrentControlType != ControlTypeCount)
 	{
-		mCurrentControlType = ControlTypeCount;	   // reset
+		mCurrentControlType = ControlTypeCount;
 		return false;
 	}
 
@@ -188,17 +190,33 @@ bool Bbox::onDragLeftMouse(const InputValue& inputValue)
 		return false;
 	}
 
-	return mControlBox[mCurrentControlType]->onLeftDrag();
+	mIsDrag = mControlBox[mCurrentControlType]->onLeftDrag();
+	return mIsDrag;
 }
 bool Bbox::onEndLeftMouse(const InputValue& inputValue)
 {
+	mIsDrag = false;
 	// todo: undo/redo event & keyframe
 	if (mCurrentControlType == ControlTypeCount)
 	{
 		return false;
 	}
+
+	UpdateEntityEnd(rTarget.getComponent<IDComponent>().id);
+
 	mCurrentControlType = ControlTypeCount;
 	return true;
+}
+
+bool Bbox::onMoveMouse(const InputValue& inputValue)
+{
+	if (mIsDrag) return true;
+
+	if(rTarget.isNull() || !rTarget.hasComponent<ShapeComponent>())
+		return false;
+
+	auto& shape = rTarget.getComponent<ShapeComponent>();
+	return IsInner(shape.shape, inputValue.get<Vec2>());
 }
 
 }	 // namespace core

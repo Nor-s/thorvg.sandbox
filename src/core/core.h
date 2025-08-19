@@ -17,7 +17,6 @@
 #include "canvas/animationCreatorInputController.h"
 #include "canvas/paintWrapper.h"
 
-#include "animation/animationBuilder.h"
 #include "system/io.h"
 
 namespace core

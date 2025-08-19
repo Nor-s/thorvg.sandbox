@@ -10,10 +10,11 @@
 namespace editor
 {
 
-void ImguiTimeline::draw(core::AnimationBuilder* builder)
+void ImguiTimeline::draw(core::AnimationCreatorCanvas* canvas)
 {
 	ImGuiWindowFlags windowFlags = 0;
-    rBuilder = builder;
+
+	rCanvas = canvas;
 
 	if (mIsHoveredZoomSlider)
 	{

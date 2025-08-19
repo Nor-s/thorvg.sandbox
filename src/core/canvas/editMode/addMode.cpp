@@ -3,6 +3,8 @@
 #include "../animationCreatorCanvas.h"
 #include "scene/scene.h"
 
+#include "interface/editInterface.h"
+
 namespace core
 {
 AddMode::AddMode(AnimationCreatorCanvas* canvas, EditModeType type)
@@ -43,10 +45,10 @@ bool AddMode::onDragLeftMouse(const InputValue& inputValue)
 	switch (mType)
 	{
 		case EditModeType::ADD_SQUARE:
-			mContext.newEntity = mContext.tempScene->createRectFillLayer("Rect", start, end - start);
+			mContext.newEntity = mContext.tempScene->createRectFillLayer(start, end - start);
 			break;
 		default:
-			mContext.newEntity = mContext.tempScene->createEllipseFillLayer("Elipse", start, end - start);
+			mContext.newEntity = mContext.tempScene->createEllipseFillLayer(start, end - start);
 			break;
 	};
 
@@ -70,10 +72,10 @@ bool AddMode::onEndLeftMouse(const InputValue& inputValue)
 		switch (mType)
 		{
 			case EditModeType::ADD_SQUARE:
-				rCanvas->mScene->createRectFillLayer("Rect", start, wh);
+				CreateRectPathEntity(rCanvas->mScene->mId, start.x, start.y, wh.w, wh.h);
 				break;
 			default:
-				rCanvas->mScene->createEllipseFillLayer("Ellipse", start, wh);
+				CreateElipsePathEntity(rCanvas->mScene->mId, start.x, start.y, wh.x, wh.h);
 				break;
 		};
 	}

@@ -7,7 +7,7 @@
 
 namespace core
 {
-    class AnimationBuilder;
+    class AnimationCreatorCanvas;
 }
 
 namespace editor
@@ -15,13 +15,13 @@ namespace editor
 class ImguiTimeline
 {
 public:
-    void draw(core::AnimationBuilder* builder);
+    void draw(core::AnimationCreatorCanvas* canvas);
 
 private:
     void drawSequencer();
 
 private:
-    core::AnimationBuilder* rBuilder = nullptr;
+    core::AnimationCreatorCanvas* rCanvas = nullptr;
     bool mIsHoveredZoomSlider = false;
 
 };

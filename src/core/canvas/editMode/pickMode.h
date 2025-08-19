@@ -21,10 +21,10 @@ class PickMode : public EditMode
 		Vec2 beforePoint;
 
 		std::unique_ptr<Bbox> bbox = nullptr;
+		Entity hover;
 		// Entity bbox;
 		// Entity currentObb;
 		// Entity drag;
-		// Entity hover;
 		bool isLeftMouseDown{false};
 	};
 

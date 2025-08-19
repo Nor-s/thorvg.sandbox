@@ -8,8 +8,10 @@ namespace core
 
 struct io
 {
-    inline static float deltaTime = 0.0f;
-    inline static Vec2 mouseOffset{0.0f,0.0f};
+	inline static float currentFrame{0.0f};
+	inline static bool isStopFrame{false};
+	inline static float deltaTime{0.0f};
+	inline static Vec2 mouseOffset{0.0f, 0.0f};
 };
 
 }	 // namespace core

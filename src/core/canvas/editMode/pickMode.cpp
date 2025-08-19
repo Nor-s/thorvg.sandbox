@@ -30,7 +30,7 @@ void PickMode::onUpdate()
 {
 	if (mContext.tempScene)
 	{
-		if(mContext.bbox)
+		if (mContext.bbox)
 		{
 			mContext.bbox->onUpdate();
 		}
@@ -48,9 +48,10 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 
 	if (isPick && mContext.pickInfo.currentSelectedScene)
 	{
-		if(mContext.bbox == nullptr)
+		if (mContext.bbox == nullptr)
 		{
-			mContext.bbox = std::make_unique<Bbox>(rCanvas->getInputController(), mContext.tempScene.get(), 
+			mContext.bbox = std::make_unique<Bbox>(
+				rCanvas->getInputController(), mContext.tempScene.get(),
 				mContext.pickInfo.currentSelectedScene->getEntityById(mContext.pickInfo.currentSelectedPaint->id));
 		}
 		else
@@ -62,7 +63,7 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 	}
 	else
 	{
-		if(mContext.bbox)
+		if (mContext.bbox)
 		{
 			mContext.bbox->retarget(Entity());
 		}
@@ -73,66 +74,38 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 }
 bool PickMode::onDragLeftMouse(const InputValue& inputValue)
 {
-	if(mContext.bbox)
+	if (mContext.bbox)
 		return mContext.bbox->onDragLeftMouse(inputValue);
-	// if (mContext.isLeftMouseDown == false)
-	// 	return;
-
-	// auto endPoint = inputValue.get<Vec2>();
-	// auto startPoint = mContext.startPoint;
-	// auto start = Vec2{std::min(startPoint.x, endPoint.x), std::min(startPoint.y, endPoint.y)};
-	// auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
-	// auto delta = endPoint - mContext.beforePoint;
-	// mContext.beforePoint = endPoint;
-
-	// if (mContext.drag.mHandle != entt::null)
-	// 	mContext.tempScene->destroyEntity(mContext.drag);
-
-	// if (mContext.currentSelectedPaint)
-	// {
-	// 	auto id = mContext.currentSelectedPaint->id;
-	// 	auto entity = mContext.currentSelectedScene->getEntityById(id);
-	// 	entity.moveByDelta(delta);
-	// 	mContext.bbox.moveByDelta(delta);
-	// 	return;
-	// }
-
-	// // drag process
-	// mContext.drag = mContext.tempScene->createRectFillStrokeLayer("drag", start, end - start);
-	// auto& fill = mContext.drag.getComponent<SolidFillComponent>();
-	// fill.alpha *= 0.3f;
 	return true;
 }
 bool PickMode::onEndLeftMouse(const InputValue& inputValue)
 {
-	// if (mContext.isLeftMouseDown == false)
-	// 	return;
-	// if (mContext.drag.mHandle != entt::null)
-	// 	mContext.tempScene->destroyEntity(mContext.drag);
-	// mContext.isLeftMouseDown = false;
 	return true;
 }
 bool PickMode::onMoveMouse(const InputValue& inputValue)
 {
+	// todo: destroy/create -> hide/show
+	if (!mContext.hover.isNull())
+	{
+		mContext.tempScene->destroyEntity(mContext.hover);
+	}
+
+	if (mContext.bbox && mContext.bbox->onMoveMouse(inputValue))
+	{
+		return true;
+	}
+	PickInfo pickInfo;
+	pickInfo.excludeIds.insert(mContext.tempScene->mId);
+
+	bool isPick = Pick(rCanvas->getCanvas(), pickInfo, inputValue.get<Vec2>());
+	if (isPick)
+	{
+		std::array<Vec2, 4> points = GetObb(pickInfo.currentSelectedPaint);
+		mContext.hover = mContext.tempScene->createObb(points);
+		mContext.hover.getComponent<StrokeComponent>().color = Style::HoverOutlineColor;
+	}
+
 	return true;
-	// if (mContext.hover.mHandle != entt::null)
-	// 	mContext.tempScene->destroyEntity(mContext.hover);
-	// if (mContext.isLeftMouseDown)
-	// 	return;
-	// auto& paints = rCanvas->getCanvas()->paints();
-	// bool isPicked = false;
-	// for (auto& paint : paints)
-	// {
-	// 	if (paint->id == mContext.tempScene->mId)
-	// 		continue;
-	// 	isPicked |= pick(inputValue, paint, 0);
-	// }
-	// if (isPicked && mContext.currentSelectedScene)
-	// {
-	// 	std::array<Vec2, 4> points = GetObb(mContext.currentSelectedPaint);
-	// 	mContext.hover = mContext.tempScene->createObb(points);
-	// 	LOG_INFO("hover: {}", mContext.hover.getComponent<IDComponent>().id);
-	// }
 }
 bool PickMode::onInputDetach(const InputValue& inputValue)
 {

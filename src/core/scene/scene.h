@@ -21,9 +21,11 @@ class Scene
 public:
 	static Entity CreateEntity(Scene* scene, std::string_view name);
 	static Scene* FindScene(tvg::Scene* scene);
+	static Entity FindEntity(uint32_t entityId);
 
 protected:
 	static std::unordered_map<tvg::Scene*, Scene*> gSceneMap;
+	static std::unordered_map<uint32_t, Entity> gEntityMap;
 
 public:
 	Scene(bool isMainScene = false);
@@ -33,10 +35,10 @@ public:
 		return mRegistry;
 	}
 	Entity createEntity(std::string_view name);
-	Entity createEllipseFillLayer(std::string_view name, Vec2 minXy, Vec2 wh);
-	Entity createEllipseFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh);
-	Entity createRectFillLayer(std::string_view name, Vec2 minXy, Vec2 wh);
-	Entity createRectFillStrokeLayer(std::string_view name, Vec2 minXy, Vec2 wh);
+	Entity createEllipseFillLayer(Vec2 minXy, Vec2 wh);
+	Entity createEllipseFillStrokeLayer(Vec2 minXy, Vec2 wh);
+	Entity createRectFillLayer(Vec2 minXy, Vec2 wh);
+	Entity createRectFillStrokeLayer(Vec2 minXy, Vec2 wh);
 	Entity createObb(const std::array<Vec2, 4>& points);
 
 	Entity getEntityById(uint32_t id);
@@ -62,7 +64,6 @@ protected:
 	std::vector<CanvasWrapper*> rCanvasList;
 	tvg::Scene* mTvgScene;
 
-	std::unordered_map<uint32_t, Entity> mEntityMap;
 };
 
 }	 // namespace core

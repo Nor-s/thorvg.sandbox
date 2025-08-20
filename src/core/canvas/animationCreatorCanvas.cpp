@@ -18,9 +18,15 @@ AnimationCreatorCanvas::AnimationCreatorCanvas(void* context, Size size, bool bI
 	: CanvasWrapper(context, size, bIsSw)
 {
 	mScene = std::make_unique<core::Scene>(true);
+	mOverlayScene = std::make_unique<core::Scene>(false);
 	mAnimator = std::make_unique<core::Animator>(this);
+
 	mScene->pushCanvas(this);
 	mCanvas->push(mScene->mTvgScene);
+
+	mOverlayScene->pushCanvas(this);
+	mCanvas->push(mOverlayScene->mTvgScene);
+
 	mInputController = std::make_unique<AnimationCreatorInputController>(this);
 }
 
@@ -38,5 +44,6 @@ void AnimationCreatorCanvas::onUpdate()
 	mAnimator->update();
 	mScene->onUpdate();
 	mInputController->onUpdate();
+	mOverlayScene->onUpdate();
 }
 }	 // namespace core

@@ -50,6 +50,7 @@ extern "C"
 	EDIT_API Edit_Result UpdateEntityDeltaRotationCurrentFrame(ENTITY_ID id, float x, bool isEnd);
 	EDIT_API Edit_Result UpdateEntityEnd(ENTITY_ID id);
 
+	EDIT_API void RemoveSelection();
 
 #ifdef __cplusplus
 }	 // extern "C"

@@ -27,6 +27,7 @@ public:
 
 	std::unique_ptr<core::Animator> mAnimator;
 	std::unique_ptr<core::Scene> mScene;
+	std::unique_ptr<core::Scene> mOverlayScene;
 	std::unique_ptr<AnimationCreatorInputController> mInputController;
 };
 

@@ -1,10 +1,13 @@
 #include "scene.h"
 #include "entity.h"
 #include "component/components.h"
+#include "component/uiComponents.h"
 
 #include "canvas/animationCreatorCanvas.h"
 #include "interface/editInterface.h"
 #include "animation/animator.h"
+
+#include "ui/bbox.h"
 
 #include <thorvg.h>
 
@@ -214,6 +217,11 @@ void Scene::onUpdate()
 {
 	// todo: this canvas maybe no scene owner (current canvas count == 1)
 	auto* canvasPtr = GetCurrentAnimCanvas();
+
+	mRegistry.view<BBoxControlComponent>().each([](auto entity, BBoxControlComponent& bbox){
+		bbox.bbox->onUpdate();
+	});
+
 	if (canvasPtr)
 	{
 		auto* animCanvas = static_cast<AnimationCreatorCanvas*>(canvasPtr);
@@ -282,6 +290,7 @@ void Scene::onUpdate()
 				scene.scene->onUpdate();
 			}
 		});
+
 }
 
 }	 // namespace core

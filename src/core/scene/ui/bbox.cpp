@@ -14,22 +14,22 @@
 namespace core
 {
 
-Bbox::Bbox(InputController* inputController, core::Scene* scene, Entity target) : rScene(scene)
+BBox::BBox(InputController* inputController, core::Scene* scene, Entity target) : rScene(scene)
 {
 	rInputController = inputController;
 	// 2 is the priority
 	mInputActionBindings.push_back(inputController->bindAction(
-		InputAction(InputType::MOUSE_LEFT_DOWN, 2, true), InputTrigger::Started, this, &Bbox::onStartClickLeftMouse));
+		InputAction(InputType::MOUSE_LEFT_DOWN, 2, true), InputTrigger::Started, this, &BBox::onStartClickLeftMouse));
 	mInputActionBindings.push_back(inputController->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN, 2, true),
-															   InputTrigger::Triggered, this, &Bbox::onDragLeftMouse));
+															   InputTrigger::Triggered, this, &BBox::onDragLeftMouse));
 	mInputActionBindings.push_back(inputController->bindAction(InputAction(InputType::MOUSE_LEFT_DOWN, 2, true),
-															   InputTrigger::Ended, this, &Bbox::onEndLeftMouse));
+															   InputTrigger::Ended, this, &BBox::onEndLeftMouse));
 	mInputActionBindings.push_back(inputController->bindAction(InputAction(InputType::MOUSE_MOVE, 2, true),
-															   InputTrigger::Ended, this, &Bbox::onMoveMouse));
+															   InputTrigger::Ended, this, &BBox::onMoveMouse));
 	retarget(target);
 }
 
-Bbox::~Bbox()
+BBox::~BBox()
 {
 	for (auto& binding : mInputActionBindings)
 	{
@@ -38,10 +38,9 @@ Bbox::~Bbox()
 }
 
 // must update after update target entity
-void Bbox::onUpdate()
+void BBox::onUpdate()
 {
-	if (rTarget.mHandle == entt::null || !rTarget.hasComponent<ShapeComponent>() ||
-		mCurrentControlType == ControlTypeCount)
+	if (rTarget.isNull() || !rTarget.hasComponent<ShapeComponent>())
 	{
 		return;
 	}
@@ -49,11 +48,13 @@ void Bbox::onUpdate()
 	retarget(rTarget);
 }
 
-void Bbox::retarget(Entity target)
+void BBox::retarget(Entity target)
 {
-	rTarget = target;
-	if (rTarget.mHandle == entt::null || !rTarget.hasComponent<ShapeComponent>())
+	std::shared_ptr<BBox> bboxptr;
+
+	if (target.isNull() || !target.hasComponent<ShapeComponent>())
 	{
+		rTarget = target;
 		for (auto& controlBox : mControlBox)
 		{
 			controlBox.reset();
@@ -61,6 +62,8 @@ void Bbox::retarget(Entity target)
 		mCurrentControlType = ControlTypeCount;
 		return;
 	}
+
+	rTarget = target;
 
 	auto& targetShape = target.getComponent<ShapeComponent>();
 	auto moveAnchorPoint = [this]()
@@ -152,7 +155,7 @@ void Bbox::retarget(Entity target)
 	mControlBox[BottomRightRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
 }
 
-bool Bbox::onStartClickLeftMouse(const InputValue& inputValue)
+bool BBox::onStartClickLeftMouse(const InputValue& inputValue)
 {
 	mStartPoint = inputValue.get<Vec2>();
 	mCurrentPoint = mBeforePoint = mStartPoint;
@@ -163,7 +166,7 @@ bool Bbox::onStartClickLeftMouse(const InputValue& inputValue)
 		return false;
 	}
 
-	if (rTarget.mHandle == entt::null)
+	if (rTarget.isNull())
 	{
 		return false;
 	}
@@ -180,12 +183,12 @@ bool Bbox::onStartClickLeftMouse(const InputValue& inputValue)
 	mCurrentControlType = ControlTypeCount;
 	return false;
 }
-bool Bbox::onDragLeftMouse(const InputValue& inputValue)
+bool BBox::onDragLeftMouse(const InputValue& inputValue)
 {
 	mBeforePoint = mCurrentPoint;
 	mCurrentPoint = inputValue.get<Vec2>();
 
-	if (rTarget.mHandle == entt::null || mCurrentControlType == ControlTypeCount)
+	if (rTarget.isNull() || mCurrentControlType == ControlTypeCount)
 	{
 		return false;
 	}
@@ -193,7 +196,7 @@ bool Bbox::onDragLeftMouse(const InputValue& inputValue)
 	mIsDrag = mControlBox[mCurrentControlType]->onLeftDrag();
 	return mIsDrag;
 }
-bool Bbox::onEndLeftMouse(const InputValue& inputValue)
+bool BBox::onEndLeftMouse(const InputValue& inputValue)
 {
 	mIsDrag = false;
 	// todo: undo/redo event & keyframe
@@ -208,7 +211,7 @@ bool Bbox::onEndLeftMouse(const InputValue& inputValue)
 	return true;
 }
 
-bool Bbox::onMoveMouse(const InputValue& inputValue)
+bool BBox::onMoveMouse(const InputValue& inputValue)
 {
 	if (mIsDrag) return true;
 

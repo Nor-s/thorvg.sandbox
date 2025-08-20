@@ -319,12 +319,12 @@ const Vector2<T> abs(const Vector2<T> a)
 
 inline static float ToRadian(float angle)
 {
-	return angle * (M_PI / 180.0f);
+	return angle * (static_cast<float>(M_PI) / 180.0f);
 }
 
 inline static float ToDegree(float radian)
 {
-	return radian * (180.0f / M_PI);
+	return radian * (180.0f / static_cast<float>(M_PI));
 }
 
 inline static float lerp(float a, float b, float t) {

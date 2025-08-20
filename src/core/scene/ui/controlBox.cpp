@@ -2,6 +2,7 @@
 
 #include "common/common.h"
 #include "scene/component/components.h"
+#include "scene/component/uiComponents.h"
 
 #include "canvas/shapeUtil.h"
 

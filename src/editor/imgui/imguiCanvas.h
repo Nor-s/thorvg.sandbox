@@ -18,6 +18,9 @@ public:
 	void onDraw(std::string_view title, core::CanvasWrapper& canvas, int canvasIndex);
 	void onDrawSceneInspect();
 	void onDrawContentBrowser();
+private: 
+	void drawExampleCanvasContent();
+	void drawAnimationCanvasProperties();
 };
 
 }	 // namespace editor

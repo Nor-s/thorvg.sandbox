@@ -27,7 +27,7 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
 
-	if (ImGui::Begin(title.data(), 0, windowFlags | ImGuiWindowFlags_NoScrollbar ))
+	if (ImGui::Begin(title.data(), 0, windowFlags | ImGuiWindowFlags_NoScrollbar))
 	{
 		bool isDraggingTitle = ImGui::IsItemHovered() && ImGui::IsItemClicked();
 		bool isMoving = ImGui::GetCurrentContext()->MovingWindow == ImGui::GetCurrentWindow();
@@ -47,7 +47,7 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 		mouseUVCoord.y = 1.f - mouseUVCoord.y;
 
 		// set mouseOffset for fit canvas
-		if(ImGui::IsWindowFocused() && isMouseHoveringRect)
+		if (ImGui::IsWindowFocused() && isMouseHoveringRect)
 		{
 			core::io::mouseOffset = {-rc.Min.x, -rc.Min.y};
 		}
@@ -85,8 +85,9 @@ void ImGuiCanvasView::onDraw(std::string_view title, core::CanvasWrapper& canvas
 		// todo: push when change focus, resize
 		auto updateSize = core::Size{max(1.0f, canvasSize.x), max(1.0f, canvasSize.y)};
 		bool needResize = canvasSize.x != textureSize.x || canvasSize.y != textureSize.y;
-		App::PushEvent<CanvasFocusEvent>(canvasIndex, ImGui::IsWindowFocused()&&!isDraggingTitle&&!needResize&&!isMoving);
-		if(needResize)
+		App::PushEvent<CanvasFocusEvent>(canvasIndex,
+										 ImGui::IsWindowFocused() && !isDraggingTitle && !needResize && !isMoving);
+		if (needResize)
 			App::PushEvent<CanvasResizeEvent>(canvasIndex, updateSize);
 	}
 	ImGui::End();
@@ -102,39 +103,50 @@ void ImGuiCanvasView::onDrawSceneInspect()
 	ImguiTimeline().draw(lottieCanvas);
 	ImGuiShapePanel().draw(lottieCanvas);
 
-	if (ImGui::Begin("scene properties", 0, 0))
+	if (ImGui::Begin("properties", 0, 0))
 	{
-		if (gCurrentCanvas != nullptr)
-		{
-			if (gCurrentCanvas && gCurrentCanvas->type() == core::CanvasType::Example)
-			{
-				auto* exampleCanvas = static_cast<tvgexam::ExampleCanvas*>(gCurrentCanvas);
-
-				int currentExampleIndex = exampleCanvas->mCurrentExampleIdx;
-				int beforeExampleIdx = currentExampleIndex;
-				ImGui::Combo(
-					"examples", &currentExampleIndex,
-					[](void* data, int n) { return tvgexam::ExampleCanvas::gExampleList[n]->toString().data(); },
-					nullptr, tvgexam::ExampleCanvas::gExampleList.size());
-
-				if (beforeExampleIdx != currentExampleIndex)
-				{
-					exampleCanvas->mCurrentExampleIdx = currentExampleIndex;
-				}
-				if (ImGui::Button("clear"))
-				{
-					exampleCanvas->onInit();
-				}
-			}
-
-			ImGui::Separator();
-		}
+		drawExampleCanvasContent();
+		drawAnimationCanvasProperties();
 	}
 	ImGui::End();
 }
 
 void ImGuiCanvasView::onDrawContentBrowser()
 {
+}
+
+void ImGuiCanvasView::drawExampleCanvasContent()
+{
+	if (gCurrentCanvas != nullptr)
+	{
+		if (gCurrentCanvas && gCurrentCanvas->type() == core::CanvasType::Example)
+		{
+			auto* exampleCanvas = static_cast<tvgexam::ExampleCanvas*>(gCurrentCanvas);
+
+			int currentExampleIndex = exampleCanvas->mCurrentExampleIdx;
+			int beforeExampleIdx = currentExampleIndex;
+			ImGui::Combo(
+				"examples", &currentExampleIndex,
+				[](void* data, int n) { return tvgexam::ExampleCanvas::gExampleList[n]->toString().data(); }, nullptr,
+				tvgexam::ExampleCanvas::gExampleList.size());
+
+			if (beforeExampleIdx != currentExampleIndex)
+			{
+				exampleCanvas->mCurrentExampleIdx = currentExampleIndex;
+			}
+			if (ImGui::Button("clear"))
+			{
+				exampleCanvas->onInit();
+			}
+		}
+
+		ImGui::Separator();
+	}
+}
+
+void ImGuiCanvasView::drawAnimationCanvasProperties()
+{
+	
 }
 
 }	 // namespace editor

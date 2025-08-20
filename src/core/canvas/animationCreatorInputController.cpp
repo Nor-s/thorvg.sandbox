@@ -14,6 +14,7 @@
 #include "editMode/pickMode.h"
 #include "editMode/addMode.h"
 
+#include "interface/editInterface.h"
 namespace core
 {
 
@@ -95,12 +96,16 @@ bool AnimationCreatorInputController::onInputDetach(const InputValue& inputValue
 bool AnimationCreatorInputController::onInputAttach(const InputValue& inputValue)
 {
 	applyEditMode();
+	if (mEditMode)
+		return mEditMode->onInputAttach(inputValue);
+
 	return true;
 }
 
 // todo: no reset unique_ptr
 void AnimationCreatorInputController::applyEditMode()
 {
+	RemoveSelection();
 	switch (mMode)
 	{
 		case EditModeType::PICK:

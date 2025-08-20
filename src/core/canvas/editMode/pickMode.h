@@ -8,19 +8,18 @@
 namespace core
 {
 class Scene;
-class Bbox;
+class BBox;
 
 class PickMode : public EditMode
 {
 	struct Context
 	{
 		// for outline
-		std::unique_ptr<Scene> tempScene;
 		PickInfo pickInfo{};
 		Vec2 startPoint{};
 		Vec2 beforePoint{};
 
-		std::unique_ptr<Bbox> bbox{nullptr};
+		BBox* bbox{nullptr};
 		Entity hover{};
 		// Entity bbox;
 		// Entity currentObb;
@@ -38,6 +37,7 @@ public:
 	bool onDragLeftMouse(const InputValue& inputValue) override;
 	bool onMoveMouse(const InputValue& inputValue) override;
 	bool onEndLeftMouse(const InputValue& inputValue) override;
+	bool onInputAttach(const InputValue& inputValue) override;
 	bool onInputDetach(const InputValue& inputValue) override;
 
 private:

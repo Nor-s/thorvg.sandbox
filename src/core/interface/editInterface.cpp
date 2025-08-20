@@ -2,6 +2,7 @@
 
 #include "scene/scene.h"
 #include "scene/component/components.h"
+#include "scene/component/uiComponents.h"
 #include "canvas/animationCreatorCanvas.h"
 
 #include "animation/animator.h"
@@ -179,7 +180,20 @@ EDIT_API Edit_Result UpdateEntityDeltaPositionCurrentFrame(ENTITY_ID id, float x
 	return EDIT_RESULT_SUCCESS;
 }
 
+// for undo
 EDIT_API Edit_Result UpdateEntityEnd(ENTITY_ID id)
 {
 	return EDIT_RESULT_SUCCESS;
+}
+
+EDIT_API void RemoveSelection()
+{
+	if(gCurrentAnimCanvas)
+	{
+		auto entities = gCurrentAnimCanvas->mOverlayScene->findByComponent<BBoxControlComponent>();
+		for(auto& entity: entities)
+		{
+			gCurrentAnimCanvas->mOverlayScene->destroyEntity(entity);
+		}
+	}
 }

@@ -17,6 +17,7 @@ namespace core
 
 class GlGeometry;
 class Scene;
+class BBox;
 // class Animator;
 struct NameComponent
 {
@@ -291,10 +292,6 @@ struct StrokeComponent
 	FloatKeyFrame widthKeyframe;
 };
 
-// struct AnimatorComponent
-// {
-// 	Animator* animator;
-// };
 
 }	 // namespace core
 

@@ -13,7 +13,6 @@ class AddMode : public EditMode
 	struct Context
 	{
 		// for outline
-		std::unique_ptr<core::Scene> tempScene{nullptr};
 		Entity newEntity{};
 		Vec2 startPoint{};
 	};

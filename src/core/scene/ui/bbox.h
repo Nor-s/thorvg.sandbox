@@ -15,7 +15,7 @@ class InputValue;
 class ControlBox;
 class Scene;
 
-class Bbox
+class BBox
 {
 	enum ControlType
 	{
@@ -37,8 +37,8 @@ class Bbox
 	};
 
 public:
-	Bbox(InputController* inputController, core::Scene* scene, Entity target);
-	~Bbox();
+	BBox(InputController* inputController, core::Scene* scene, Entity target);
+	~BBox();
 
 	void retarget(Entity target);
 

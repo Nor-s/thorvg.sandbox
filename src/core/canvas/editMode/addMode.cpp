@@ -11,20 +11,12 @@ AddMode::AddMode(AnimationCreatorCanvas* canvas, EditModeType type)
 {
 	mType = type;
 	rCanvas = canvas;
-	mContext.tempScene = std::make_unique<core::Scene>();
-	mContext.tempScene->pushCanvas(rCanvas);
-	rCanvas->getCanvas()->push(mContext.tempScene->getScene());
 }
 AddMode::~AddMode()
 {
-	rCanvas->getCanvas()->remove(mContext.tempScene->getScene());
 }
 void AddMode::onUpdate()
 {
-	if (mContext.tempScene)
-	{
-		mContext.tempScene->onUpdate();
-	}
 }
 bool AddMode::onStarClickLefttMouse(const InputValue& inputValue)
 {
@@ -40,15 +32,15 @@ bool AddMode::onDragLeftMouse(const InputValue& inputValue)
 	auto end = Vec2{std::max(startPoint.x, endPoint.x), std::max(startPoint.y, endPoint.y)};
 
 	if (mContext.newEntity.mHandle != entt::null)
-		mContext.tempScene->destroyEntity(mContext.newEntity);
+		rCanvas->mOverlayScene->destroyEntity(mContext.newEntity);
 
 	switch (mType)
 	{
 		case EditModeType::ADD_SQUARE:
-			mContext.newEntity = mContext.tempScene->createRectFillLayer(start, end - start);
+			mContext.newEntity = rCanvas->mOverlayScene->createRectFillLayer(start, end - start);
 			break;
 		default:
-			mContext.newEntity = mContext.tempScene->createEllipseFillLayer(start, end - start);
+			mContext.newEntity = rCanvas->mOverlayScene->createEllipseFillLayer(start, end - start);
 			break;
 	};
 
@@ -63,7 +55,7 @@ bool AddMode::onEndLeftMouse(const InputValue& inputValue)
 
 	if (mContext.newEntity.mHandle != entt::null)
 	{
-		mContext.tempScene->destroyEntity(mContext.newEntity);
+		rCanvas->mOverlayScene->destroyEntity(mContext.newEntity);
 	}
 	auto wh = end - start;
 	float threshold = 20.0f;

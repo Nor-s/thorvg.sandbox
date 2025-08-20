@@ -60,7 +60,7 @@ static bool Pick(PickInfo& pickInfo, const Vec2& point, tvg::Paint* paint, int d
 		{
 			tvg::Scene* rawScene = static_cast<tvg::Scene*>(paint);
 			core::Scene* scene = Scene::FindScene(rawScene);
-			if (scene == nullptr)
+			if (scene == nullptr || !scene->mIsMainScene)
 				return false;
 
 			pickInfo.currentSelectedScene = scene;

@@ -41,6 +41,19 @@ public:
 	Entity createRectFillStrokeLayer(Vec2 minXy, Vec2 wh);
 	Entity createObb(const std::array<Vec2, 4>& points);
 
+	template<typename T>
+	std::vector<Entity> findByComponent()
+	{
+	    std::vector<Entity> ret;
+
+	    mRegistry.view<T>().each([&](entt::entity entity, T& comp)
+	    {
+	        ret.emplace_back(this, static_cast<uint32_t>(entity));
+	    });
+
+ 	   return ret;
+	}
+
 	Entity getEntityById(uint32_t id);
 	Entity tryGetEntityById(uint32_t id);
 

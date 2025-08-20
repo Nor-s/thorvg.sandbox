@@ -31,6 +31,7 @@ public:
 	virtual bool onDragLeftMouse(const InputValue& inputValue) = 0;
 	virtual bool onMoveMouse(const InputValue& inputValue) {return false;}
 	virtual bool onEndLeftMouse(const InputValue& inputValue) = 0;
+	virtual bool onInputAttach(const InputValue& inputValue) {return false;};
 	virtual bool onInputDetach(const InputValue& inputValue) = 0;
 };
 

@@ -38,6 +38,9 @@ public:
 	template <typename T>
 	bool hasComponent();
 
+	template <typename T>
+	void removeComponent();
+
 	const EntityID getId();
 	const bool isNull() const;
 

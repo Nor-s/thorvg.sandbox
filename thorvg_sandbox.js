@@ -27,7 +27,7 @@ var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIR
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpozmuzpi9.js
+// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmp3xwcwppu.js
 
   Module['expectedDataFileDownloads'] ??= 0;
   Module['expectedDataFileDownloads']++;
@@ -144,6 +144,7 @@ Module['FS_createPath']("/", "lottie", true, true);
 Module['FS_createPath']("/lottie", "expressions", true, true);
 Module['FS_createPath']("/lottie", "extensions", true, true);
 Module['FS_createPath']("/lottie/extensions", "images", true, true);
+Module['FS_createPath']("/", "simple", true, true);
 Module['FS_createPath']("/", "svg", true, true);
 
       /** @constructor */
@@ -211,25 +212,25 @@ Module['FS_createPath']("/", "svg", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/.DS_Store", "start": 0, "end": 10244}, {"filename": "/font/.DS_Store", "start": 10244, "end": 16392}, {"filename": "/font/Arial.ttf", "start": 16392, "end": 291964}, {"filename": "/font/NOTO-SANS-KR.ttf", "start": 291964, "end": 2750360}, {"filename": "/font/NanumGothicCoding.ttf", "start": 2750360, "end": 5529472}, {"filename": "/font/SentyCloud.ttf", "start": 5529472, "end": 21940516}, {"filename": "/image/clouds.png", "start": 21940516, "end": 22031060}, {"filename": "/image/logo.png", "start": 22031060, "end": 22042838}, {"filename": "/image/particle.jpg", "start": 22042838, "end": 23038792}, {"filename": "/image/rawimage_200x300.raw", "start": 23038792, "end": 23278792}, {"filename": "/image/scale.jpg", "start": 23278792, "end": 23596012}, {"filename": "/image/stroke-miterlimit.png", "start": 23596012, "end": 23606451}, {"filename": "/image/test.jpg", "start": 23606451, "end": 23703182}, {"filename": "/image/test.png", "start": 23703182, "end": 24102871}, {"filename": "/image/test.webp", "start": 24102871, "end": 24162353}, {"filename": "/imgui.ini", "start": 24162353, "end": 24164285}, {"filename": "/issue/temp.svg", "start": 24164285, "end": 24165282}, {"filename": "/lottie/.DS_Store", "start": 24165282, "end": 24171430}, {"filename": "/lottie/11555.json", "start": 24171430, "end": 24201831}, {"filename": "/lottie/1643-exploding-star.json", "start": 24201831, "end": 24229637}, {"filename": "/lottie/1f409.json", "start": 24229637, "end": 24488521}, {"filename": "/lottie/27746-joypixels-partying-face-emoji-animation.json", "start": 24488521, "end": 24531626}, {"filename": "/lottie/5317-fireworkds.json", "start": 24531626, "end": 24540925}, {"filename": "/lottie/5344-honey-sack-hud.json", "start": 24540925, "end": 24679451}, {"filename": "/lottie/a_mountain.json", "start": 24679451, "end": 24713451}, {"filename": "/lottie/abstract_circle.json", "start": 24713451, "end": 24715699}, {"filename": "/lottie/alien.json", "start": 24715699, "end": 24818807}, {"filename": "/lottie/anubis.json", "start": 24818807, "end": 24861080}, {"filename": "/lottie/balloons_with_string.json", "start": 24861080, "end": 24892020}, {"filename": "/lottie/birth_stone_logo.json", "start": 24892020, "end": 24896402}, {"filename": "/lottie/calculator.json", "start": 24896402, "end": 24986123}, {"filename": "/lottie/card_hover.json", "start": 24986123, "end": 25313510}, {"filename": "/lottie/cat_loader.json", "start": 25313510, "end": 25365998}, {"filename": "/lottie/coin.json", "start": 25365998, "end": 25442754}, {"filename": "/lottie/confetti.json", "start": 25442754, "end": 25808080}, {"filename": "/lottie/confetti2.json", "start": 25808080, "end": 25838534}, {"filename": "/lottie/confettiBird.json", "start": 25838534, "end": 25930084}, {"filename": "/lottie/dancing_book.json", "start": 25930084, "end": 26059040}, {"filename": "/lottie/dancing_star.json", "start": 26059040, "end": 26090554}, {"filename": "/lottie/dash-offset.json", "start": 26090554, "end": 26099314}, {"filename": "/lottie/day_to_night.json", "start": 26099314, "end": 26221313}, {"filename": "/lottie/dodecahedron.json", "start": 26221313, "end": 26283218}, {"filename": "/lottie/down.json", "start": 26283218, "end": 26288756}, {"filename": "/lottie/dropball.json", "start": 26288756, "end": 26318911}, {"filename": "/lottie/duck.json", "start": 26318911, "end": 26448253}, {"filename": "/lottie/emoji.json", "start": 26448253, "end": 27208877}, {"filename": "/lottie/emoji_enjoying.json", "start": 27208877, "end": 27229882}, {"filename": "/lottie/expressions/10151.json", "start": 27229882, "end": 27240457}, {"filename": "/lottie/expressions/10444.json", "start": 27240457, "end": 27245693}, {"filename": "/lottie/expressions/10456.json", "start": 27245693, "end": 27441023}, {"filename": "/lottie/expressions/11272.json", "start": 27441023, "end": 27480663}, {"filename": "/lottie/expressions/1254.json", "start": 27480663, "end": 27548645}, {"filename": "/lottie/expressions/16447.json", "start": 27548645, "end": 29869344}, {"filename": "/lottie/expressions/17084.json", "start": 29869344, "end": 30380599}, {"filename": "/lottie/expressions/24243.json", "start": 30380599, "end": 30381552}, {"filename": "/lottie/expressions/4128.json", "start": 30381552, "end": 30397830}, {"filename": "/lottie/expressions/antennaAnimation.json", "start": 30397830, "end": 30426497}, {"filename": "/lottie/expressions/bicycle.json", "start": 30426497, "end": 30504083}, {"filename": "/lottie/expressions/driving.json", "start": 30504083, "end": 30672863}, {"filename": "/lottie/expressions/intelia_logo_animation.json", "start": 30672863, "end": 30730454}, {"filename": "/lottie/expressions/jolly_walker.json", "start": 30730454, "end": 31436542}, {"filename": "/lottie/expressions/layereffect.json", "start": 31436542, "end": 31454163}, {"filename": "/lottie/expressions/loopOut.json", "start": 31454163, "end": 31671549}, {"filename": "/lottie/expressions/night_own.json", "start": 31671549, "end": 32233146}, {"filename": "/lottie/expressions/snail.json", "start": 32233146, "end": 32271144}, {"filename": "/lottie/expressions/traveling.json", "start": 32271144, "end": 32797321}, {"filename": "/lottie/expressions/wiggle.json", "start": 32797321, "end": 32818686}, {"filename": "/lottie/expressions/windmill.json", "start": 32818686, "end": 32846536}, {"filename": "/lottie/expressions/world_locations.json", "start": 32846536, "end": 32916625}, {"filename": "/lottie/extensions/images/img_0.png", "start": 32916625, "end": 33001407}, {"filename": "/lottie/extensions/images/logo.png", "start": 33001407, "end": 33013185}, {"filename": "/lottie/extensions/marker_sample.json", "start": 33013185, "end": 33041292}, {"filename": "/lottie/extensions/slotsample0.json", "start": 33041292, "end": 33043679}, {"filename": "/lottie/extensions/slotsample1.json", "start": 33043679, "end": 33044934}, {"filename": "/lottie/extensions/slotsample10.json", "start": 33044934, "end": 33046068}, {"filename": "/lottie/extensions/slotsample2.json", "start": 33046068, "end": 33052674}, {"filename": "/lottie/extensions/slotsample3.json", "start": 33052674, "end": 33053506}, {"filename": "/lottie/extensions/slotsample4.json", "start": 33053506, "end": 33090257}, {"filename": "/lottie/extensions/slotsample5.json", "start": 33090257, "end": 33091758}, {"filename": "/lottie/extensions/slotsample6.json", "start": 33091758, "end": 33093781}, {"filename": "/lottie/extensions/slotsample7.json", "start": 33093781, "end": 33095801}, {"filename": "/lottie/extensions/slotsample8.json", "start": 33095801, "end": 33097844}, {"filename": "/lottie/extensions/slotsample9.json", "start": 33097844, "end": 33099886}, {"filename": "/lottie/extensions/spin.json", "start": 33099886, "end": 33890863}, {"filename": "/lottie/fleche.json", "start": 33890863, "end": 33924418}, {"filename": "/lottie/flipping_page.json", "start": 33924418, "end": 33977329}, {"filename": "/lottie/fly_in_beaker.json", "start": 33977329, "end": 34061092}, {"filename": "/lottie/focal_test.json", "start": 34061092, "end": 34126389}, {"filename": "/lottie/foodrating.json", "start": 34126389, "end": 34176575}, {"filename": "/lottie/frog_vr.json", "start": 34176575, "end": 34288952}, {"filename": "/lottie/fun_animation.json", "start": 34288952, "end": 34442570}, {"filename": "/lottie/funky_chicken.json", "start": 34442570, "end": 34529018}, {"filename": "/lottie/game_finished.json", "start": 34529018, "end": 34574243}, {"filename": "/lottie/geometric.json", "start": 34574243, "end": 34604164}, {"filename": "/lottie/ghost.json", "start": 34604164, "end": 35388642}, {"filename": "/lottie/ghost2.json", "start": 35388642, "end": 35458792}, {"filename": "/lottie/glow_loading.json", "start": 35458792, "end": 35473935}, {"filename": "/lottie/gradient_background.json", "start": 35473935, "end": 35678682}, {"filename": "/lottie/gradient_infinite.json", "start": 35678682, "end": 35693960}, {"filename": "/lottie/gradient_sleepy_loader.json", "start": 35693960, "end": 35698491}, {"filename": "/lottie/gradient_smoke.json", "start": 35698491, "end": 35722395}, {"filename": "/lottie/graph.json", "start": 35722395, "end": 35754495}, {"filename": "/lottie/growup.json", "start": 35754495, "end": 35790187}, {"filename": "/lottie/guitar.json", "start": 35790187, "end": 35970913}, {"filename": "/lottie/hamburger.json", "start": 35970913, "end": 36068002}, {"filename": "/lottie/happy_holidays.json", "start": 36068002, "end": 36139731}, {"filename": "/lottie/happy_trio.json", "start": 36139731, "end": 36186490}, {"filename": "/lottie/heart_fill.json", "start": 36186490, "end": 36267647}, {"filename": "/lottie/hola.json", "start": 36267647, "end": 36295462}, {"filename": "/lottie/holdanimation.json", "start": 36295462, "end": 41265705}, {"filename": "/lottie/hourglass.json", "start": 41265705, "end": 41282134}, {"filename": "/lottie/isometric.json", "start": 41282134, "end": 41291703}, {"filename": "/lottie/kote.json", "start": 41291703, "end": 41350452}, {"filename": "/lottie/la_communaute.json", "start": 41350452, "end": 41421117}, {"filename": "/lottie/like.json", "start": 41421117, "end": 41429191}, {"filename": "/lottie/like_button.json", "start": 41429191, "end": 41580628}, {"filename": "/lottie/loading_rectangle.json", "start": 41580628, "end": 41606347}, {"filename": "/lottie/lolo.json", "start": 41606347, "end": 41658226}, {"filename": "/lottie/lolo_walk.json", "start": 41658226, "end": 41694361}, {"filename": "/lottie/loveface_emoji.json", "start": 41694361, "end": 41716101}, {"filename": "/lottie/masking.json", "start": 41716101, "end": 41791570}, {"filename": "/lottie/material_wave_loading.json", "start": 41791570, "end": 41797514}, {"filename": "/lottie/merging_shapes.json", "start": 41797514, "end": 41808674}, {"filename": "/lottie/message.json", "start": 41808674, "end": 42004785}, {"filename": "/lottie/monkey.json", "start": 42004785, "end": 42084887}, {"filename": "/lottie/morphing_anim.json", "start": 42084887, "end": 42103800}, {"filename": "/lottie/new_design.json", "start": 42103800, "end": 42375288}, {"filename": "/lottie/page_slide.json", "start": 42375288, "end": 45648242}, {"filename": "/lottie/personal_character.json", "start": 45648242, "end": 45720202}, {"filename": "/lottie/polystar.json", "start": 45720202, "end": 45731928}, {"filename": "/lottie/polystar_anim.json", "start": 45731928, "end": 45733736}, {"filename": "/lottie/property_market.json", "start": 45733736, "end": 45766804}, {"filename": "/lottie/pumpkin.json", "start": 45766804, "end": 45805077}, {"filename": "/lottie/ripple_loading_animation.json", "start": 45805077, "end": 45814097}, {"filename": "/lottie/rufo.json", "start": 45814097, "end": 45898574}, {"filename": "/lottie/sample.json", "start": 45898574, "end": 45905831}, {"filename": "/lottie/seawalk.json", "start": 45905831, "end": 46439341}, {"filename": "/lottie/shutup.json", "start": 46439341, "end": 47078028}, {"filename": "/lottie/skullboy.json", "start": 47078028, "end": 47272861}, {"filename": "/lottie/starburst.json", "start": 47272861, "end": 48541120}, {"filename": "/lottie/starstrips.json", "start": 48541120, "end": 48568904}, {"filename": "/lottie/starts_transparent.json", "start": 48568904, "end": 48749793}, {"filename": "/lottie/stroke_dash.json", "start": 48749793, "end": 48767875}, {"filename": "/lottie/swinging.json", "start": 48767875, "end": 48901084}, {"filename": "/lottie/text2.json", "start": 48901084, "end": 48987711}, {"filename": "/lottie/text_anim.json", "start": 48987711, "end": 49232236}, {"filename": "/lottie/textblock.json", "start": 49232236, "end": 50122619}, {"filename": "/lottie/textrange.json", "start": 50122619, "end": 50142923}, {"filename": "/lottie/threads.json", "start": 50142923, "end": 50158320}, {"filename": "/lottie/train.json", "start": 50158320, "end": 50402616}, {"filename": "/lottie/uk_flag.json", "start": 50402616, "end": 51131676}, {"filename": "/lottie/voice_recognition.json", "start": 51131676, "end": 51311068}, {"filename": "/lottie/water_filling.json", "start": 51311068, "end": 51334069}, {"filename": "/lottie/waves.json", "start": 51334069, "end": 51341824}, {"filename": "/lottie/yarn_loading.json", "start": 51341824, "end": 51360385}, {"filename": "/svg/1372943623.svg", "start": 51360385, "end": 51386257}, {"filename": "/svg/1528928570.svg", "start": 51386257, "end": 51464662}, {"filename": "/svg/1528966158.svg", "start": 51464662, "end": 51482728}, {"filename": "/svg/1528971912.svg", "start": 51482728, "end": 51703388}, {"filename": "/svg/1529018819.svg", "start": 51703388, "end": 51704795}, {"filename": "/svg/152932619-bd3d6921-72df-4f09-856b-f9743ae32a14.svg", "start": 51704795, "end": 51739446}, {"filename": "/svg/1551733624.svg", "start": 51739446, "end": 51836576}, {"filename": "/svg/1630446379Bahamas-patriotic-flag-symbol.svg", "start": 51836576, "end": 51865288}, {"filename": "/svg/1690525371exotic-beach-in-the-summer.svg", "start": 51865288, "end": 51909466}, {"filename": "/svg/1714814553A-snail-eats-a-lettuce-leaf.svg", "start": 51909466, "end": 52439836}, {"filename": "/svg/2192.svg", "start": 52439836, "end": 52446385}, {"filename": "/svg/2684.svg", "start": 52446385, "end": 52483780}, {"filename": "/svg/2961.svg", "start": 52483780, "end": 52499292}, {"filename": "/svg/364028690-c745d95c-ac9e-4461-8f4c-0a1bcb9971c4.svg", "start": 52499292, "end": 52504954}, {"filename": "/svg/421553147-22eaf24a-a9a7-4a35-abac-df5a54ac5b19.svg", "start": 52504954, "end": 52540620}, {"filename": "/svg/AA_5.svg", "start": 52540620, "end": 52666462}, {"filename": "/svg/AJ_Digital_Camera.svg", "start": 52666462, "end": 52799081}, {"filename": "/svg/Bespoke-leather-belt-2016012857.svg", "start": 52799081, "end": 53018178}, {"filename": "/svg/LottieFiles_logo.svg", "start": 53018178, "end": 53025280}, {"filename": "/svg/Prismatic-Stylized-Mexican-Eagle-Silhouette-8.svg", "start": 53025280, "end": 53781793}, {"filename": "/svg/Psychedelica.svg", "start": 53781793, "end": 53892884}, {"filename": "/svg/SVG_FILE_147939.svg", "start": 53892884, "end": 53893143}, {"filename": "/svg/Tomato_1727100275.svg", "start": 53893143, "end": 53943643}, {"filename": "/svg/Willscrlt_Beverage_Glass_(Tumbler).svg", "start": 53943643, "end": 54087817}, {"filename": "/svg/basura.svg", "start": 54087817, "end": 54088476}, {"filename": "/svg/blur.svg", "start": 54088476, "end": 54089422}, {"filename": "/svg/bojo.svg", "start": 54089422, "end": 54090229}, {"filename": "/svg/bzrfeed.svg", "start": 54090229, "end": 54091263}, {"filename": "/svg/camel_sunset.svg", "start": 54091263, "end": 54182919}, {"filename": "/svg/car.svg", "start": 54182919, "end": 54709933}, {"filename": "/svg/cartman.svg", "start": 54709933, "end": 54711081}, {"filename": "/svg/circles1.svg", "start": 54711081, "end": 54711759}, {"filename": "/svg/compuserver_msn_Ford_Focus.svg", "start": 54711759, "end": 55037712}, {"filename": "/svg/consecutive_lines.svg", "start": 55037712, "end": 55037878}, {"filename": "/svg/couch.svg", "start": 55037878, "end": 55038671}, {"filename": "/svg/css-style.svg", "start": 55038671, "end": 55039710}, {"filename": "/svg/dst.svg", "start": 55039710, "end": 55040504}, {"filename": "/svg/duck.svg", "start": 55040504, "end": 55041034}, {"filename": "/svg/duke.svg", "start": 55041034, "end": 55042532}, {"filename": "/svg/eu.svg", "start": 55042532, "end": 55043777}, {"filename": "/svg/favorite_on.svg", "start": 55043777, "end": 55044821}, {"filename": "/svg/flat_witch-and-cauldron.svg", "start": 55044821, "end": 55074635}, {"filename": "/svg/gallardo.svg", "start": 55074635, "end": 55415508}, {"filename": "/svg/godot-icon.svg", "start": 55415508, "end": 55423143}, {"filename": "/svg/gradient_stroke.svg", "start": 55423143, "end": 55423563}, {"filename": "/svg/gump-bench.svg", "start": 55423563, "end": 55425933}, {"filename": "/svg/heliocentric.svg", "start": 55425933, "end": 55426665}, {"filename": "/svg/ietf.svg", "start": 55426665, "end": 55427308}, {"filename": "/svg/image-embeded-jpeg.svg", "start": 55427308, "end": 55450516}, {"filename": "/svg/image-embeded-png.svg", "start": 55450516, "end": 55647083}, {"filename": "/svg/intertwingly.svg", "start": 55647083, "end": 55648041}, {"filename": "/svg/johnny_automatic_ebi_nigiri_sushi.svg", "start": 55648041, "end": 55919106}, {"filename": "/svg/johnny_automatic_old_factory.svg", "start": 55919106, "end": 56083129}, {"filename": "/svg/json.svg", "start": 56083129, "end": 56083601}, {"filename": "/svg/juanmontoya_lingerie.svg", "start": 56083601, "end": 56464829}, {"filename": "/svg/lineargrad1.svg", "start": 56464829, "end": 56465343}, {"filename": "/svg/logo.svg", "start": 56465343, "end": 56466525}, {"filename": "/svg/masking.svg", "start": 56466525, "end": 56467589}, {"filename": "/svg/matheusmdx.svg", "start": 56467589, "end": 56503883}, {"filename": "/svg/multipath+matrix.svg", "start": 56503883, "end": 56505326}, {"filename": "/svg/open-clipart.svg", "start": 56505326, "end": 56506330}, {"filename": "/svg/patch.svg", "start": 56506330, "end": 56506792}, {"filename": "/svg/paths-data-08-t.svg", "start": 56506792, "end": 56512422}, {"filename": "/svg/penrose-staircase.svg", "start": 56512422, "end": 56516318}, {"filename": "/svg/penrose-tiling.svg", "start": 56516318, "end": 56517910}, {"filename": "/svg/radialgrad1.svg", "start": 56517910, "end": 56518411}, {"filename": "/svg/radialgradient1.svg", "start": 56518411, "end": 56521732}, {"filename": "/svg/ranze-penguin.svg", "start": 56521732, "end": 56530682}, {"filename": "/svg/rg1024_Presentation_with_girl.svg", "start": 56530682, "end": 56609864}, {"filename": "/svg/rg1024_Ufo_in_metalic_style.svg", "start": 56609864, "end": 56623030}, {"filename": "/svg/rg1024_eggs.svg", "start": 56623030, "end": 56660349}, {"filename": "/svg/rg1024_green_grapes.svg", "start": 56660349, "end": 56733869}, {"filename": "/svg/rg1024_metal_effect.svg", "start": 56733869, "end": 56789617}, {"filename": "/svg/scimitar-anim.svg", "start": 56789617, "end": 56888930}, {"filename": "/svg/skew.svg", "start": 56888930, "end": 56889370}, {"filename": "/svg/svg2009.svg", "start": 56889370, "end": 56955100}, {"filename": "/svg/thanks.svg", "start": 56955100, "end": 56972442}, {"filename": "/svg/tiger.svg", "start": 56972442, "end": 57058928}, {"filename": "/svg/vnu.svg", "start": 57058928, "end": 57059421}, {"filename": "/svg/yadis.svg", "start": 57059421, "end": 57060054}, {"filename": "/svg/yinyang.svg", "start": 57060054, "end": 57060336}], "remote_package_size": 57060336});
+    loadPackage({"files": [{"filename": "/.DS_Store", "start": 0, "end": 10244}, {"filename": "/font/.DS_Store", "start": 10244, "end": 16392}, {"filename": "/font/Arial.ttf", "start": 16392, "end": 291964}, {"filename": "/font/NOTO-SANS-KR.ttf", "start": 291964, "end": 2750360}, {"filename": "/font/NanumGothicCoding.ttf", "start": 2750360, "end": 5529472}, {"filename": "/font/SentyCloud.ttf", "start": 5529472, "end": 21940516}, {"filename": "/image/clouds.png", "start": 21940516, "end": 22031060}, {"filename": "/image/logo.png", "start": 22031060, "end": 22042838}, {"filename": "/image/particle.jpg", "start": 22042838, "end": 23038792}, {"filename": "/image/rawimage_200x300.raw", "start": 23038792, "end": 23278792}, {"filename": "/image/scale.jpg", "start": 23278792, "end": 23596012}, {"filename": "/image/stroke-miterlimit.png", "start": 23596012, "end": 23606451}, {"filename": "/image/test.jpg", "start": 23606451, "end": 23703182}, {"filename": "/image/test.png", "start": 23703182, "end": 24102871}, {"filename": "/image/test.webp", "start": 24102871, "end": 24162353}, {"filename": "/imgui.ini", "start": 24162353, "end": 24164601}, {"filename": "/issue/temp.svg", "start": 24164601, "end": 24165598}, {"filename": "/lottie/.DS_Store", "start": 24165598, "end": 24171746}, {"filename": "/lottie/11555.json", "start": 24171746, "end": 24202147}, {"filename": "/lottie/1643-exploding-star.json", "start": 24202147, "end": 24229953}, {"filename": "/lottie/1f409.json", "start": 24229953, "end": 24488837}, {"filename": "/lottie/27746-joypixels-partying-face-emoji-animation.json", "start": 24488837, "end": 24531942}, {"filename": "/lottie/5317-fireworkds.json", "start": 24531942, "end": 24541241}, {"filename": "/lottie/5344-honey-sack-hud.json", "start": 24541241, "end": 24679767}, {"filename": "/lottie/a_mountain.json", "start": 24679767, "end": 24713767}, {"filename": "/lottie/abstract_circle.json", "start": 24713767, "end": 24716015}, {"filename": "/lottie/alien.json", "start": 24716015, "end": 24819123}, {"filename": "/lottie/anubis.json", "start": 24819123, "end": 24861396}, {"filename": "/lottie/balloons_with_string.json", "start": 24861396, "end": 24892336}, {"filename": "/lottie/birth_stone_logo.json", "start": 24892336, "end": 24896718}, {"filename": "/lottie/calculator.json", "start": 24896718, "end": 24986439}, {"filename": "/lottie/card_hover.json", "start": 24986439, "end": 25313826}, {"filename": "/lottie/cat_loader.json", "start": 25313826, "end": 25366314}, {"filename": "/lottie/coin.json", "start": 25366314, "end": 25443070}, {"filename": "/lottie/confetti.json", "start": 25443070, "end": 25808396}, {"filename": "/lottie/confetti2.json", "start": 25808396, "end": 25838850}, {"filename": "/lottie/confettiBird.json", "start": 25838850, "end": 25930400}, {"filename": "/lottie/dancing_book.json", "start": 25930400, "end": 26059356}, {"filename": "/lottie/dancing_star.json", "start": 26059356, "end": 26090870}, {"filename": "/lottie/dash-offset.json", "start": 26090870, "end": 26099630}, {"filename": "/lottie/day_to_night.json", "start": 26099630, "end": 26221629}, {"filename": "/lottie/dodecahedron.json", "start": 26221629, "end": 26283534}, {"filename": "/lottie/down.json", "start": 26283534, "end": 26289072}, {"filename": "/lottie/dropball.json", "start": 26289072, "end": 26319227}, {"filename": "/lottie/duck.json", "start": 26319227, "end": 26448569}, {"filename": "/lottie/emoji.json", "start": 26448569, "end": 27209193}, {"filename": "/lottie/emoji_enjoying.json", "start": 27209193, "end": 27230198}, {"filename": "/lottie/expressions/10151.json", "start": 27230198, "end": 27240773}, {"filename": "/lottie/expressions/10444.json", "start": 27240773, "end": 27246009}, {"filename": "/lottie/expressions/10456.json", "start": 27246009, "end": 27441339}, {"filename": "/lottie/expressions/11272.json", "start": 27441339, "end": 27480979}, {"filename": "/lottie/expressions/1254.json", "start": 27480979, "end": 27548961}, {"filename": "/lottie/expressions/16447.json", "start": 27548961, "end": 29869660}, {"filename": "/lottie/expressions/17084.json", "start": 29869660, "end": 30380915}, {"filename": "/lottie/expressions/24243.json", "start": 30380915, "end": 30381868}, {"filename": "/lottie/expressions/4128.json", "start": 30381868, "end": 30398146}, {"filename": "/lottie/expressions/antennaAnimation.json", "start": 30398146, "end": 30426813}, {"filename": "/lottie/expressions/bicycle.json", "start": 30426813, "end": 30504399}, {"filename": "/lottie/expressions/driving.json", "start": 30504399, "end": 30673179}, {"filename": "/lottie/expressions/intelia_logo_animation.json", "start": 30673179, "end": 30730770}, {"filename": "/lottie/expressions/jolly_walker.json", "start": 30730770, "end": 31436858}, {"filename": "/lottie/expressions/layereffect.json", "start": 31436858, "end": 31454479}, {"filename": "/lottie/expressions/loopOut.json", "start": 31454479, "end": 31671865}, {"filename": "/lottie/expressions/night_own.json", "start": 31671865, "end": 32233462}, {"filename": "/lottie/expressions/snail.json", "start": 32233462, "end": 32271460}, {"filename": "/lottie/expressions/traveling.json", "start": 32271460, "end": 32797637}, {"filename": "/lottie/expressions/wiggle.json", "start": 32797637, "end": 32819002}, {"filename": "/lottie/expressions/windmill.json", "start": 32819002, "end": 32846852}, {"filename": "/lottie/expressions/world_locations.json", "start": 32846852, "end": 32916941}, {"filename": "/lottie/extensions/images/img_0.png", "start": 32916941, "end": 33001723}, {"filename": "/lottie/extensions/images/logo.png", "start": 33001723, "end": 33013501}, {"filename": "/lottie/extensions/marker_sample.json", "start": 33013501, "end": 33041608}, {"filename": "/lottie/extensions/slotsample0.json", "start": 33041608, "end": 33043995}, {"filename": "/lottie/extensions/slotsample1.json", "start": 33043995, "end": 33045250}, {"filename": "/lottie/extensions/slotsample10.json", "start": 33045250, "end": 33046384}, {"filename": "/lottie/extensions/slotsample2.json", "start": 33046384, "end": 33052990}, {"filename": "/lottie/extensions/slotsample3.json", "start": 33052990, "end": 33053822}, {"filename": "/lottie/extensions/slotsample4.json", "start": 33053822, "end": 33090573}, {"filename": "/lottie/extensions/slotsample5.json", "start": 33090573, "end": 33092074}, {"filename": "/lottie/extensions/slotsample6.json", "start": 33092074, "end": 33094097}, {"filename": "/lottie/extensions/slotsample7.json", "start": 33094097, "end": 33096117}, {"filename": "/lottie/extensions/slotsample8.json", "start": 33096117, "end": 33098160}, {"filename": "/lottie/extensions/slotsample9.json", "start": 33098160, "end": 33100202}, {"filename": "/lottie/extensions/spin.json", "start": 33100202, "end": 33891179}, {"filename": "/lottie/fleche.json", "start": 33891179, "end": 33924734}, {"filename": "/lottie/flipping_page.json", "start": 33924734, "end": 33977645}, {"filename": "/lottie/fly_in_beaker.json", "start": 33977645, "end": 34061408}, {"filename": "/lottie/focal_test.json", "start": 34061408, "end": 34126705}, {"filename": "/lottie/foodrating.json", "start": 34126705, "end": 34176891}, {"filename": "/lottie/frog_vr.json", "start": 34176891, "end": 34289268}, {"filename": "/lottie/fun_animation.json", "start": 34289268, "end": 34442886}, {"filename": "/lottie/funky_chicken.json", "start": 34442886, "end": 34529334}, {"filename": "/lottie/game_finished.json", "start": 34529334, "end": 34574559}, {"filename": "/lottie/geometric.json", "start": 34574559, "end": 34604480}, {"filename": "/lottie/ghost.json", "start": 34604480, "end": 35388958}, {"filename": "/lottie/ghost2.json", "start": 35388958, "end": 35459108}, {"filename": "/lottie/glow_loading.json", "start": 35459108, "end": 35474251}, {"filename": "/lottie/gradient_background.json", "start": 35474251, "end": 35678998}, {"filename": "/lottie/gradient_infinite.json", "start": 35678998, "end": 35694276}, {"filename": "/lottie/gradient_sleepy_loader.json", "start": 35694276, "end": 35698807}, {"filename": "/lottie/gradient_smoke.json", "start": 35698807, "end": 35722711}, {"filename": "/lottie/graph.json", "start": 35722711, "end": 35754811}, {"filename": "/lottie/growup.json", "start": 35754811, "end": 35790503}, {"filename": "/lottie/guitar.json", "start": 35790503, "end": 35971229}, {"filename": "/lottie/hamburger.json", "start": 35971229, "end": 36068318}, {"filename": "/lottie/happy_holidays.json", "start": 36068318, "end": 36140047}, {"filename": "/lottie/happy_trio.json", "start": 36140047, "end": 36186806}, {"filename": "/lottie/heart_fill.json", "start": 36186806, "end": 36267963}, {"filename": "/lottie/hola.json", "start": 36267963, "end": 36295778}, {"filename": "/lottie/holdanimation.json", "start": 36295778, "end": 41266021}, {"filename": "/lottie/hourglass.json", "start": 41266021, "end": 41282450}, {"filename": "/lottie/isometric.json", "start": 41282450, "end": 41292019}, {"filename": "/lottie/kote.json", "start": 41292019, "end": 41350768}, {"filename": "/lottie/la_communaute.json", "start": 41350768, "end": 41421433}, {"filename": "/lottie/like.json", "start": 41421433, "end": 41429507}, {"filename": "/lottie/like_button.json", "start": 41429507, "end": 41580944}, {"filename": "/lottie/loading_rectangle.json", "start": 41580944, "end": 41606663}, {"filename": "/lottie/lolo.json", "start": 41606663, "end": 41658542}, {"filename": "/lottie/lolo_walk.json", "start": 41658542, "end": 41694677}, {"filename": "/lottie/loveface_emoji.json", "start": 41694677, "end": 41716417}, {"filename": "/lottie/masking.json", "start": 41716417, "end": 41791886}, {"filename": "/lottie/material_wave_loading.json", "start": 41791886, "end": 41797830}, {"filename": "/lottie/merging_shapes.json", "start": 41797830, "end": 41808990}, {"filename": "/lottie/message.json", "start": 41808990, "end": 42005101}, {"filename": "/lottie/monkey.json", "start": 42005101, "end": 42085203}, {"filename": "/lottie/morphing_anim.json", "start": 42085203, "end": 42104116}, {"filename": "/lottie/new_design.json", "start": 42104116, "end": 42375604}, {"filename": "/lottie/page_slide.json", "start": 42375604, "end": 45648558}, {"filename": "/lottie/personal_character.json", "start": 45648558, "end": 45720518}, {"filename": "/lottie/polystar.json", "start": 45720518, "end": 45732244}, {"filename": "/lottie/polystar_anim.json", "start": 45732244, "end": 45734052}, {"filename": "/lottie/property_market.json", "start": 45734052, "end": 45767120}, {"filename": "/lottie/pumpkin.json", "start": 45767120, "end": 45805393}, {"filename": "/lottie/ripple_loading_animation.json", "start": 45805393, "end": 45814413}, {"filename": "/lottie/rufo.json", "start": 45814413, "end": 45898890}, {"filename": "/lottie/sample.json", "start": 45898890, "end": 45906147}, {"filename": "/lottie/seawalk.json", "start": 45906147, "end": 46439657}, {"filename": "/lottie/shutup.json", "start": 46439657, "end": 47078344}, {"filename": "/lottie/skullboy.json", "start": 47078344, "end": 47273177}, {"filename": "/lottie/starburst.json", "start": 47273177, "end": 48541436}, {"filename": "/lottie/starstrips.json", "start": 48541436, "end": 48569220}, {"filename": "/lottie/starts_transparent.json", "start": 48569220, "end": 48750109}, {"filename": "/lottie/stroke_dash.json", "start": 48750109, "end": 48768191}, {"filename": "/lottie/swinging.json", "start": 48768191, "end": 48901400}, {"filename": "/lottie/text2.json", "start": 48901400, "end": 48988027}, {"filename": "/lottie/text_anim.json", "start": 48988027, "end": 49232552}, {"filename": "/lottie/textblock.json", "start": 49232552, "end": 50122935}, {"filename": "/lottie/textrange.json", "start": 50122935, "end": 50143239}, {"filename": "/lottie/threads.json", "start": 50143239, "end": 50158636}, {"filename": "/lottie/train.json", "start": 50158636, "end": 50402932}, {"filename": "/lottie/uk_flag.json", "start": 50402932, "end": 51131992}, {"filename": "/lottie/voice_recognition.json", "start": 51131992, "end": 51311384}, {"filename": "/lottie/water_filling.json", "start": 51311384, "end": 51334385}, {"filename": "/lottie/waves.json", "start": 51334385, "end": 51342140}, {"filename": "/lottie/yarn_loading.json", "start": 51342140, "end": 51360701}, {"filename": "/simple/Artboard 1.json", "start": 51360701, "end": 51406737}, {"filename": "/simple/Main Scene (1).json", "start": 51406737, "end": 51422347}, {"filename": "/simple/Simple.json", "start": 51422347, "end": 51425858}, {"filename": "/simple/anchor_PATH.json", "start": 51425858, "end": 51428232}, {"filename": "/simple/path.json", "start": 51428232, "end": 51435861}, {"filename": "/svg/1372943623.svg", "start": 51435861, "end": 51461733}, {"filename": "/svg/1528928570.svg", "start": 51461733, "end": 51540138}, {"filename": "/svg/1528966158.svg", "start": 51540138, "end": 51558204}, {"filename": "/svg/1528971912.svg", "start": 51558204, "end": 51778864}, {"filename": "/svg/1529018819.svg", "start": 51778864, "end": 51780271}, {"filename": "/svg/152932619-bd3d6921-72df-4f09-856b-f9743ae32a14.svg", "start": 51780271, "end": 51814922}, {"filename": "/svg/1551733624.svg", "start": 51814922, "end": 51912052}, {"filename": "/svg/1630446379Bahamas-patriotic-flag-symbol.svg", "start": 51912052, "end": 51940764}, {"filename": "/svg/1690525371exotic-beach-in-the-summer.svg", "start": 51940764, "end": 51984942}, {"filename": "/svg/1714814553A-snail-eats-a-lettuce-leaf.svg", "start": 51984942, "end": 52515312}, {"filename": "/svg/2192.svg", "start": 52515312, "end": 52521861}, {"filename": "/svg/2684.svg", "start": 52521861, "end": 52559256}, {"filename": "/svg/2961.svg", "start": 52559256, "end": 52574768}, {"filename": "/svg/364028690-c745d95c-ac9e-4461-8f4c-0a1bcb9971c4.svg", "start": 52574768, "end": 52580430}, {"filename": "/svg/421553147-22eaf24a-a9a7-4a35-abac-df5a54ac5b19.svg", "start": 52580430, "end": 52616096}, {"filename": "/svg/AA_5.svg", "start": 52616096, "end": 52741938}, {"filename": "/svg/AJ_Digital_Camera.svg", "start": 52741938, "end": 52874557}, {"filename": "/svg/Bespoke-leather-belt-2016012857.svg", "start": 52874557, "end": 53093654}, {"filename": "/svg/LottieFiles_logo.svg", "start": 53093654, "end": 53100756}, {"filename": "/svg/Prismatic-Stylized-Mexican-Eagle-Silhouette-8.svg", "start": 53100756, "end": 53857269}, {"filename": "/svg/Psychedelica.svg", "start": 53857269, "end": 53968360}, {"filename": "/svg/SVG_FILE_147939.svg", "start": 53968360, "end": 53968619}, {"filename": "/svg/Tomato_1727100275.svg", "start": 53968619, "end": 54019119}, {"filename": "/svg/Willscrlt_Beverage_Glass_(Tumbler).svg", "start": 54019119, "end": 54163293}, {"filename": "/svg/basura.svg", "start": 54163293, "end": 54163952}, {"filename": "/svg/blur.svg", "start": 54163952, "end": 54164898}, {"filename": "/svg/bojo.svg", "start": 54164898, "end": 54165705}, {"filename": "/svg/bzrfeed.svg", "start": 54165705, "end": 54166739}, {"filename": "/svg/camel_sunset.svg", "start": 54166739, "end": 54258395}, {"filename": "/svg/car.svg", "start": 54258395, "end": 54785409}, {"filename": "/svg/cartman.svg", "start": 54785409, "end": 54786557}, {"filename": "/svg/circles1.svg", "start": 54786557, "end": 54787235}, {"filename": "/svg/compuserver_msn_Ford_Focus.svg", "start": 54787235, "end": 55113188}, {"filename": "/svg/consecutive_lines.svg", "start": 55113188, "end": 55113354}, {"filename": "/svg/couch.svg", "start": 55113354, "end": 55114147}, {"filename": "/svg/css-style.svg", "start": 55114147, "end": 55115186}, {"filename": "/svg/dst.svg", "start": 55115186, "end": 55115980}, {"filename": "/svg/duck.svg", "start": 55115980, "end": 55116510}, {"filename": "/svg/duke.svg", "start": 55116510, "end": 55118008}, {"filename": "/svg/eu.svg", "start": 55118008, "end": 55119253}, {"filename": "/svg/favorite_on.svg", "start": 55119253, "end": 55120297}, {"filename": "/svg/flat_witch-and-cauldron.svg", "start": 55120297, "end": 55150111}, {"filename": "/svg/gallardo.svg", "start": 55150111, "end": 55490984}, {"filename": "/svg/godot-icon.svg", "start": 55490984, "end": 55498619}, {"filename": "/svg/gradient_stroke.svg", "start": 55498619, "end": 55499039}, {"filename": "/svg/gump-bench.svg", "start": 55499039, "end": 55501409}, {"filename": "/svg/heliocentric.svg", "start": 55501409, "end": 55502141}, {"filename": "/svg/ietf.svg", "start": 55502141, "end": 55502784}, {"filename": "/svg/image-embeded-jpeg.svg", "start": 55502784, "end": 55525992}, {"filename": "/svg/image-embeded-png.svg", "start": 55525992, "end": 55722559}, {"filename": "/svg/intertwingly.svg", "start": 55722559, "end": 55723517}, {"filename": "/svg/johnny_automatic_ebi_nigiri_sushi.svg", "start": 55723517, "end": 55994582}, {"filename": "/svg/johnny_automatic_old_factory.svg", "start": 55994582, "end": 56158605}, {"filename": "/svg/json.svg", "start": 56158605, "end": 56159077}, {"filename": "/svg/juanmontoya_lingerie.svg", "start": 56159077, "end": 56540305}, {"filename": "/svg/lineargrad1.svg", "start": 56540305, "end": 56540819}, {"filename": "/svg/logo.svg", "start": 56540819, "end": 56542001}, {"filename": "/svg/masking.svg", "start": 56542001, "end": 56543065}, {"filename": "/svg/matheusmdx.svg", "start": 56543065, "end": 56579359}, {"filename": "/svg/multipath+matrix.svg", "start": 56579359, "end": 56580802}, {"filename": "/svg/open-clipart.svg", "start": 56580802, "end": 56581806}, {"filename": "/svg/patch.svg", "start": 56581806, "end": 56582268}, {"filename": "/svg/paths-data-08-t.svg", "start": 56582268, "end": 56587898}, {"filename": "/svg/penrose-staircase.svg", "start": 56587898, "end": 56591794}, {"filename": "/svg/penrose-tiling.svg", "start": 56591794, "end": 56593386}, {"filename": "/svg/radialgrad1.svg", "start": 56593386, "end": 56593887}, {"filename": "/svg/radialgradient1.svg", "start": 56593887, "end": 56597208}, {"filename": "/svg/ranze-penguin.svg", "start": 56597208, "end": 56606158}, {"filename": "/svg/rg1024_Presentation_with_girl.svg", "start": 56606158, "end": 56685340}, {"filename": "/svg/rg1024_Ufo_in_metalic_style.svg", "start": 56685340, "end": 56698506}, {"filename": "/svg/rg1024_eggs.svg", "start": 56698506, "end": 56735825}, {"filename": "/svg/rg1024_green_grapes.svg", "start": 56735825, "end": 56809345}, {"filename": "/svg/rg1024_metal_effect.svg", "start": 56809345, "end": 56865093}, {"filename": "/svg/scimitar-anim.svg", "start": 56865093, "end": 56964406}, {"filename": "/svg/skew.svg", "start": 56964406, "end": 56964846}, {"filename": "/svg/svg2009.svg", "start": 56964846, "end": 57030576}, {"filename": "/svg/thanks.svg", "start": 57030576, "end": 57047918}, {"filename": "/svg/tiger.svg", "start": 57047918, "end": 57134404}, {"filename": "/svg/vnu.svg", "start": 57134404, "end": 57134897}, {"filename": "/svg/yadis.svg", "start": 57134897, "end": 57135530}, {"filename": "/svg/yinyang.svg", "start": 57135530, "end": 57135812}], "remote_package_size": 57135812});
 
   })();
 
-// end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpozmuzpi9.js
-// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpcm1e4ogo.js
+// end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmp3xwcwppu.js
+// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmppshd4gf4.js
 
     // All the pre-js content up to here must remain later on, we need to run
     // it.
     if ((typeof ENVIRONMENT_IS_WASM_WORKER != 'undefined' && ENVIRONMENT_IS_WASM_WORKER) || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD) || (typeof ENVIRONMENT_IS_AUDIO_WORKLET != 'undefined' && ENVIRONMENT_IS_AUDIO_WORKLET)) Module['preRun'] = [];
     var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpcm1e4ogo.js
-// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmp9qep_1jz.js
+  // end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmppshd4gf4.js
+// include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpin6gdrzj.js
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach((task) => {
       if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
     });
-  // end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmp9qep_1jz.js
+  // end include: /var/folders/ct/vy0fm79s4kbf9ny0zf68csz00000gn/T/tmpin6gdrzj.js
 
 
 var arguments_ = [];
@@ -1155,6 +1156,75 @@ async function createWasm() {
     };
   var ___assert_fail = (condition, filename, line, func) =>
       abort(`Assertion failed: ${UTF8ToString(condition)}, at: ` + [filename ? UTF8ToString(filename) : 'unknown filename', line, func ? UTF8ToString(func) : 'unknown function']);
+
+  class ExceptionInfo {
+      // excPtr - Thrown object pointer to wrap. Metadata pointer is calculated from it.
+      constructor(excPtr) {
+        this.excPtr = excPtr;
+        this.ptr = excPtr - 24;
+      }
+  
+      set_type(type) {
+        HEAPU32[(((this.ptr)+(4))>>2)] = type;
+      }
+  
+      get_type() {
+        return HEAPU32[(((this.ptr)+(4))>>2)];
+      }
+  
+      set_destructor(destructor) {
+        HEAPU32[(((this.ptr)+(8))>>2)] = destructor;
+      }
+  
+      get_destructor() {
+        return HEAPU32[(((this.ptr)+(8))>>2)];
+      }
+  
+      set_caught(caught) {
+        caught = caught ? 1 : 0;
+        HEAP8[(this.ptr)+(12)] = caught;
+      }
+  
+      get_caught() {
+        return HEAP8[(this.ptr)+(12)] != 0;
+      }
+  
+      set_rethrown(rethrown) {
+        rethrown = rethrown ? 1 : 0;
+        HEAP8[(this.ptr)+(13)] = rethrown;
+      }
+  
+      get_rethrown() {
+        return HEAP8[(this.ptr)+(13)] != 0;
+      }
+  
+      // Initialize native structure fields. Should be called once after allocated.
+      init(type, destructor) {
+        this.set_adjusted_ptr(0);
+        this.set_type(type);
+        this.set_destructor(destructor);
+      }
+  
+      set_adjusted_ptr(adjustedPtr) {
+        HEAPU32[(((this.ptr)+(16))>>2)] = adjustedPtr;
+      }
+  
+      get_adjusted_ptr() {
+        return HEAPU32[(((this.ptr)+(16))>>2)];
+      }
+    }
+  
+  var exceptionLast = 0;
+  
+  var uncaughtExceptionCount = 0;
+  var ___cxa_throw = (ptr, type, destructor) => {
+      var info = new ExceptionInfo(ptr);
+      // Initialize ExceptionInfo content after it was allocated in __cxa_allocate_exception.
+      info.init(type, destructor);
+      exceptionLast = ptr;
+      uncaughtExceptionCount++;
+      assert(false, 'Exception thrown, but exception catching is not enabled. Compile with -sNO_DISABLE_EXCEPTION_CATCHING or -sEXCEPTION_CATCHING_ALLOWED=[..] to catch.');
+    };
 
   /** @suppress {duplicate } */
   var syscallGetVarargI = () => {
@@ -3900,86 +3970,6 @@ async function createWasm() {
   }
 
   
-  var stringToUTF8 = (str, outPtr, maxBytesToWrite) => {
-      assert(typeof maxBytesToWrite == 'number', 'stringToUTF8(str, outPtr, maxBytesToWrite) is missing the third parameter that specifies the length of the output buffer!');
-      return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite);
-    };
-  function ___syscall_getcwd(buf, size) {
-  try {
-  
-      if (size === 0) return -28;
-      var cwd = FS.cwd();
-      var cwdLengthInBytes = lengthBytesUTF8(cwd) + 1;
-      if (size < cwdLengthInBytes) return -68;
-      stringToUTF8(cwd, buf, size);
-      return cwdLengthInBytes;
-    } catch (e) {
-    if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
-    return -e.errno;
-  }
-  }
-
-  
-  function ___syscall_getdents64(fd, dirp, count) {
-  try {
-  
-      var stream = SYSCALLS.getStreamFromFD(fd)
-      stream.getdents ||= FS.readdir(stream.path);
-  
-      var struct_size = 280;
-      var pos = 0;
-      var off = FS.llseek(stream, 0, 1);
-  
-      var startIdx = Math.floor(off / struct_size);
-      var endIdx = Math.min(stream.getdents.length, startIdx + Math.floor(count/struct_size))
-      for (var idx = startIdx; idx < endIdx; idx++) {
-        var id;
-        var type;
-        var name = stream.getdents[idx];
-        if (name === '.') {
-          id = stream.node.id;
-          type = 4; // DT_DIR
-        }
-        else if (name === '..') {
-          var lookup = FS.lookupPath(stream.path, { parent: true });
-          id = lookup.node.id;
-          type = 4; // DT_DIR
-        }
-        else {
-          var child;
-          try {
-            child = FS.lookupNode(stream.node, name);
-          } catch (e) {
-            // If the entry is not a directory, file, or symlink, nodefs
-            // lookupNode will raise EINVAL. Skip these and continue.
-            if (e?.errno === 28) {
-              continue;
-            }
-            throw e;
-          }
-          id = child.id;
-          type = FS.isChrdev(child.mode) ? 2 :  // DT_CHR, character device.
-                 FS.isDir(child.mode) ? 4 :     // DT_DIR, directory.
-                 FS.isLink(child.mode) ? 10 :   // DT_LNK, symbolic link.
-                 8;                             // DT_REG, regular file.
-        }
-        assert(id);
-        HEAP64[((dirp + pos)>>3)] = BigInt(id);
-        HEAP64[(((dirp + pos)+(8))>>3)] = BigInt((idx + 1) * struct_size);
-        HEAP16[(((dirp + pos)+(16))>>1)] = 280;
-        HEAP8[(dirp + pos)+(18)] = type;
-        stringToUTF8(name, dirp + pos + 19, 256);
-        pos += struct_size;
-      }
-      FS.llseek(stream, idx * struct_size, 0);
-      return pos;
-    } catch (e) {
-    if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
-    return -e.errno;
-  }
-  }
-
-  
   function ___syscall_ioctl(fd, op, varargs) {
   SYSCALLS.varargs = varargs;
   try {
@@ -4118,29 +4108,6 @@ async function createWasm() {
   }
   }
 
-  
-  
-  function ___syscall_readlinkat(dirfd, path, buf, bufsize) {
-  try {
-  
-      path = SYSCALLS.getStr(path);
-      path = SYSCALLS.calculateAt(dirfd, path);
-      if (bufsize <= 0) return -28;
-      var ret = FS.readlink(path);
-  
-      var len = Math.min(bufsize, lengthBytesUTF8(ret));
-      var endChar = HEAP8[buf+len];
-      stringToUTF8(ret, buf, bufsize+1);
-      // readlink is one of the rare functions that write out a C string, but does never append a null to the output buffer(!)
-      // stringToUTF8() always appends a null byte, so restore the character under the null byte after the write.
-      HEAP8[buf+len] = endChar;
-      return len;
-    } catch (e) {
-    if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
-    return -e.errno;
-  }
-  }
-
   function ___syscall_stat64(path, buf) {
   try {
   
@@ -4159,6 +4126,71 @@ async function createWasm() {
       throw Infinity;
     };
 
+  var INT53_MAX = 9007199254740992;
+  
+  var INT53_MIN = -9007199254740992;
+  var bigintToI53Checked = (num) => (num < INT53_MIN || num > INT53_MAX) ? NaN : Number(num);
+  function __gmtime_js(time, tmPtr) {
+    time = bigintToI53Checked(time);
+  
+  
+      var date = new Date(time * 1000);
+      HEAP32[((tmPtr)>>2)] = date.getUTCSeconds();
+      HEAP32[(((tmPtr)+(4))>>2)] = date.getUTCMinutes();
+      HEAP32[(((tmPtr)+(8))>>2)] = date.getUTCHours();
+      HEAP32[(((tmPtr)+(12))>>2)] = date.getUTCDate();
+      HEAP32[(((tmPtr)+(16))>>2)] = date.getUTCMonth();
+      HEAP32[(((tmPtr)+(20))>>2)] = date.getUTCFullYear()-1900;
+      HEAP32[(((tmPtr)+(24))>>2)] = date.getUTCDay();
+      var start = Date.UTC(date.getUTCFullYear(), 0, 1, 0, 0, 0, 0);
+      var yday = ((date.getTime() - start) / (1000 * 60 * 60 * 24))|0;
+      HEAP32[(((tmPtr)+(28))>>2)] = yday;
+    ;
+  }
+
+  var isLeapYear = (year) => year%4 === 0 && (year%100 !== 0 || year%400 === 0);
+  
+  var MONTH_DAYS_LEAP_CUMULATIVE = [0,31,60,91,121,152,182,213,244,274,305,335];
+  
+  var MONTH_DAYS_REGULAR_CUMULATIVE = [0,31,59,90,120,151,181,212,243,273,304,334];
+  var ydayFromDate = (date) => {
+      var leap = isLeapYear(date.getFullYear());
+      var monthDaysCumulative = (leap ? MONTH_DAYS_LEAP_CUMULATIVE : MONTH_DAYS_REGULAR_CUMULATIVE);
+      var yday = monthDaysCumulative[date.getMonth()] + date.getDate() - 1; // -1 since it's days since Jan 1
+  
+      return yday;
+    };
+  
+  function __localtime_js(time, tmPtr) {
+    time = bigintToI53Checked(time);
+  
+  
+      var date = new Date(time*1000);
+      HEAP32[((tmPtr)>>2)] = date.getSeconds();
+      HEAP32[(((tmPtr)+(4))>>2)] = date.getMinutes();
+      HEAP32[(((tmPtr)+(8))>>2)] = date.getHours();
+      HEAP32[(((tmPtr)+(12))>>2)] = date.getDate();
+      HEAP32[(((tmPtr)+(16))>>2)] = date.getMonth();
+      HEAP32[(((tmPtr)+(20))>>2)] = date.getFullYear()-1900;
+      HEAP32[(((tmPtr)+(24))>>2)] = date.getDay();
+  
+      var yday = ydayFromDate(date)|0;
+      HEAP32[(((tmPtr)+(28))>>2)] = yday;
+      HEAP32[(((tmPtr)+(36))>>2)] = -(date.getTimezoneOffset() * 60);
+  
+      // Attention: DST is in December in South, and some regions don't have DST at all.
+      var start = new Date(date.getFullYear(), 0, 1);
+      var summerOffset = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+      var winterOffset = start.getTimezoneOffset();
+      var dst = (summerOffset != winterOffset && date.getTimezoneOffset() == Math.min(winterOffset, summerOffset))|0;
+      HEAP32[(((tmPtr)+(32))>>2)] = dst;
+    ;
+  }
+
+  var stringToUTF8 = (str, outPtr, maxBytesToWrite) => {
+      assert(typeof maxBytesToWrite == 'number', 'stringToUTF8(str, outPtr, maxBytesToWrite) is missing the third parameter that specifies the length of the output buffer!');
+      return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite);
+    };
   
   var __tzset_js = (timezone, daylight, std_name, dst_name) => {
       // TODO: Use (malleable) environment variables instead of system settings.
@@ -4221,10 +4253,6 @@ async function createWasm() {
   
   var checkWasiClock = (clock_id) => clock_id >= 0 && clock_id <= 3;
   
-  var INT53_MAX = 9007199254740992;
-  
-  var INT53_MIN = -9007199254740992;
-  var bigintToI53Checked = (num) => (num < INT53_MIN || num > INT53_MAX) ? NaN : Number(num);
   function _clock_time_get(clk_id, ignored_precision, ptime) {
     ignored_precision = bigintToI53Checked(ignored_precision);
   
@@ -10222,6 +10250,32 @@ async function createWasm() {
   }
   }
 
+  function _fd_fdstat_get(fd, pbuf) {
+  try {
+  
+      var rightsBase = 0;
+      var rightsInheriting = 0;
+      var flags = 0;
+      {
+        var stream = SYSCALLS.getStreamFromFD(fd);
+        // All character devices are terminals (other things a Linux system would
+        // assume is a character device, like the mouse, we have special APIs for).
+        var type = stream.tty ? 2 :
+                   FS.isDir(stream.mode) ? 3 :
+                   FS.isLink(stream.mode) ? 7 :
+                   4;
+      }
+      HEAP8[pbuf] = type;
+      HEAP16[(((pbuf)+(2))>>1)] = flags;
+      HEAP64[(((pbuf)+(8))>>3)] = BigInt(rightsBase);
+      HEAP64[(((pbuf)+(16))>>3)] = BigInt(rightsInheriting);
+      return 0;
+    } catch (e) {
+    if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
+    return e.errno;
+  }
+  }
+
   /** @param {number=} offset */
   var doReadv = (stream, iov, iovcnt, offset) => {
       var ret = 0;
@@ -10571,11 +10625,8 @@ if (Module['wasmBinary']) wasmBinary = Module['wasmBinary'];
   'makePromise',
   'idsToPromises',
   'makePromiseCallback',
-  'ExceptionInfo',
   'findMatchingCatch',
   'Browser_asyncPrepareDataCounter',
-  'isLeapYear',
-  'ydayFromDate',
   'arraySum',
   'addDays',
   'getSocketFromFD',
@@ -10722,6 +10773,7 @@ missingLibrarySymbols.forEach(missingLibrarySymbol)
   'uncaughtExceptionCount',
   'exceptionLast',
   'exceptionCaught',
+  'ExceptionInfo',
   'Browser',
   'requestFullscreen',
   'requestFullScreen',
@@ -10733,6 +10785,8 @@ missingLibrarySymbols.forEach(missingLibrarySymbol)
   'MONTH_DAYS_LEAP',
   'MONTH_DAYS_REGULAR_CUMULATIVE',
   'MONTH_DAYS_LEAP_CUMULATIVE',
+  'isLeapYear',
+  'ydayFromDate',
   'SYSCALLS',
   'preloadPlugins',
   'FS_modeStringToFlags',
@@ -10903,22 +10957,22 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var ASM_CONSTS = {
-  1923488: ($0) => { var str = UTF8ToString($0) + '\n\n' + 'Abort/Retry/Ignore/AlwaysIgnore? [ariA] :'; var reply = window.prompt(str, "i"); if (reply === null) { reply = "i"; } return allocate(intArrayFromString(reply), 'i8', ALLOC_NORMAL); },  
- 1923713: () => { if (typeof(AudioContext) !== 'undefined') { return true; } else if (typeof(webkitAudioContext) !== 'undefined') { return true; } return false; },  
- 1923860: () => { if ((typeof(navigator.mediaDevices) !== 'undefined') && (typeof(navigator.mediaDevices.getUserMedia) !== 'undefined')) { return true; } else if (typeof(navigator.webkitGetUserMedia) !== 'undefined') { return true; } return false; },  
- 1924094: ($0) => { if(typeof(Module['SDL2']) === 'undefined') { Module['SDL2'] = {}; } var SDL2 = Module['SDL2']; if (!$0) { SDL2.audio = {}; } else { SDL2.capture = {}; } if (!SDL2.audioContext) { if (typeof(AudioContext) !== 'undefined') { SDL2.audioContext = new AudioContext(); } else if (typeof(webkitAudioContext) !== 'undefined') { SDL2.audioContext = new webkitAudioContext(); } if (SDL2.audioContext) { if ((typeof navigator.userActivation) === 'undefined') { autoResumeAudioContext(SDL2.audioContext); } } } return SDL2.audioContext === undefined ? -1 : 0; },  
- 1924646: () => { var SDL2 = Module['SDL2']; return SDL2.audioContext.sampleRate; },  
- 1924714: ($0, $1, $2, $3) => { var SDL2 = Module['SDL2']; var have_microphone = function(stream) { if (SDL2.capture.silenceTimer !== undefined) { clearInterval(SDL2.capture.silenceTimer); SDL2.capture.silenceTimer = undefined; SDL2.capture.silenceBuffer = undefined } SDL2.capture.mediaStreamNode = SDL2.audioContext.createMediaStreamSource(stream); SDL2.capture.scriptProcessorNode = SDL2.audioContext.createScriptProcessor($1, $0, 1); SDL2.capture.scriptProcessorNode.onaudioprocess = function(audioProcessingEvent) { if ((SDL2 === undefined) || (SDL2.capture === undefined)) { return; } audioProcessingEvent.outputBuffer.getChannelData(0).fill(0.0); SDL2.capture.currentCaptureBuffer = audioProcessingEvent.inputBuffer; dynCall('vi', $2, [$3]); }; SDL2.capture.mediaStreamNode.connect(SDL2.capture.scriptProcessorNode); SDL2.capture.scriptProcessorNode.connect(SDL2.audioContext.destination); SDL2.capture.stream = stream; }; var no_microphone = function(error) { }; SDL2.capture.silenceBuffer = SDL2.audioContext.createBuffer($0, $1, SDL2.audioContext.sampleRate); SDL2.capture.silenceBuffer.getChannelData(0).fill(0.0); var silence_callback = function() { SDL2.capture.currentCaptureBuffer = SDL2.capture.silenceBuffer; dynCall('vi', $2, [$3]); }; SDL2.capture.silenceTimer = setInterval(silence_callback, ($1 / SDL2.audioContext.sampleRate) * 1000); if ((navigator.mediaDevices !== undefined) && (navigator.mediaDevices.getUserMedia !== undefined)) { navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(have_microphone).catch(no_microphone); } else if (navigator.webkitGetUserMedia !== undefined) { navigator.webkitGetUserMedia({ audio: true, video: false }, have_microphone, no_microphone); } },  
- 1926407: ($0, $1, $2, $3) => { var SDL2 = Module['SDL2']; SDL2.audio.scriptProcessorNode = SDL2.audioContext['createScriptProcessor']($1, 0, $0); SDL2.audio.scriptProcessorNode['onaudioprocess'] = function (e) { if ((SDL2 === undefined) || (SDL2.audio === undefined)) { return; } if (SDL2.audio.silenceTimer !== undefined) { clearInterval(SDL2.audio.silenceTimer); SDL2.audio.silenceTimer = undefined; SDL2.audio.silenceBuffer = undefined; } SDL2.audio.currentOutputBuffer = e['outputBuffer']; dynCall('vi', $2, [$3]); }; SDL2.audio.scriptProcessorNode['connect'](SDL2.audioContext['destination']); if (SDL2.audioContext.state === 'suspended') { SDL2.audio.silenceBuffer = SDL2.audioContext.createBuffer($0, $1, SDL2.audioContext.sampleRate); SDL2.audio.silenceBuffer.getChannelData(0).fill(0.0); var silence_callback = function() { if ((typeof navigator.userActivation) !== 'undefined') { if (navigator.userActivation.hasBeenActive) { SDL2.audioContext.resume(); } } SDL2.audio.currentOutputBuffer = SDL2.audio.silenceBuffer; dynCall('vi', $2, [$3]); SDL2.audio.currentOutputBuffer = undefined; }; SDL2.audio.silenceTimer = setInterval(silence_callback, ($1 / SDL2.audioContext.sampleRate) * 1000); } },  
- 1927582: ($0, $1) => { var SDL2 = Module['SDL2']; var numChannels = SDL2.capture.currentCaptureBuffer.numberOfChannels; for (var c = 0; c < numChannels; ++c) { var channelData = SDL2.capture.currentCaptureBuffer.getChannelData(c); if (channelData.length != $1) { throw 'Web Audio capture buffer length mismatch! Destination size: ' + channelData.length + ' samples vs expected ' + $1 + ' samples!'; } if (numChannels == 1) { for (var j = 0; j < $1; ++j) { setValue($0 + (j * 4), channelData[j], 'float'); } } else { for (var j = 0; j < $1; ++j) { setValue($0 + (((j * numChannels) + c) * 4), channelData[j], 'float'); } } } },  
- 1928187: ($0, $1) => { var SDL2 = Module['SDL2']; var buf = $0 >>> 2; var numChannels = SDL2.audio.currentOutputBuffer['numberOfChannels']; for (var c = 0; c < numChannels; ++c) { var channelData = SDL2.audio.currentOutputBuffer['getChannelData'](c); if (channelData.length != $1) { throw 'Web Audio output buffer length mismatch! Destination size: ' + channelData.length + ' samples vs expected ' + $1 + ' samples!'; } for (var j = 0; j < $1; ++j) { channelData[j] = HEAPF32[buf + (j*numChannels + c)]; } } },  
- 1928676: ($0) => { var SDL2 = Module['SDL2']; if ($0) { if (SDL2.capture.silenceTimer !== undefined) { clearInterval(SDL2.capture.silenceTimer); } if (SDL2.capture.stream !== undefined) { var tracks = SDL2.capture.stream.getAudioTracks(); for (var i = 0; i < tracks.length; i++) { SDL2.capture.stream.removeTrack(tracks[i]); } } if (SDL2.capture.scriptProcessorNode !== undefined) { SDL2.capture.scriptProcessorNode.onaudioprocess = function(audioProcessingEvent) {}; SDL2.capture.scriptProcessorNode.disconnect(); } if (SDL2.capture.mediaStreamNode !== undefined) { SDL2.capture.mediaStreamNode.disconnect(); } SDL2.capture = undefined; } else { if (SDL2.audio.scriptProcessorNode != undefined) { SDL2.audio.scriptProcessorNode.disconnect(); } if (SDL2.audio.silenceTimer !== undefined) { clearInterval(SDL2.audio.silenceTimer); } SDL2.audio = undefined; } if ((SDL2.audioContext !== undefined) && (SDL2.audio === undefined) && (SDL2.capture === undefined)) { SDL2.audioContext.close(); SDL2.audioContext = undefined; } },  
- 1929682: ($0, $1, $2) => { var w = $0; var h = $1; var pixels = $2; if (!Module['SDL2']) Module['SDL2'] = {}; var SDL2 = Module['SDL2']; if (SDL2.ctxCanvas !== Module['canvas']) { SDL2.ctx = Module['createContext'](Module['canvas'], false, true); SDL2.ctxCanvas = Module['canvas']; } if (SDL2.w !== w || SDL2.h !== h || SDL2.imageCtx !== SDL2.ctx) { SDL2.image = SDL2.ctx.createImageData(w, h); SDL2.w = w; SDL2.h = h; SDL2.imageCtx = SDL2.ctx; } var data = SDL2.image.data; var src = pixels / 4; var dst = 0; var num; if (typeof CanvasPixelArray !== 'undefined' && data instanceof CanvasPixelArray) { num = data.length; while (dst < num) { var val = HEAP32[src]; data[dst ] = val & 0xff; data[dst+1] = (val >> 8) & 0xff; data[dst+2] = (val >> 16) & 0xff; data[dst+3] = 0xff; src++; dst += 4; } } else { if (SDL2.data32Data !== data) { SDL2.data32 = new Int32Array(data.buffer); SDL2.data8 = new Uint8Array(data.buffer); SDL2.data32Data = data; } var data32 = SDL2.data32; num = data32.length; data32.set(HEAP32.subarray(src, src + num)); var data8 = SDL2.data8; var i = 3; var j = i + 4*num; if (num % 8 == 0) { while (i < j) { data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; } } else { while (i < j) { data8[i] = 0xff; i = i + 4 | 0; } } } SDL2.ctx.putImageData(SDL2.image, 0, 0); },  
- 1931150: ($0, $1, $2, $3, $4) => { var w = $0; var h = $1; var hot_x = $2; var hot_y = $3; var pixels = $4; var canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h; var ctx = canvas.getContext("2d"); var image = ctx.createImageData(w, h); var data = image.data; var src = pixels / 4; var dst = 0; var num; if (typeof CanvasPixelArray !== 'undefined' && data instanceof CanvasPixelArray) { num = data.length; while (dst < num) { var val = HEAP32[src]; data[dst ] = val & 0xff; data[dst+1] = (val >> 8) & 0xff; data[dst+2] = (val >> 16) & 0xff; data[dst+3] = (val >> 24) & 0xff; src++; dst += 4; } } else { var data32 = new Int32Array(data.buffer); num = data32.length; data32.set(HEAP32.subarray(src, src + num)); } ctx.putImageData(image, 0, 0); var url = hot_x === 0 && hot_y === 0 ? "url(" + canvas.toDataURL() + "), auto" : "url(" + canvas.toDataURL() + ") " + hot_x + " " + hot_y + ", auto"; var urlBuf = _malloc(url.length + 1); stringToUTF8(url, urlBuf, url.length + 1); return urlBuf; },  
- 1932138: ($0) => { if (Module['canvas']) { Module['canvas'].style['cursor'] = UTF8ToString($0); } },  
- 1932221: () => { if (Module['canvas']) { Module['canvas'].style['cursor'] = 'none'; } },  
- 1932290: () => { return window.innerWidth; },  
- 1932320: () => { return window.innerHeight; }
+  1939384: ($0) => { var str = UTF8ToString($0) + '\n\n' + 'Abort/Retry/Ignore/AlwaysIgnore? [ariA] :'; var reply = window.prompt(str, "i"); if (reply === null) { reply = "i"; } return allocate(intArrayFromString(reply), 'i8', ALLOC_NORMAL); },  
+ 1939609: () => { if (typeof(AudioContext) !== 'undefined') { return true; } else if (typeof(webkitAudioContext) !== 'undefined') { return true; } return false; },  
+ 1939756: () => { if ((typeof(navigator.mediaDevices) !== 'undefined') && (typeof(navigator.mediaDevices.getUserMedia) !== 'undefined')) { return true; } else if (typeof(navigator.webkitGetUserMedia) !== 'undefined') { return true; } return false; },  
+ 1939990: ($0) => { if(typeof(Module['SDL2']) === 'undefined') { Module['SDL2'] = {}; } var SDL2 = Module['SDL2']; if (!$0) { SDL2.audio = {}; } else { SDL2.capture = {}; } if (!SDL2.audioContext) { if (typeof(AudioContext) !== 'undefined') { SDL2.audioContext = new AudioContext(); } else if (typeof(webkitAudioContext) !== 'undefined') { SDL2.audioContext = new webkitAudioContext(); } if (SDL2.audioContext) { if ((typeof navigator.userActivation) === 'undefined') { autoResumeAudioContext(SDL2.audioContext); } } } return SDL2.audioContext === undefined ? -1 : 0; },  
+ 1940542: () => { var SDL2 = Module['SDL2']; return SDL2.audioContext.sampleRate; },  
+ 1940610: ($0, $1, $2, $3) => { var SDL2 = Module['SDL2']; var have_microphone = function(stream) { if (SDL2.capture.silenceTimer !== undefined) { clearInterval(SDL2.capture.silenceTimer); SDL2.capture.silenceTimer = undefined; SDL2.capture.silenceBuffer = undefined } SDL2.capture.mediaStreamNode = SDL2.audioContext.createMediaStreamSource(stream); SDL2.capture.scriptProcessorNode = SDL2.audioContext.createScriptProcessor($1, $0, 1); SDL2.capture.scriptProcessorNode.onaudioprocess = function(audioProcessingEvent) { if ((SDL2 === undefined) || (SDL2.capture === undefined)) { return; } audioProcessingEvent.outputBuffer.getChannelData(0).fill(0.0); SDL2.capture.currentCaptureBuffer = audioProcessingEvent.inputBuffer; dynCall('vi', $2, [$3]); }; SDL2.capture.mediaStreamNode.connect(SDL2.capture.scriptProcessorNode); SDL2.capture.scriptProcessorNode.connect(SDL2.audioContext.destination); SDL2.capture.stream = stream; }; var no_microphone = function(error) { }; SDL2.capture.silenceBuffer = SDL2.audioContext.createBuffer($0, $1, SDL2.audioContext.sampleRate); SDL2.capture.silenceBuffer.getChannelData(0).fill(0.0); var silence_callback = function() { SDL2.capture.currentCaptureBuffer = SDL2.capture.silenceBuffer; dynCall('vi', $2, [$3]); }; SDL2.capture.silenceTimer = setInterval(silence_callback, ($1 / SDL2.audioContext.sampleRate) * 1000); if ((navigator.mediaDevices !== undefined) && (navigator.mediaDevices.getUserMedia !== undefined)) { navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(have_microphone).catch(no_microphone); } else if (navigator.webkitGetUserMedia !== undefined) { navigator.webkitGetUserMedia({ audio: true, video: false }, have_microphone, no_microphone); } },  
+ 1942303: ($0, $1, $2, $3) => { var SDL2 = Module['SDL2']; SDL2.audio.scriptProcessorNode = SDL2.audioContext['createScriptProcessor']($1, 0, $0); SDL2.audio.scriptProcessorNode['onaudioprocess'] = function (e) { if ((SDL2 === undefined) || (SDL2.audio === undefined)) { return; } if (SDL2.audio.silenceTimer !== undefined) { clearInterval(SDL2.audio.silenceTimer); SDL2.audio.silenceTimer = undefined; SDL2.audio.silenceBuffer = undefined; } SDL2.audio.currentOutputBuffer = e['outputBuffer']; dynCall('vi', $2, [$3]); }; SDL2.audio.scriptProcessorNode['connect'](SDL2.audioContext['destination']); if (SDL2.audioContext.state === 'suspended') { SDL2.audio.silenceBuffer = SDL2.audioContext.createBuffer($0, $1, SDL2.audioContext.sampleRate); SDL2.audio.silenceBuffer.getChannelData(0).fill(0.0); var silence_callback = function() { if ((typeof navigator.userActivation) !== 'undefined') { if (navigator.userActivation.hasBeenActive) { SDL2.audioContext.resume(); } } SDL2.audio.currentOutputBuffer = SDL2.audio.silenceBuffer; dynCall('vi', $2, [$3]); SDL2.audio.currentOutputBuffer = undefined; }; SDL2.audio.silenceTimer = setInterval(silence_callback, ($1 / SDL2.audioContext.sampleRate) * 1000); } },  
+ 1943478: ($0, $1) => { var SDL2 = Module['SDL2']; var numChannels = SDL2.capture.currentCaptureBuffer.numberOfChannels; for (var c = 0; c < numChannels; ++c) { var channelData = SDL2.capture.currentCaptureBuffer.getChannelData(c); if (channelData.length != $1) { throw 'Web Audio capture buffer length mismatch! Destination size: ' + channelData.length + ' samples vs expected ' + $1 + ' samples!'; } if (numChannels == 1) { for (var j = 0; j < $1; ++j) { setValue($0 + (j * 4), channelData[j], 'float'); } } else { for (var j = 0; j < $1; ++j) { setValue($0 + (((j * numChannels) + c) * 4), channelData[j], 'float'); } } } },  
+ 1944083: ($0, $1) => { var SDL2 = Module['SDL2']; var buf = $0 >>> 2; var numChannels = SDL2.audio.currentOutputBuffer['numberOfChannels']; for (var c = 0; c < numChannels; ++c) { var channelData = SDL2.audio.currentOutputBuffer['getChannelData'](c); if (channelData.length != $1) { throw 'Web Audio output buffer length mismatch! Destination size: ' + channelData.length + ' samples vs expected ' + $1 + ' samples!'; } for (var j = 0; j < $1; ++j) { channelData[j] = HEAPF32[buf + (j*numChannels + c)]; } } },  
+ 1944572: ($0) => { var SDL2 = Module['SDL2']; if ($0) { if (SDL2.capture.silenceTimer !== undefined) { clearInterval(SDL2.capture.silenceTimer); } if (SDL2.capture.stream !== undefined) { var tracks = SDL2.capture.stream.getAudioTracks(); for (var i = 0; i < tracks.length; i++) { SDL2.capture.stream.removeTrack(tracks[i]); } } if (SDL2.capture.scriptProcessorNode !== undefined) { SDL2.capture.scriptProcessorNode.onaudioprocess = function(audioProcessingEvent) {}; SDL2.capture.scriptProcessorNode.disconnect(); } if (SDL2.capture.mediaStreamNode !== undefined) { SDL2.capture.mediaStreamNode.disconnect(); } SDL2.capture = undefined; } else { if (SDL2.audio.scriptProcessorNode != undefined) { SDL2.audio.scriptProcessorNode.disconnect(); } if (SDL2.audio.silenceTimer !== undefined) { clearInterval(SDL2.audio.silenceTimer); } SDL2.audio = undefined; } if ((SDL2.audioContext !== undefined) && (SDL2.audio === undefined) && (SDL2.capture === undefined)) { SDL2.audioContext.close(); SDL2.audioContext = undefined; } },  
+ 1945578: ($0, $1, $2) => { var w = $0; var h = $1; var pixels = $2; if (!Module['SDL2']) Module['SDL2'] = {}; var SDL2 = Module['SDL2']; if (SDL2.ctxCanvas !== Module['canvas']) { SDL2.ctx = Module['createContext'](Module['canvas'], false, true); SDL2.ctxCanvas = Module['canvas']; } if (SDL2.w !== w || SDL2.h !== h || SDL2.imageCtx !== SDL2.ctx) { SDL2.image = SDL2.ctx.createImageData(w, h); SDL2.w = w; SDL2.h = h; SDL2.imageCtx = SDL2.ctx; } var data = SDL2.image.data; var src = pixels / 4; var dst = 0; var num; if (typeof CanvasPixelArray !== 'undefined' && data instanceof CanvasPixelArray) { num = data.length; while (dst < num) { var val = HEAP32[src]; data[dst ] = val & 0xff; data[dst+1] = (val >> 8) & 0xff; data[dst+2] = (val >> 16) & 0xff; data[dst+3] = 0xff; src++; dst += 4; } } else { if (SDL2.data32Data !== data) { SDL2.data32 = new Int32Array(data.buffer); SDL2.data8 = new Uint8Array(data.buffer); SDL2.data32Data = data; } var data32 = SDL2.data32; num = data32.length; data32.set(HEAP32.subarray(src, src + num)); var data8 = SDL2.data8; var i = 3; var j = i + 4*num; if (num % 8 == 0) { while (i < j) { data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; data8[i] = 0xff; i = i + 4 | 0; } } else { while (i < j) { data8[i] = 0xff; i = i + 4 | 0; } } } SDL2.ctx.putImageData(SDL2.image, 0, 0); },  
+ 1947046: ($0, $1, $2, $3, $4) => { var w = $0; var h = $1; var hot_x = $2; var hot_y = $3; var pixels = $4; var canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h; var ctx = canvas.getContext("2d"); var image = ctx.createImageData(w, h); var data = image.data; var src = pixels / 4; var dst = 0; var num; if (typeof CanvasPixelArray !== 'undefined' && data instanceof CanvasPixelArray) { num = data.length; while (dst < num) { var val = HEAP32[src]; data[dst ] = val & 0xff; data[dst+1] = (val >> 8) & 0xff; data[dst+2] = (val >> 16) & 0xff; data[dst+3] = (val >> 24) & 0xff; src++; dst += 4; } } else { var data32 = new Int32Array(data.buffer); num = data32.length; data32.set(HEAP32.subarray(src, src + num)); } ctx.putImageData(image, 0, 0); var url = hot_x === 0 && hot_y === 0 ? "url(" + canvas.toDataURL() + "), auto" : "url(" + canvas.toDataURL() + ") " + hot_x + " " + hot_y + ", auto"; var urlBuf = _malloc(url.length + 1); stringToUTF8(url, urlBuf, url.length + 1); return urlBuf; },  
+ 1948034: ($0) => { if (Module['canvas']) { Module['canvas'].style['cursor'] = UTF8ToString($0); } },  
+ 1948117: () => { if (Module['canvas']) { Module['canvas'].style['cursor'] = 'none'; } },  
+ 1948186: () => { return window.innerWidth; },  
+ 1948216: () => { return window.innerHeight; }
 };
 function ImGui_ImplSDL2_EmscriptenOpenURL(url) { url = url ? UTF8ToString(url) : null; if (url) window.open(url, '_blank'); }
 
@@ -10958,13 +11012,11 @@ var wasmImports = {
   /** @export */
   __assert_fail: ___assert_fail,
   /** @export */
+  __cxa_throw: ___cxa_throw,
+  /** @export */
   __syscall_fcntl64: ___syscall_fcntl64,
   /** @export */
   __syscall_fstat64: ___syscall_fstat64,
-  /** @export */
-  __syscall_getcwd: ___syscall_getcwd,
-  /** @export */
-  __syscall_getdents64: ___syscall_getdents64,
   /** @export */
   __syscall_ioctl: ___syscall_ioctl,
   /** @export */
@@ -10974,13 +11026,15 @@ var wasmImports = {
   /** @export */
   __syscall_openat: ___syscall_openat,
   /** @export */
-  __syscall_readlinkat: ___syscall_readlinkat,
-  /** @export */
   __syscall_stat64: ___syscall_stat64,
   /** @export */
   _abort_js: __abort_js,
   /** @export */
   _emscripten_throw_longjmp: __emscripten_throw_longjmp,
+  /** @export */
+  _gmtime_js: __gmtime_js,
+  /** @export */
+  _localtime_js: __localtime_js,
   /** @export */
   _tzset_js: __tzset_js,
   /** @export */
@@ -11673,6 +11727,8 @@ var wasmImports = {
   exit: _exit,
   /** @export */
   fd_close: _fd_close,
+  /** @export */
+  fd_fdstat_get: _fd_fdstat_get,
   /** @export */
   fd_read: _fd_read,
   /** @export */

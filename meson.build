@@ -49,7 +49,10 @@ imgui_proj = subproject('imgui')
 imgui_dep = imgui_proj.get_variable('imgui_dep')
 entt_proj = cmake.subproject('entt')
 entt_dep = entt_proj.dependency('EnTT')
-spdlog_dep = dependency('spdlog', required: true)
+
+spdlog_dep = cmake.subproject('spdlog').dependency('spdlog')
+
+# spdlog_dep = dependency('spdlog', required: true)
 
 
 example_dep = []

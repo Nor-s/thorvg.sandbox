@@ -38,7 +38,7 @@ public:
 
 private:
 	const InputAction mAction;
-	InputTrigger mTrigger;
+	InputTrigger mTrigger{};
 };
 
 template <typename Func>

@@ -14,8 +14,8 @@ class AddMode : public EditMode
 	{
 		// for outline
 		std::unique_ptr<core::Scene> tempScene{nullptr};
-		Entity newEntity;
-		Vec2 startPoint;
+		Entity newEntity{};
+		Vec2 startPoint{};
 	};
 
 public:
@@ -28,9 +28,9 @@ public:
 	bool onInputDetach(const InputValue& inputValue) override;
 
 private:
-	AnimationCreatorCanvas* rCanvas;
-	Context mContext;
-	EditModeType mType;
+	AnimationCreatorCanvas* rCanvas{nullptr};
+	Context mContext{};
+	EditModeType mType{};
 };
 }	 // namespace core
 

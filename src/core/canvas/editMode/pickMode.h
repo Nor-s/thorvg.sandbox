@@ -16,12 +16,12 @@ class PickMode : public EditMode
 	{
 		// for outline
 		std::unique_ptr<Scene> tempScene;
-		PickInfo pickInfo;
-		Vec2 startPoint;
-		Vec2 beforePoint;
+		PickInfo pickInfo{};
+		Vec2 startPoint{};
+		Vec2 beforePoint{};
 
-		std::unique_ptr<Bbox> bbox = nullptr;
-		Entity hover;
+		std::unique_ptr<Bbox> bbox{nullptr};
+		Entity hover{};
 		// Entity bbox;
 		// Entity currentObb;
 		// Entity drag;
@@ -41,8 +41,8 @@ public:
 	bool onInputDetach(const InputValue& inputValue) override;
 
 private:
-	AnimationCreatorCanvas* rCanvas;
-	Context mContext;
+	AnimationCreatorCanvas* rCanvas{nullptr};
+	Context mContext{};
 };
 }
 

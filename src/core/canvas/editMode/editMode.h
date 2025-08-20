@@ -29,7 +29,7 @@ public:
 	virtual void onUpdate() {}
 	virtual bool onStarClickLefttMouse(const InputValue& inputValue) = 0;
 	virtual bool onDragLeftMouse(const InputValue& inputValue) = 0;
-	virtual bool onMoveMouse(const InputValue& inputValue) {};
+	virtual bool onMoveMouse(const InputValue& inputValue) {return false;}
 	virtual bool onEndLeftMouse(const InputValue& inputValue) = 0;
 	virtual bool onInputDetach(const InputValue& inputValue) = 0;
 };

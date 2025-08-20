@@ -19,6 +19,7 @@ namespace editor
 {
 void ImguiContentBrowser::draw()
 {
+	return;
 	ImGui::Begin("Content Browser");
 
 	if (s_CurrentDirectory.has_parent_path())

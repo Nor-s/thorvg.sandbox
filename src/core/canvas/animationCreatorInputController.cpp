@@ -31,6 +31,7 @@ AnimationCreatorInputController::AnimationCreatorInputController(AnimationCreato
 	mHandle->bindAction(InputAction(InputType::MOUSE_MOVE), InputTrigger::Triggered, this, &ThisClass::onMoveMouse);
 	mHandle->bindAction(InputAction(InputType::INPUT_DETACH), InputTrigger::Triggered, this, &ThisClass::onInputDetach);
 	mHandle->bindAction(InputAction(InputType::INPUT_ATTACH), InputTrigger::Triggered, this, &ThisClass::onInputAttach);
+	setMode(EditModeType::PICK);
 }
 
 void AnimationCreatorInputController::onUpdate()

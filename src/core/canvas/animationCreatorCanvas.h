@@ -7,6 +7,7 @@ namespace core
 {
 
 class Scene;
+class Animator;
 class AnimationCreatorInputController;
 
 class AnimationCreatorCanvas : public CanvasWrapper
@@ -24,9 +25,9 @@ public:
 
 	void onUpdate() override;
 
+	std::unique_ptr<core::Animator> mAnimator;
 	std::unique_ptr<core::Scene> mScene;
 	std::unique_ptr<AnimationCreatorInputController> mInputController;
-
 };
 
 }	 // namespace core

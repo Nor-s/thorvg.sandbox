@@ -11,6 +11,7 @@ extern "C"
 	typedef int ENTITY_ID;
 	typedef int SCENE_ID;
 	typedef int CANVAS_ID;
+	typedef void* CANVAS_ptr;
 
 	typedef enum
 	{
@@ -28,6 +29,13 @@ extern "C"
         float rotation;
     } UpdateEntityTransform;
 
+    /**
+     * temp code
+     */
+	EDIT_API void FocusCurrentCanvas(CANVAS_ptr canvs);
+	EDIT_API CANVAS_ptr GetCurrentCanvas();
+	EDIT_API CANVAS_ptr GetCurrentAnimCanvas();
+
     /***
      * todo: UNDO/REDO 
      */
@@ -41,6 +49,7 @@ extern "C"
 	EDIT_API Edit_Result UpdateEntityDeltaPositionCurrentFrame(ENTITY_ID id, float x, float y, bool isEnd);
 	EDIT_API Edit_Result UpdateEntityDeltaRotationCurrentFrame(ENTITY_ID id, float x, bool isEnd);
 	EDIT_API Edit_Result UpdateEntityEnd(ENTITY_ID id);
+
 
 #ifdef __cplusplus
 }	 // extern "C"

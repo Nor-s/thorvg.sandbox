@@ -3,6 +3,8 @@
 #include "component/components.h"
 
 #include "canvas/animationCreatorCanvas.h"
+#include "interface/editInterface.h"
+#include "animation/animator.h"
 
 #include <thorvg.h>
 
@@ -210,6 +212,29 @@ void Scene::pushCanvas(CanvasWrapper* canvas)
 
 void Scene::onUpdate()
 {
+	// todo: this canvas maybe no scene owner (current canvas count == 1)
+	auto* canvasPtr = GetCurrentAnimCanvas();
+	if (canvasPtr)
+	{
+		auto* animCanvas = static_cast<AnimationCreatorCanvas*>(canvasPtr);
+		auto* animator = animCanvas->mAnimator.get();
+
+		// todo: keyframe update logic here, mIsStop == true
+		if (!animator->mIsStop || animator->mDirty)
+		{
+			const auto keyframeNo = animator->mCurrentFrameNo;
+			// todo: other keyframe
+			mRegistry.view<TransformComponent, TransformKeyframeComponent>().each(
+				[keyframeNo](auto entity, TransformComponent& transform, TransformKeyframeComponent& keyframes)
+				{
+					transform.localCenterPosition = keyframes.positionKeyframes.frame(keyframeNo);
+					transform.scale = keyframes.scaleKeyframes.frame(keyframeNo);
+					transform.rotation = keyframes.rotationKeyframes.frame(keyframeNo);
+				});
+			animator->mDirty = false;
+		}
+	}
+
 	mRegistry.view<TransformComponent, PathComponent, ShapeComponent>().each(
 		[](auto entity, TransformComponent& transform, PathComponent& path, ShapeComponent& shape)
 		{

@@ -327,6 +327,16 @@ inline static float ToDegree(float radian)
 	return radian * (180.0f / M_PI);
 }
 
+inline static float lerp(float a, float b, float t) {
+    return a + (b - a) * t;
+}
+
+inline static Vec2 lerp(const Vec2& a, const Vec2& b, float t) {
+    return { a.x + (b.x - a.x) * t,
+             a.y + (b.y - a.y) * t };
+}
+
+
 }	 // namespace core
 
 #endif

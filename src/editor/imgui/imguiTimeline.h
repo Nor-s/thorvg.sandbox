@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include <imgui.h>
+
 namespace core
 {
     class AnimationCreatorCanvas;
@@ -23,6 +25,7 @@ private:
 private:
     core::AnimationCreatorCanvas* rCanvas = nullptr;
     bool mIsHoveredZoomSlider = false;
+   	ImGuiWindowFlags mWindowFlags = 0;
 
 };
 

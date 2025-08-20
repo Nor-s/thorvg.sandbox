@@ -8,6 +8,7 @@
 #include <string_view>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 #include <thorvg.h>
 
@@ -16,6 +17,7 @@ namespace core
 
 class GlGeometry;
 class Scene;
+// class Animator;
 struct NameComponent
 {
 	std::string name{};
@@ -48,8 +50,71 @@ struct ShapeComponent
 template <typename T>
 struct Keyframes
 {
-	bool isEnable;
-	std::vector<T> frames;
+	struct Keyframe
+	{
+		uint32_t frame{0};
+		T value{0};
+		bool operator<(const Keyframe& rhs) const
+		{
+			return frame < rhs.frame;
+		}
+	};
+	bool isEnable{true};
+	std::vector<Keyframe> frames;
+	T currentValue{};
+
+	auto begin()
+	{
+		return frames.begin();
+	}
+	auto end()
+	{
+		return frames.end();
+	}
+
+	void add(uint32_t frameNo, const T& value)
+	{
+		auto it = std::find_if(frames.begin(), frames.end(), [frameNo](const auto& keyframe){
+			return frameNo == keyframe.frame;
+		});
+		if(it == frames.end())
+		{
+			frames.push_back(Keyframe{.frame=frameNo, .value=value});
+			std::sort(frames.begin(), frames.end());
+		}
+		else 
+		{
+			it->value = value;
+		}
+	}
+
+	T frame(float frameNo)
+	{
+		if (!isEnable || frames.empty())
+			return currentValue;
+		if (frames.size() == 1) 
+			return currentValue = frames[0].value;
+
+		auto it = std::lower_bound(frames.begin(), frames.end(), (uint32_t)frameNo,
+								   [](const Keyframe& k, uint32_t f) { return k.frame < f; });
+
+		if (it == frames.end())
+		{
+			return frames.back().value;
+		}
+		if (it->frame == frameNo || frames.begin() == it)
+		{
+			return it->value;
+		}
+		
+		const auto& lo = *(it - 1);
+		const auto& hi = *it;
+		const float denom = float(hi.frame - lo.frame);
+		const float t = denom > 0.f ? (frameNo - static_cast<float>(lo.frame)) / denom : 0.f;
+
+		// todo: curve
+		return currentValue = lerp(lo.value, hi.value, t);
+	}
 };
 
 using FloatKeyFrame = Keyframes<float>;
@@ -163,7 +228,7 @@ struct TransformComponent
 		m->e12 = -s * e11 + c * e12;
 		m->e22 = -s * e21 + c * e22;
 	}
-	
+
 	static bool inverse(const tvg::Matrix* m, tvg::Matrix* out)
 	{
 		auto det = m->e11 * (m->e22 * m->e33 - m->e32 * m->e23) - m->e12 * (m->e21 * m->e33 - m->e23 * m->e31) +
@@ -188,18 +253,17 @@ struct TransformComponent
 };
 inline static void operator*=(Vec2& pt, const tvg::Matrix& m)
 {
-    auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
-    auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
-    pt.x = tx;
-    pt.y = ty;
+	auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
+	auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
+	pt.x = tx;
+	pt.y = ty;
 }
-
 
 inline static Vec2 operator*(const Vec2& pt, const tvg::Matrix& m)
 {
-    auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
-    auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
-    return {tx, ty};
+	auto tx = pt.x * m.e11 + pt.y * m.e12 + m.e13;
+	auto ty = pt.x * m.e21 + pt.y * m.e22 + m.e23;
+	return {tx, ty};
 }
 
 struct TransformKeyframeComponent
@@ -226,6 +290,11 @@ struct StrokeComponent
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;
 };
+
+// struct AnimatorComponent
+// {
+// 	Animator* animator;
+// };
 
 }	 // namespace core
 

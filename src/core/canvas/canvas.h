@@ -76,6 +76,8 @@ public:
 
 	Size mSize{};
 
+	uint32_t mGlobalElapsed = 0;
+
 protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
@@ -84,7 +86,6 @@ protected:
 	float mClearColor[3]{};
 	void* rContext{nullptr};
 	Size mBeforeSize;
-	uint32_t mGlobalElapsed = 0;
 	bool mIsSw = false;
 
 	unsigned char* mBuffer = nullptr;

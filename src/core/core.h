@@ -19,6 +19,8 @@
 
 #include "system/io.h"
 
+#include "interface/editInterface.h"
+
 namespace core
 {
 

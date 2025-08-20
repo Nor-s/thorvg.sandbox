@@ -6,7 +6,7 @@
 
 #include "canvas.h"
 #include "animationCreatorCanvas.h"
-
+#include "animation/animator.h"
 
 
 #include "common/common.h"
@@ -51,6 +51,8 @@ void AnimationCreatorInputController::setMode(EditModeType mode)
 bool AnimationCreatorInputController::onStarClickLefttMouse(const InputValue& inputValue)
 {
 	LOG_INFO("start edit: mode is {}", (int) mMode);
+	rCanvas->mAnimator->stop();
+
 	if (mEditMode == nullptr)
 		return false;
 

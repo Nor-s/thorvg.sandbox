@@ -42,6 +42,9 @@ source_file = [
 
     meson.current_source_dir().join('interface/editInterface.h'),
     meson.current_source_dir().join('interface/editInterface.cpp'),
+
+    meson.current_source_dir().join('animation/animator.cpp'),
+    meson.current_source_dir().join('animation/animator.h'),
 ]
 
 core_dep += [declare_dependency(

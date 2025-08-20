@@ -2,6 +2,7 @@
 #include "window/window.h"
 #include "event/inputEventHandler.h"
 
+
 #include <core/core.h>
 
 using namespace core; 
@@ -26,6 +27,7 @@ void App::CavasFocus(int canvasIndex, bool isFocus)
 void App::focusCanvas(int canvasIndex)
 {
 	mCurrentFocusCanvas = canvasIndex;
+	FocusCurrentCanvas(static_cast<CANVAS_ptr>(mCanvasList[mCurrentFocusCanvas]));
     setInputController(mCanvasList[mCurrentFocusCanvas]->getInputController());
 }
 void App::setInputController(core::InputController* inputController)

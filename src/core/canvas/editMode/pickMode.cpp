@@ -45,8 +45,10 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 		if (mContext.bbox == nullptr)
 		{
 			auto bbox = rCanvas->mOverlayScene->createEntity("bbox");
-			bbox.addComponent<BBoxControlComponent>().bbox = 
+			auto& bboxComponent = bbox.addComponent<BBoxControlComponent>();
+			bboxComponent.bbox =
 				std::make_unique<BBox>(rCanvas->getInputController(), rCanvas->mOverlayScene.get(), targetEntity);
+			mContext.bbox = bboxComponent.bbox.get();
 		}
 		else
 		{
@@ -58,7 +60,7 @@ bool PickMode::onStarClickLefttMouse(const InputValue& inputValue)
 	{
 		auto size = rCanvas->mSize;
 		auto sp = mContext.startPoint;
-		if (mContext.bbox && size.x > sp.x && size.y > sp.y &&  sp.x > 0 && sp.y > 0)
+		if (mContext.bbox && size.x > sp.x && size.y > sp.y && sp.x > 0 && sp.y > 0)
 		{
 			mContext.bbox->retarget(Entity());
 		}
@@ -104,13 +106,14 @@ bool PickMode::onMoveMouse(const InputValue& inputValue)
 
 bool PickMode::onInputAttach(const InputValue& inputValue)
 {
-	if (mContext.bbox != nullptr)  return false;
+	if (mContext.bbox != nullptr)
+		return false;
 
 	if (auto v = rCanvas->mOverlayScene->findByComponent<BBoxControlComponent>(); !v.empty())
 	{
 		mContext.bbox = v[0].getComponent<BBoxControlComponent>().bbox.get();
 	}
-	else 
+	else
 		mContext.bbox = nullptr;
 
 	return false;
@@ -119,8 +122,6 @@ bool PickMode::onInputAttach(const InputValue& inputValue)
 bool PickMode::onInputDetach(const InputValue& inputValue)
 {
 	mContext.isLeftMouseDown = false;
-	if(mContext.bbox)
-		mContext.bbox = nullptr;
 
 	return false;
 }

@@ -39,8 +39,14 @@ bool AddMode::onDragLeftMouse(const InputValue& inputValue)
 		case EditModeType::ADD_SQUARE:
 			mContext.newEntity = rCanvas->mOverlayScene->createRectFillLayer(start, end - start);
 			break;
-		default:
+		case EditModeType::ADD_ELLIPSE:
 			mContext.newEntity = rCanvas->mOverlayScene->createEllipseFillLayer(start, end - start);
+			break;
+		case EditModeType::ADD_POLYGON:
+			mContext.newEntity = rCanvas->mOverlayScene->createPolygonFillLayer(start, end - start);
+			break;
+		default:
+			mContext.newEntity = rCanvas->mOverlayScene->createStarFillLayer(start, end - start);
 			break;
 	};
 
@@ -66,8 +72,14 @@ bool AddMode::onEndLeftMouse(const InputValue& inputValue)
 			case EditModeType::ADD_SQUARE:
 				CreateRectPathEntity(rCanvas->mScene->mId, start.x, start.y, wh.w, wh.h);
 				break;
+			case EditModeType::ADD_ELLIPSE:
+				CreateElipsePathEntity(rCanvas->mScene->mId, start.x, start.y, wh.w, wh.h);
+				break;
+			case EditModeType::ADD_POLYGON:
+				CreatePolygonPathEntity(rCanvas->mScene->mId, start.x, start.y, wh.w, wh.h);
+				break;
 			default:
-				CreateElipsePathEntity(rCanvas->mScene->mId, start.x, start.y, wh.x, wh.h);
+				CreateStarPathEntity(rCanvas->mScene->mId, start.x, start.y, wh.x, wh.h);
 				break;
 		};
 	}

@@ -122,6 +122,7 @@ bool PickMode::onInputAttach(const InputValue& inputValue)
 bool PickMode::onInputDetach(const InputValue& inputValue)
 {
 	mContext.isLeftMouseDown = false;
+	mContext.bbox = nullptr;
 
 	return false;
 }

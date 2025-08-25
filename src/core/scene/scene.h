@@ -39,6 +39,8 @@ public:
 	Entity createEllipseFillStrokeLayer(Vec2 minXy, Vec2 wh);
 	Entity createRectFillLayer(Vec2 minXy, Vec2 wh);
 	Entity createRectFillStrokeLayer(Vec2 minXy, Vec2 wh);
+	Entity createPolygonFillLayer(Vec2 minXy, Vec2 wh);
+	Entity createStarFillLayer(Vec2 minXy, Vec2 wh);
 	Entity createObb(const std::array<Vec2, 4>& points);
 
 	template<typename T>

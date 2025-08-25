@@ -69,6 +69,24 @@ EDIT_API ENTITY_ID CreateElipsePathEntity(SCENE_ID id, float minX, float minY, f
 	auto entity = scene->createEllipseFillLayer(Vec2{minX, minY}, Vec2{w, h});
 	return entity.getComponent<IDComponent>().id;
 }
+EDIT_API ENTITY_ID CreatePolygonPathEntity(SCENE_ID id, float minX, float minY, float w, float h)
+{
+	auto* scene = helper::FindScene(id);
+	if (scene == nullptr)
+		return 0;
+
+	auto entity = scene->createPolygonFillLayer(Vec2{minX, minY}, Vec2{w, h});
+	return entity.getComponent<IDComponent>().id;
+}
+EDIT_API ENTITY_ID CreateStarPathEntity(SCENE_ID id, float minX, float minY, float w, float h)
+{
+	auto* scene = helper::FindScene(id);
+	if (scene == nullptr)
+		return 0;
+
+	auto entity = scene->createStarFillLayer(Vec2{minX, minY}, Vec2{w, h});
+	return entity.getComponent<IDComponent>().id;
+}
 
 EDIT_API Edit_Result UpdateEntityTransformCurrentFrame(ENTITY_ID id, UpdateEntityTransform* transform, bool isEnd)
 {

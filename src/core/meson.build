@@ -21,7 +21,8 @@ source_file = [
     meson.current_source_dir().join('canvas/editMode/pickMode.cpp'),
     meson.current_source_dir().join('canvas/editMode/addMode.cpp'),
     meson.current_source_dir().join('canvas/editMode/addMode.h'),
-
+    meson.current_source_dir().join('canvas/shapeUtil.cpp'),
+    meson.current_source_dir().join('canvas/shapeUtil.h'),
 
     meson.current_source_dir().join('gpu/gl/extraGl.cpp'),
     meson.current_source_dir().join('gpu/gl/extraGl.h'),

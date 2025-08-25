@@ -10,6 +10,14 @@
 namespace core
 {
 
+struct Line;
+struct Segment;
+
+float Evaluate(const Line& line, float x);
+Line ToLine(const Segment& seg);
+
+
+
 static std::array<Vec2, 4> GetObb(tvg::Paint* p)
 {
 	std::array<tvg::Point, 4> pts;
@@ -91,6 +99,72 @@ static bool Pick(T* canvasOrScene, PickInfo& pickInfo, const Vec2& point)
 	}
 	return isPicked;
 }
+struct Line
+{
+    float intercept{0};
+    float slope{0};
+
+    // y = slope * x + intercept
+    const float evalute(float x) const
+    {
+        return Evaluate(*this, x);
+    }
+	void moveX(float x)
+	{
+		intercept = Evaluate(*this, -x);
+	}
+	void setSlopeByDegree(float d)
+	{
+		auto radian = ToRadian(d);
+		auto c = cos(radian);
+		if (std::abs(c) < 1e-6 ) 
+		{
+			slope = 0;
+		}
+		else 
+		{
+			slope = sin(radian)/c;
+		}
+	}
+	static Line Gen(const Vec2& point, float degree)
+	{
+		Line line;
+		line.setSlopeByDegree(degree);
+		line.intercept = point.y- line.slope*point.x;
+		return line;
+	}
+};
+
+struct Segment 
+{
+    Vec2 start{};
+    Vec2 end{};
+};
+
+inline static bool Intersect(const Line& source, const Line& target, Vec2& out)
+{
+	if (std::abs(source.slope - target.slope) < 1e-6) return false;
+	out.x = (source.intercept - target.intercept) / (target.slope - source.slope);
+	out.y = source.evalute(out.x);
+	return true;
+}
+
+inline static bool Intersect(const Line& source, const Segment& target, Vec2& out)
+{
+	Line targetLine = ToLine(target);
+	bool isIntersect = Intersect(source, targetLine, out);
+	return (isIntersect && target.start.x <= out.x && out.x <= target.end.x);
+}
+inline static Vec2 Rotate(const Vec2& point, float degree)
+{
+	Vec2 ret;
+	auto c= cos(ToRadian(degree));
+	auto s= sin(ToRadian(degree));
+	ret.x = point.x * c - point.y * s;
+	ret.y = point.x * s + point.y * c;
+	return ret;
+}
+
 }
 
 #endif

@@ -18,6 +18,7 @@ namespace core
 class GlGeometry;
 class Scene;
 class BBox;
+
 // class Animator;
 struct NameComponent
 {
@@ -41,7 +42,6 @@ struct RelationshipComponent
 	{
 	}
 };
-
 struct ShapeComponent
 {
 	Entity owner;

@@ -145,29 +145,38 @@ Entity Scene::createPolygonFillLayer(Vec2 minXy, Vec2 wh)
 	auto& id = entity.getComponent<IDComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& path = entity.addComponent<PathComponent>();
+	auto& polygon = entity.addComponent<PolygonPathComponent>();
+
 	entity.addComponent<SolidFillComponent>();
 	transform.anchorPoint = {0.0f, 0.0f};	 // oring of the local, center of the bbox
 	transform.localCenterPosition = minXy + wh * 0.5f;
 
-	auto bound = tvg::Shape::gen();
-	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
-	path.pathCommands.push_back(tvg::PathCommand::LineTo);
-	path.pathCommands.push_back(tvg::PathCommand::LineTo);
-	path.pathCommands.push_back(tvg::PathCommand::Close);
-	path.center = {transform.localCenterPosition.x, transform.localCenterPosition.y};
-
-	auto p0 = Vec2{path.center.x, minXy.y} - transform.localCenterPosition;
-	auto p1 = Vec2{minXy.x + wh.x, minXy.y + wh.h} - transform.localCenterPosition;
-	auto p2 = Vec2{minXy.x, minXy.y + wh.h} - transform.localCenterPosition;
-
-	path.points.emplace_back(p0.x, p0.y);
-	path.points.emplace_back(p1.x, p1.y);
-	path.points.emplace_back(p2.x, p2.y);
-
-	shape.shape = bound;
+	shape.shape = tvg::Shape::gen();
 	shape.shape->ref();
 	shape.shape->id = id.id;
 
+	const auto radius = wh.h / 2.0f;
+	const Vec2 ratio = {wh.w * 0.5f / radius, 1.0f};
+	const float start = -90.0f;
+	const float step = 360.0f / polygon.points;
+
+	polygon.points = CommonSetting::Count_DefaultStarPolygonPathPoint;
+	polygon.outerRadius = radius;
+
+	for (int i = 0; i < polygon.points; ++i)
+	{
+		const bool isOuter = (i % 2 == 0);
+		const float r = polygon.outerRadius;
+		const float degree = start + i * step;
+
+		const float px = std::cos(ToRadian(degree)) * r * ratio.x;
+		const float py = std::sin(ToRadian(degree)) * r * ratio.y;
+
+		path.points.emplace_back(px, py);
+		path.pathCommands.push_back(i == 0 ? tvg::PathCommand::MoveTo : tvg::PathCommand::LineTo);
+	}
+
+	path.pathCommands.push_back(tvg::PathCommand::Close);
 	entity.update();
 	mTvgScene->push(shape.shape);
 
@@ -176,7 +185,7 @@ Entity Scene::createPolygonFillLayer(Vec2 minXy, Vec2 wh)
 
 Entity Scene::createStarFillLayer(Vec2 minXy, Vec2 wh)
 {
-	if (wh.w*wh.h < 1e-6)
+	if (wh.w * wh.h < 1e-6)
 	{
 		wh.w = wh.h = 1.0f;
 	}
@@ -185,45 +194,40 @@ Entity Scene::createStarFillLayer(Vec2 minXy, Vec2 wh)
 	auto& id = entity.getComponent<IDComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
 	auto& path = entity.addComponent<PathComponent>();
+	auto& star = entity.addComponent<StarPolygonPathComponent>();
 	entity.addComponent<SolidFillComponent>();
+
 	transform.anchorPoint = {0.0f, 0.0f};	 // oring of the local, center of the bbox
 	transform.localCenterPosition = minXy + wh * 0.5f;
+
 	shape.shape = tvg::Shape::gen();
 	shape.shape->ref();
 	shape.shape->id = id.id;
 
-	const auto scale100HalfWidth = 50.0f;
-	Vec2 ratio = wh*0.5f/scale100HalfWidth;
-	Vec2 p[5];
-	Vec2 o[5];
+	const auto radius = wh.h / 2.0f;
+	const Vec2 ratio = {wh.w * 0.5f / radius, 1.0f};
+	const float start = -90.0f;
+	const float step = 360.0f / (star.points*2.0f);
+	const int iterCount = 2 * star.points;
 
-	path.center = {transform.localCenterPosition.x, transform.localCenterPosition.y};
-	path.pathCommands.push_back(tvg::PathCommand::MoveTo);
-	p[0] = Vec2{0.0f, -scale100HalfWidth};
-	for (int i = 1; i < 5; i++)
+	star.points = CommonSetting::Count_DefaultStarPolygonPathPoint;
+	star.outerRadius = radius;
+	star.innerRadius = radius/2.0f;
+
+	for (int i = 0; i < iterCount; ++i)
 	{
-		p[i] = Rotate(p[i-1], 72);
-		path.pathCommands.push_back(tvg::PathCommand::LineTo);
-	}
-	Line line = Line::Gen({0.0f, 0.0f}, -54.0f);
-	o[0] = p[0];
-	Intersect(line, Segment{.start=p[0], .end=p[2]}, o[0]);
-	path.pathCommands.push_back(tvg::PathCommand::LineTo);
-	for (int i = 1; i < 5; i++)
-	{
-		o[i] = Rotate(o[i-1], 72);
-		path.pathCommands.push_back(tvg::PathCommand::LineTo);
+		const bool isOuter = (i % 2 == 0);
+		const float r = isOuter ? star.outerRadius : star.innerRadius;
+		const float degree = start + i * step;
+
+		const float px = std::cos(ToRadian(degree)) * r * ratio.x;
+		const float py = std::sin(ToRadian(degree)) * r * ratio.y;
+
+		path.points.emplace_back(px, py);
+		path.pathCommands.push_back(i == 0 ? tvg::PathCommand::MoveTo : tvg::PathCommand::LineTo);
 	}
 
 	path.pathCommands.push_back(tvg::PathCommand::Close);
-
-	for (int i = 0; i < 5; i++)
-	{
-		p[i] = {p[i].x * ratio.x, p[i].y * ratio.y};
-		o[i] = {o[i].x * ratio.x, o[i].y * ratio.y};
-		path.points.emplace_back(p[i].x, p[i].y);
-		path.points.emplace_back(o[i].x, o[i].y);
-	}
 	entity.update();
 	mTvgScene->push(shape.shape);
 

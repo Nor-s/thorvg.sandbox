@@ -155,6 +155,12 @@ inline static bool Intersect(const Line& source, const Segment& target, Vec2& ou
 	bool isIntersect = Intersect(source, targetLine, out);
 	return (isIntersect && target.start.x <= out.x && out.x <= target.end.x);
 }
+inline static bool Intersect(const Segment& source, const Segment& target, Vec2& out)
+{
+	Line sourceLine = ToLine(source);
+	bool isIntersect = Intersect(sourceLine, target, out);
+	return (isIntersect && source.start.x <= out.x && out.x <= source.end.x);
+}
 inline static Vec2 Rotate(const Vec2& point, float degree)
 {
 	Vec2 ret;

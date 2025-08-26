@@ -118,6 +118,7 @@ struct Keyframes
 	}
 };
 
+using IntegerKeyFrame = Keyframes<int>;
 using FloatKeyFrame = Keyframes<float>;
 using VectorKeyFrame = Keyframes<Vec2>;
 using ColorKeyFrame = Keyframes<Vec3>;
@@ -144,6 +145,32 @@ struct ElipsePathComponent
 	Vec2 scale{100.0f, 100.0f};
 	VectorKeyFrame positionKeyframes;
 	VectorKeyFrame scaleKeyframes;
+};
+struct PolygonPathComponent
+{
+	int points{3};
+	float rotation{0.0f};
+	float outerRadius{100.0f};
+	Vec2 position{0.0f, 0.0f};
+
+	IntegerKeyFrame pointsKeyframes;
+	FloatKeyFrame rotationKeyframes;
+	FloatKeyFrame outerRadiusKeyframes;
+	VectorKeyFrame positionKeyframes;
+};
+struct StarPolygonPathComponent
+{
+	int points{5};
+	float rotation{0.0f};
+	float outerRadius{100.0f};
+	float innerRadius{100.0f};
+	Vec2 position{0.0f, 0.0f};
+
+	IntegerKeyFrame pointsKeyframes;
+	FloatKeyFrame rotationKeyframes;
+	FloatKeyFrame outerRadiusKeyframes;
+	FloatKeyFrame innerRadiusKeyframes;
+	VectorKeyFrame positionKeyframes;
 };
 
 struct PathComponent
@@ -275,7 +302,7 @@ struct TransformKeyframeComponent
 };
 struct SolidFillComponent
 {
-	Vec3 color = Style::DefaultFillColor;
+	Vec3 color = CommonSetting::Color_DefaultFill;
 	float alpha{255.0f};
 	tvg::FillRule rule{tvg::FillRule::NonZero};
 	ColorKeyFrame colorKeyframe;
@@ -284,7 +311,7 @@ struct SolidFillComponent
 
 struct StrokeComponent
 {
-	Vec3 color = Style::DefaultStrokeColor;
+	Vec3 color = CommonSetting::Color_DefaultStroke;
 	float alpha{255.0f};
 	float width{3.0f};
 	// tvg::StrokeJoin join;

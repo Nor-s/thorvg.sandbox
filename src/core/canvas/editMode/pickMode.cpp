@@ -98,7 +98,7 @@ bool PickMode::onMoveMouse(const InputValue& inputValue)
 	{
 		std::array<Vec2, 4> points = GetObb(pickInfo.currentSelectedPaint);
 		mContext.hover = rCanvas->mOverlayScene->createObb(points);
-		mContext.hover.getComponent<StrokeComponent>().color = Style::HoverOutlineColor;
+		mContext.hover.getComponent<StrokeComponent>().color = CommonSetting::Color_DefaultHoverOutline;
 	}
 
 	return true;

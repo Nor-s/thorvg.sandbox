@@ -121,8 +121,9 @@ void BBox::retarget(Entity target)
 	// todo: reset -> hide & show & move
 	// todo: reset unique_ptr -> move point, change transform box (apply target transform)
 	std::array<Vec2, 4> points = GetObb(targetShape.shape);
-	const auto centerPoint = GetCenter(points);
-	auto wh = Vec2{Style::BBoxControlBoxWidth, Style::BBoxControlBoxWidth};
+	auto& targetTransform = rTarget.getComponent<TransformComponent>();
+	const auto centerPoint = targetTransform.worldPosition;
+	auto wh = Vec2{CommonSetting::Width_DefaultBBoxControlBox, CommonSetting::Width_DefaultBBoxControlBox};
 
 	mControlBox[AnchorPoint] =
 		std::make_unique<ControlBox>(rScene, centerPoint, wh, ControlBox::Type::Move, ControlBox::ShapeType::Ellipse);
@@ -140,7 +141,7 @@ void BBox::retarget(Entity target)
 	mControlBox[BottomRightScale] = std::make_unique<ControlBox>(rScene, points[3], wh, ControlBox::Type::Scale);
 	mControlBox[BottomRightScale]->setOnLeftDrag(MakeLambda(scaleLambda));
 
-	wh = Vec2{Style::BBoxRotationControlBoxWidth, Style::BBoxRotationControlBoxWidth};
+	wh = Vec2{CommonSetting::Width_DefaultBBoxRotationControlBox, CommonSetting::Width_DefaultBBoxRotationControlBox};
 	mControlBox[TopLeftRotate] =
 		std::make_unique<ControlBox>(rScene, points[0], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
 	mControlBox[TopLeftRotate]->setOnLeftDrag(MakeLambda(rotationLambda));

@@ -22,7 +22,7 @@ ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType 
     }
     auto& stroke = mEntity.getComponent<StrokeComponent>();
     auto& fill = mEntity.getComponent<SolidFillComponent>();
-    stroke.color = Style::ControlBoxOutlineColor;
+    stroke.color = CommonSetting::Color_DefaultControlBoxOutline;
 
     switch(type)
     {
@@ -40,7 +40,7 @@ ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType 
         case Type::Scale:
         {
             auto& fill = mEntity.getComponent<SolidFillComponent>();
-            fill.color = Style::ControlBoxInnerColor;
+            fill.color = CommonSetting::Color_DefaultControlBoxInner;
             break;
         }
     }
@@ -55,7 +55,7 @@ ControlBox::ControlBox(Scene* scene, const std::array<Vec2, 4>& obbPoints, Type 
     mEntity = rScene->createObb(obbPoints);
 
     auto& stroke = mEntity.getComponent<StrokeComponent>();
-    stroke.color = Style::ControlBoxOutlineColor;
+    stroke.color = CommonSetting::Color_DefaultControlBoxOutline;
 }
 
 ControlBox::~ControlBox()

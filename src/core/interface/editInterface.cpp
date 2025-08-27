@@ -198,6 +198,59 @@ EDIT_API Edit_Result UpdateEntityDeltaPositionCurrentFrame(ENTITY_ID id, float x
 	return EDIT_RESULT_SUCCESS;
 }
 
+EDIT_API Edit_Result UpdateEntitySolidFillColorCurrentFrame(ENTITY_ID id, float r, float g, float b, bool isEnd)
+{
+	auto entity = Scene::FindEntity(id);
+	if (entity.isNull() || !entity.hasComponent<SolidFillComponent>())
+		return EDIT_RESULT_INVALID_ENTITY;
+
+	auto& solidFill = entity.getComponent<SolidFillComponent>();
+	solidFill.color.r = r;
+	solidFill.color.g = g;
+	solidFill.color.b = b;
+}
+
+EDIT_API Edit_Result UpdateEntitySolidFillAlphaCurrentFrame(ENTITY_ID id, float a, bool isEnd)
+{
+	auto entity = Scene::FindEntity(id);
+	if (entity.isNull() || !entity.hasComponent<SolidFillComponent>())
+		return EDIT_RESULT_INVALID_ENTITY;
+
+	auto& solidFill = entity.getComponent<SolidFillComponent>();
+	solidFill.alpha = a;
+}
+
+EDIT_API Edit_Result UpdateEntityStrokeWidthCurrentFrame(ENTITY_ID id, float w, bool isEnd)
+{
+	auto entity = Scene::FindEntity(id);
+	if (entity.isNull() || !entity.hasComponent<StrokeComponent>())
+		return EDIT_RESULT_INVALID_ENTITY;
+
+	auto& stroke = entity.getComponent<StrokeComponent>();
+	stroke.width = w;
+}
+EDIT_API Edit_Result UpdateEntityStrokeColorCurrentFrame(ENTITY_ID id, float r, float g, float b, bool isEnd)
+{
+	auto entity = Scene::FindEntity(id);
+	if (entity.isNull() || !entity.hasComponent<StrokeComponent>())
+		return EDIT_RESULT_INVALID_ENTITY;
+
+	auto& stroke = entity.getComponent<StrokeComponent>();
+	stroke.color.r = r;
+	stroke.color.g = g;
+	stroke.color.b = b;
+}
+EDIT_API Edit_Result UpdateEntityStrokeAlphaCurrentFrame(ENTITY_ID id, float a, bool isEnd)
+{
+	auto entity = Scene::FindEntity(id);
+	if (entity.isNull() || !entity.hasComponent<StrokeComponent>())
+		return EDIT_RESULT_INVALID_ENTITY;
+
+	auto& stroke = entity.getComponent<StrokeComponent>();
+	stroke.alpha = a;
+}
+
+
 // for undo
 EDIT_API Edit_Result UpdateEntityEnd(ENTITY_ID id)
 {
@@ -206,10 +259,10 @@ EDIT_API Edit_Result UpdateEntityEnd(ENTITY_ID id)
 
 EDIT_API void RemoveSelection()
 {
-	if(gCurrentAnimCanvas)
+	if (gCurrentAnimCanvas)
 	{
 		auto entities = gCurrentAnimCanvas->mOverlayScene->findByComponent<BBoxControlComponent>();
-		for(auto& entity: entities)
+		for (auto& entity : entities)
 		{
 			gCurrentAnimCanvas->mOverlayScene->destroyEntity(entity);
 		}

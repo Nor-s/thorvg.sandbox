@@ -75,7 +75,7 @@ bool DragFPropertyXYZ(const char* label,
 		ImGui::SameLine();
 		is_value_changed |= ImGui::DragFloat(drag_labels[i], &value[i], step, min, max, format);
 		ImGui::PopItemWidth();
-		if (i != num)
+		if (i + 1 != num)
 		{
 			ImGui::SameLine();
 		}

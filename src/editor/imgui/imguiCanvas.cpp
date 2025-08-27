@@ -13,6 +13,8 @@
 #include <ImGuiNotify.hpp>
 #include <imgInspect.h>
 #include <imgui_internal.h>
+#include <imgui_helper.h>
+
 #include <filesystem>
 
 namespace editor
@@ -103,7 +105,7 @@ void ImGuiCanvasView::onDrawSceneInspect()
 	ImguiTimeline().draw(lottieCanvas);
 	ImGuiShapePanel().draw(lottieCanvas);
 
-	if (ImGui::Begin("properties", 0, 0))
+	if (ImGui::Begin("property", 0, 0))
 	{
 		drawExampleCanvasContent();
 		drawAnimationCanvasProperties();
@@ -146,7 +148,138 @@ void ImGuiCanvasView::drawExampleCanvasContent()
 
 void ImGuiCanvasView::drawAnimationCanvasProperties()
 {
-	
+	auto* canvas = GetCurrentAnimCanvas();
+	if (canvas == nullptr)
+	{
+		return;
+	}
+
+	auto* animCanvas = static_cast<core::AnimationCreatorCanvas*>(canvas);
+	if (animCanvas)
+	{
+		auto select = animCanvas->mOverlayScene->findByComponent<core::BBoxControlComponent>();
+		if (!select.empty())
+		{
+			auto& bbox = select.front().getComponent<core::BBoxControlComponent>().bbox;
+			auto entity = bbox->rTarget;
+
+			drawComponent(entity);
+		}
+	}
+}
+void ImGuiCanvasView::drawComponent(core::Entity& entity)
+{
+	if (entity.isNull() || entity.hasComponent<core::SceneComponent>())
+	{
+		return;
+	}
+
+	// transform component
+	{
+		ImGui::Text("transform");
+		ImGui::Separator();
+		{
+			auto& transform = entity.getComponent<core::TransformComponent>();
+			auto position = transform.localCenterPosition;
+			ImGui::Helper::DragFPropertyXYZ("position:", position.value, 0.001f, -1000.0f, 1000.0f, "%.3f", "position", 2);
+
+			auto scale = transform.scale;
+			ImGui::Helper::DragFPropertyXYZ("scale:", scale.value, 0.001f, -1000.0f, 1000.0f, "%.3f", "scale", 2);
+
+			auto rotation = transform.rotation;
+			ImGui::Helper::DragFPropertyXYZ("rotation:", &rotation, 0.001f, -1000.0f, 1000.0f, "%.3f", "rotation", 1);
+		}
+	}
+
+	// solid fill component
+	{
+		ImGui::Text("solid fill");
+		ImGui::Separator();
+		if (entity.hasComponent<core::SolidFillComponent>())
+		{
+			static bool isSFColorEdit = false;
+			bool isBeforeColorEdit = isSFColorEdit;
+			auto fill = entity.getComponent<core::SolidFillComponent>();
+			auto color = fill.color / 255.0f;
+			ImGui::Text("color: ");
+			ImGui::SameLine();
+			isSFColorEdit |= ImGui::ColorEdit3("## solid fill color", color.value);
+			if (isSFColorEdit || isBeforeColorEdit)
+			{
+				color = color * 255.0f;
+				UpdateEntitySolidFillColorCurrentFrame(entity.getId(), color.r, color.g, color.b,
+													   isBeforeColorEdit && !isSFColorEdit);
+			}
+
+			static bool isSFAlphaEdit = false;
+			bool IsBeforeAlphaEdit = isSFAlphaEdit;
+			ImGui::Text("alpha: ");
+			ImGui::SameLine();
+			auto alpha = fill.alpha / 255.0f;
+			isSFAlphaEdit |= ImGui::DragFloat("## solid fill alpha", &alpha, 0.001f, 0.0f, 1.0f);
+			if (isSFAlphaEdit || IsBeforeAlphaEdit)
+			{
+				alpha = alpha * 255.0f;
+				UpdateEntitySolidFillAlphaCurrentFrame(entity.getId(), alpha, IsBeforeAlphaEdit && !isSFAlphaEdit);
+			}
+		}
+		ImGui::Separator();
+	}	 // solid fill component
+
+	// stroke component
+	{
+		ImGui::Text("stroke");
+		ImGui::Separator();
+		if (!entity.hasComponent<core::StrokeComponent>())
+		{
+			if (ImGui::Button("Add StrokeComponent"))
+			{
+				// todo add component API
+				entity.addComponent<core::StrokeComponent>();
+			}
+		}
+		else
+		{
+			auto& stroke = entity.getComponent<core::StrokeComponent>();
+
+			static bool isStrokeWidthEdit = false;
+			bool IsBeforeStrokeWidthEdit = isStrokeWidthEdit;
+			ImGui::Text("width: ");
+			ImGui::SameLine();
+			auto width = stroke.width;
+			isStrokeWidthEdit |= ImGui::DragFloat("## stroke width", &width, 0.1f, 0.0f, 50.0f);
+			if (isStrokeWidthEdit || IsBeforeStrokeWidthEdit)
+			{
+				UpdateEntityStrokeWidthCurrentFrame(entity.getId(), width, IsBeforeStrokeWidthEdit && !isStrokeWidthEdit);
+			}
+
+			static bool isSColorEdit = false;
+			bool isBeforeColorEdit = isSColorEdit;
+			auto color = stroke.color / 255.0f;
+			ImGui::Text("color: ");
+			ImGui::SameLine();
+			isSColorEdit |= ImGui::ColorEdit3("## stroke color", color.value);
+			if (isSColorEdit || isBeforeColorEdit)
+			{
+				color = color * 255.0f;
+				UpdateEntityStrokeColorCurrentFrame(entity.getId(), color.r, color.g, color.b,
+													   isBeforeColorEdit && !isSColorEdit);
+			}
+
+			static bool isSAlphaEdit = false;
+			bool IsBeforeAlphaEdit = isSAlphaEdit;
+			ImGui::Text("alpha: ");
+			ImGui::SameLine();
+			auto alpha = stroke.alpha / 255.0f;
+			isSAlphaEdit |= ImGui::DragFloat("## stroke alpha", &alpha, 0.001f, 0.0f, 1.0f);
+			if (isSAlphaEdit || IsBeforeAlphaEdit)
+			{
+				alpha = alpha * 255.0f;
+				UpdateEntityStrokeAlphaCurrentFrame(entity.getId(), alpha, IsBeforeAlphaEdit && !isSAlphaEdit);
+			}
+		}
+		ImGui::Separator();
+	} // stroke component
 }
 
 }	 // namespace editor

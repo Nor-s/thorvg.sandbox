@@ -6,6 +6,7 @@
 namespace core
 {
 class CanvasWrapper;
+class Entity;
 }
 
 namespace editor
@@ -21,6 +22,7 @@ public:
 private: 
 	void drawExampleCanvasContent();
 	void drawAnimationCanvasProperties();
+	void drawComponent(core::Entity& entity);
 };
 
 }	 // namespace editor

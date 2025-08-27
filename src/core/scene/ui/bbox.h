@@ -48,8 +48,9 @@ public:
 	bool onEndLeftMouse(const InputValue& inputValue);
 	bool onMoveMouse(const InputValue& inputValue);
 
-private:
 	Entity rTarget;
+
+private:
 	Scene* rScene{nullptr};
 	TransformComponent mBeforeTransform;
 	InputController* rInputController{nullptr};

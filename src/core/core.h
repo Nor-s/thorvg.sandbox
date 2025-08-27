@@ -12,6 +12,8 @@
 #include "canvas/canvas.h"
 #include "scene/scene.h"
 #include "scene/component/components.h"
+#include "scene/component/uiComponents.h"
+#include "scene/ui/bbox.h"
 #include "scene/entity.h"
 #include "canvas/animationCreatorCanvas.h"
 #include "canvas/animationCreatorInputController.h"
@@ -20,6 +22,7 @@
 #include "system/io.h"
 
 #include "interface/editInterface.h"
+
 
 namespace core
 {

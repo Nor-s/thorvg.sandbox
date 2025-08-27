@@ -330,10 +330,14 @@ inline static float ToDegree(float radian)
 inline static float lerp(float a, float b, float t) {
     return a + (b - a) * t;
 }
-
+inline static Vec3 lerp(const Vec3& a, const Vec3& b, float t) {
+    return { lerp(a.x, b.x, t),
+             lerp(a.y, b.y, t), 
+             lerp(a.z, b.z, t)};
+}
 inline static Vec2 lerp(const Vec2& a, const Vec2& b, float t) {
-    return { a.x + (b.x - a.x) * t,
-             a.y + (b.y - a.y) * t };
+    return { lerp(a.x, b.x, t),
+             lerp(a.y, b.y, t)};
 }
 
 

@@ -60,7 +60,7 @@ struct Keyframes
 			return frame < rhs.frame;
 		}
 	};
-	bool isEnable{true};
+	bool isEnable{false};
 	std::vector<Keyframe> frames;
 	T currentValue{};
 
@@ -80,6 +80,11 @@ struct Keyframes
 		});
 		if(it == frames.end())
 		{
+			isEnable = true;
+			if(frames.empty() && frameNo != 0)
+			{
+				frames.push_back(Keyframe{.frame=0, .value=value});
+			}
 			frames.push_back(Keyframe{.frame=frameNo, .value=value});
 			std::sort(frames.begin(), frames.end());
 		}
@@ -96,14 +101,14 @@ struct Keyframes
 		if (frames.size() == 1) 
 			return currentValue = frames[0].value;
 
-		auto it = std::lower_bound(frames.begin(), frames.end(), (uint32_t)frameNo,
-								   [](const Keyframe& k, uint32_t f) { return k.frame < f; });
+		auto it = std::lower_bound(frames.begin(), frames.end(), frameNo,
+								   [](const Keyframe& k, float f) { return k.frame < f; });
 
 		if (it == frames.end())
 		{
 			return frames.back().value;
 		}
-		if (it->frame == frameNo || frames.begin() == it)
+		if (frames.begin() == it)
 		{
 			return it->value;
 		}
@@ -112,6 +117,7 @@ struct Keyframes
 		const auto& hi = *it;
 		const float denom = float(hi.frame - lo.frame);
 		const float t = denom > 0.f ? (frameNo - static_cast<float>(lo.frame)) / denom : 0.f;
+		assert(t>= 0.0f && t <= 1.0f);
 
 		// todo: curve
 		return currentValue = lerp(lo.value, hi.value, t);
@@ -317,6 +323,7 @@ struct StrokeComponent
 	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;
+	FloatKeyFrame alphaKeyframe;
 };
 
 

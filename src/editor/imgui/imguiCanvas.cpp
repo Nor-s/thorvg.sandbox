@@ -203,7 +203,7 @@ void ImGuiCanvasView::drawComponent(core::Entity& entity)
 			auto color = fill.color / 255.0f;
 			ImGui::Text("color: ");
 			ImGui::SameLine();
-			isSFColorEdit |= ImGui::ColorEdit3("## solid fill color", color.value);
+			isSFColorEdit = ImGui::ColorEdit3("## solid fill color", color.value);
 			if (isSFColorEdit || isBeforeColorEdit)
 			{
 				color = color * 255.0f;
@@ -216,7 +216,7 @@ void ImGuiCanvasView::drawComponent(core::Entity& entity)
 			ImGui::Text("alpha: ");
 			ImGui::SameLine();
 			auto alpha = fill.alpha / 255.0f;
-			isSFAlphaEdit |= ImGui::DragFloat("## solid fill alpha", &alpha, 0.001f, 0.0f, 1.0f);
+			isSFAlphaEdit = ImGui::DragFloat("## solid fill alpha", &alpha, 0.001f, 0.0f, 1.0f);
 			if (isSFAlphaEdit || IsBeforeAlphaEdit)
 			{
 				alpha = alpha * 255.0f;
@@ -247,7 +247,7 @@ void ImGuiCanvasView::drawComponent(core::Entity& entity)
 			ImGui::Text("width: ");
 			ImGui::SameLine();
 			auto width = stroke.width;
-			isStrokeWidthEdit |= ImGui::DragFloat("## stroke width", &width, 0.1f, 0.0f, 50.0f);
+			isStrokeWidthEdit = ImGui::DragFloat("## stroke width", &width, 0.1f, 0.0f, 50.0f);
 			if (isStrokeWidthEdit || IsBeforeStrokeWidthEdit)
 			{
 				UpdateEntityStrokeWidthCurrentFrame(entity.getId(), width, IsBeforeStrokeWidthEdit && !isStrokeWidthEdit);
@@ -258,7 +258,7 @@ void ImGuiCanvasView::drawComponent(core::Entity& entity)
 			auto color = stroke.color / 255.0f;
 			ImGui::Text("color: ");
 			ImGui::SameLine();
-			isSColorEdit |= ImGui::ColorEdit3("## stroke color", color.value);
+			isSColorEdit = ImGui::ColorEdit3("## stroke color", color.value);
 			if (isSColorEdit || isBeforeColorEdit)
 			{
 				color = color * 255.0f;
@@ -271,7 +271,7 @@ void ImGuiCanvasView::drawComponent(core::Entity& entity)
 			ImGui::Text("alpha: ");
 			ImGui::SameLine();
 			auto alpha = stroke.alpha / 255.0f;
-			isSAlphaEdit |= ImGui::DragFloat("## stroke alpha", &alpha, 0.001f, 0.0f, 1.0f);
+			isSAlphaEdit = ImGui::DragFloat("## stroke alpha", &alpha, 0.001f, 0.0f, 1.0f);
 			if (isSAlphaEdit || IsBeforeAlphaEdit)
 			{
 				alpha = alpha * 255.0f;

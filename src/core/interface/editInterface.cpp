@@ -125,12 +125,12 @@ void AddTransformKeyframe(Entity entity)
 {
 	if (entity.hasComponent<TransformKeyframeComponent>() == false)
 	{
-		auto& tr = entity.getComponent<TransformComponent>();
-		auto& trk = entity.addComponent<TransformKeyframeComponent>();
+		// auto& tr = entity.getComponent<TransformComponent>();
+		entity.addComponent<TransformKeyframeComponent>();
 
-		trk.positionKeyframes.add(0, tr.localCenterPosition);
-		trk.scaleKeyframes.add(0, tr.scale);
-		trk.rotationKeyframes.add(0, tr.rotation);
+		// trk.positionKeyframes.add(0, tr.localCenterPosition);
+		// trk.scaleKeyframes.add(0, tr.scale);
+		// trk.rotationKeyframes.add(0, tr.rotation);
 	}
 }
 
@@ -208,6 +208,13 @@ EDIT_API Edit_Result UpdateEntitySolidFillColorCurrentFrame(ENTITY_ID id, float 
 	solidFill.color.r = r;
 	solidFill.color.g = g;
 	solidFill.color.b = b;
+
+	if (gCurrentAnimCanvas && gCurrentAnimCanvas->mAnimator->mIsStop)
+	{
+		const auto frameNo = gCurrentAnimCanvas->mAnimator->mCurrentFrameNo;
+		solidFill.colorKeyframe.add(frameNo, solidFill.color);
+		solidFill.colorKeyframe.currentValue = solidFill.color;
+	}
 }
 
 EDIT_API Edit_Result UpdateEntitySolidFillAlphaCurrentFrame(ENTITY_ID id, float a, bool isEnd)
@@ -218,6 +225,13 @@ EDIT_API Edit_Result UpdateEntitySolidFillAlphaCurrentFrame(ENTITY_ID id, float 
 
 	auto& solidFill = entity.getComponent<SolidFillComponent>();
 	solidFill.alpha = a;
+
+	if (gCurrentAnimCanvas && gCurrentAnimCanvas->mAnimator->mIsStop)
+	{
+		const auto frameNo = gCurrentAnimCanvas->mAnimator->mCurrentFrameNo;
+		solidFill.alphaKeyframe.add(frameNo, solidFill.alpha);
+		solidFill.alphaKeyframe.currentValue = solidFill.alpha;
+	}
 }
 
 EDIT_API Edit_Result UpdateEntityStrokeWidthCurrentFrame(ENTITY_ID id, float w, bool isEnd)
@@ -228,6 +242,13 @@ EDIT_API Edit_Result UpdateEntityStrokeWidthCurrentFrame(ENTITY_ID id, float w, 
 
 	auto& stroke = entity.getComponent<StrokeComponent>();
 	stroke.width = w;
+
+	if (gCurrentAnimCanvas && gCurrentAnimCanvas->mAnimator->mIsStop)
+	{
+		const auto frameNo = gCurrentAnimCanvas->mAnimator->mCurrentFrameNo;
+		stroke.widthKeyframe.add(frameNo, stroke.width);
+		stroke.widthKeyframe.currentValue = stroke.width;
+	}
 }
 EDIT_API Edit_Result UpdateEntityStrokeColorCurrentFrame(ENTITY_ID id, float r, float g, float b, bool isEnd)
 {
@@ -239,6 +260,13 @@ EDIT_API Edit_Result UpdateEntityStrokeColorCurrentFrame(ENTITY_ID id, float r, 
 	stroke.color.r = r;
 	stroke.color.g = g;
 	stroke.color.b = b;
+
+	if (gCurrentAnimCanvas && gCurrentAnimCanvas->mAnimator->mIsStop)
+	{
+		const auto frameNo = gCurrentAnimCanvas->mAnimator->mCurrentFrameNo;
+		stroke.colorKeyframe.add(frameNo, stroke.color);
+		stroke.colorKeyframe.currentValue = stroke.color;
+	}
 }
 EDIT_API Edit_Result UpdateEntityStrokeAlphaCurrentFrame(ENTITY_ID id, float a, bool isEnd)
 {
@@ -248,6 +276,13 @@ EDIT_API Edit_Result UpdateEntityStrokeAlphaCurrentFrame(ENTITY_ID id, float a, 
 
 	auto& stroke = entity.getComponent<StrokeComponent>();
 	stroke.alpha = a;
+
+	if (gCurrentAnimCanvas && gCurrentAnimCanvas->mAnimator->mIsStop)
+	{
+		const auto frameNo = gCurrentAnimCanvas->mAnimator->mCurrentFrameNo;
+		stroke.alphaKeyframe.add(frameNo, stroke.alpha);
+		stroke.alphaKeyframe.currentValue = stroke.alpha;
+	}
 }
 
 

@@ -330,9 +330,30 @@ void Scene::onUpdate()
 			mRegistry.view<TransformComponent, TransformKeyframeComponent>().each(
 				[keyframeNo](auto entity, TransformComponent& transform, TransformKeyframeComponent& keyframes)
 				{
-					transform.localCenterPosition = keyframes.positionKeyframes.frame(keyframeNo);
-					transform.scale = keyframes.scaleKeyframes.frame(keyframeNo);
-					transform.rotation = keyframes.rotationKeyframes.frame(keyframeNo);
+					if (keyframes.positionKeyframes.isEnable)
+						transform.localCenterPosition = keyframes.positionKeyframes.frame(keyframeNo);
+					if (keyframes.scaleKeyframes.isEnable)
+						transform.scale = keyframes.scaleKeyframes.frame(keyframeNo);
+					if (keyframes.rotationKeyframes.isEnable)
+						transform.rotation = keyframes.rotationKeyframes.frame(keyframeNo);
+				});
+			mRegistry.view<SolidFillComponent>().each(
+				[keyframeNo](auto entity, SolidFillComponent& component)
+				{
+					if (component.colorKeyframe.isEnable)
+						component.color = component.colorKeyframe.frame(keyframeNo);
+					if (component.alphaKeyframe.isEnable)
+						component.alpha = component.alphaKeyframe.frame(keyframeNo);
+				});
+			mRegistry.view<StrokeComponent>().each(
+				[keyframeNo](auto entity, StrokeComponent& component)
+				{
+					if (component.colorKeyframe.isEnable)
+						component.color = component.colorKeyframe.frame(keyframeNo);
+					if (component.alphaKeyframe.isEnable)
+						component.alpha = component.alphaKeyframe.frame(keyframeNo);
+					if (component.widthKeyframe.isEnable)
+						component.width = component.widthKeyframe.frame(keyframeNo);
 				});
 			animator->mDirty = false;
 		}

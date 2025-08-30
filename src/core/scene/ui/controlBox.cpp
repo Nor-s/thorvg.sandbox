@@ -12,38 +12,44 @@ namespace core
 ControlBox::ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType shapeType)
 {
 	rScene = scene;
-    if (shapeType == ShapeType::Ellipse)
+    switch(shapeType)
     {
-        mEntity = rScene->createEllipseFillStrokeLayer(center - wh/2.0f, wh);
-    }
-    else
-    {
-        mEntity = rScene->createRectFillStrokeLayer(center - wh/2.0f, wh);
+        case ShapeType::FillStrokeEllipse:
+        case ShapeType::TransparentEllipse:
+        case ShapeType::StrokeEllipse:
+        {
+            mEntity = rScene->createEllipseFillStrokeLayer(center - wh/2.0f, wh);
+            break;
+        }
+        case ShapeType::FillStrokeRect:
+        case ShapeType::StrokeRect:
+        {
+            mEntity = rScene->createRectFillStrokeLayer(center - wh/2.0f, wh);
+            break;
+        }
     }
     auto& stroke = mEntity.getComponent<StrokeComponent>();
     auto& fill = mEntity.getComponent<SolidFillComponent>();
     stroke.color = CommonSetting::Color_DefaultControlBoxOutline;
+    fill.color = CommonSetting::Color_DefaultControlBoxInner;
 
-    switch(type)
+    switch(shapeType)
     {
-        case Type::Move:
+        case ShapeType::StrokeEllipse:
+        case ShapeType::StrokeRect:
+        case ShapeType::TransparentEllipse:
         {
             fill.alpha = 0.0f;
-            break;
-        }
-        case Type::Rotate:
-        {
-            fill.alpha = 0.0f;
-            stroke.alpha = 0.0f;
-            break;
-        }
-        case Type::Scale:
-        {
-            auto& fill = mEntity.getComponent<SolidFillComponent>();
-            fill.color = CommonSetting::Color_DefaultControlBoxInner;
-            break;
         }
     }
+    switch(shapeType)
+    {
+        case ShapeType::TransparentEllipse:
+        {
+            stroke.alpha = 0.0f;
+        }
+    }
+
     auto& shape = mEntity.getComponent<ShapeComponent>();
     mObbPoints = GetObb(shape.shape);
 }
@@ -63,10 +69,22 @@ ControlBox::~ControlBox()
 	rScene->destroyEntity(mEntity);
 }
 
-void ControlBox::moveTo(Vec2 xy)
+void ControlBox::moveTo(const Vec2& xy)
 {
     auto& transform = mEntity.getComponent<TransformComponent>();
     transform.localCenterPosition = xy;
+    mEntity.update();
+
+    auto& shape = mEntity.getComponent<ShapeComponent>();
+    mObbPoints = GetObb(shape.shape);
+}
+void ControlBox::moveByDelta(const Vec2& delta)
+{
+    mEntity.moveByDelta(delta);
+    mEntity.update();
+
+    auto& shape = mEntity.getComponent<ShapeComponent>();
+    mObbPoints = GetObb(shape.shape);
 }
 bool ControlBox::onLeftDown(Vec2 xy)
 {

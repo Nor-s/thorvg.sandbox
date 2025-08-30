@@ -79,7 +79,7 @@ Entity Scene::createEllipseFillLayer(Vec2 minXy, Vec2 wh)
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& rect = entity.addComponent<ElipsePathComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
-	auto& solidFill = entity.addComponent<SolidFillComponent>();
+	entity.addComponent<SolidFillComponent>();
 
 	transform.localCenterPosition = minXy + wh * 0.5f;
 	transform.anchorPoint = {0.0f, 0.0f};
@@ -100,7 +100,7 @@ Entity Scene::createEllipseFillLayer(Vec2 minXy, Vec2 wh)
 Entity Scene::createEllipseFillStrokeLayer(Vec2 minXy, Vec2 wh)
 {
 	Entity entity = createEllipseFillLayer(minXy, wh);
-	auto& stroke = entity.addComponent<StrokeComponent>();
+	entity.addComponent<StrokeComponent>();
 	entity.update();
 	return entity;
 }
@@ -112,7 +112,7 @@ Entity Scene::createRectFillLayer(Vec2 minXy, Vec2 wh)
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& rect = entity.addComponent<RectPathComponent>();
 	auto& shape = entity.addComponent<ShapeComponent>();
-	auto& solidFill = entity.addComponent<SolidFillComponent>();
+	entity.addComponent<SolidFillComponent>();
 
 	transform.localCenterPosition = minXy + wh * 0.5f;
 	transform.anchorPoint = {0.0f, 0.0f};
@@ -133,7 +133,7 @@ Entity Scene::createRectFillLayer(Vec2 minXy, Vec2 wh)
 Entity Scene::createRectFillStrokeLayer(Vec2 minXy, Vec2 wh)
 {
 	Entity entity = createRectFillLayer(minXy, wh);
-	auto& stroke = entity.addComponent<StrokeComponent>();
+	entity.addComponent<StrokeComponent>();
 	entity.update();
 	return entity;
 }

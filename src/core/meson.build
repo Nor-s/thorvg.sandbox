@@ -16,11 +16,15 @@ source_file = [
     meson.current_source_dir().join('canvas/animationCreatorCanvas.h'),
     meson.current_source_dir().join('canvas/animationCreatorInputController.h'),
     meson.current_source_dir().join('canvas/animationCreatorInputController.cpp'),
+
     meson.current_source_dir().join('canvas/editMode/editMode.h'),
     meson.current_source_dir().join('canvas/editMode/pickMode.h'),
     meson.current_source_dir().join('canvas/editMode/pickMode.cpp'),
     meson.current_source_dir().join('canvas/editMode/addMode.cpp'),
     meson.current_source_dir().join('canvas/editMode/addMode.h'),
+    meson.current_source_dir().join('canvas/editMode/addPathMode.cpp'),
+    meson.current_source_dir().join('canvas/editMode/addPathMode.h'),
+
     meson.current_source_dir().join('canvas/shapeUtil.cpp'),
     meson.current_source_dir().join('canvas/shapeUtil.h'),
 

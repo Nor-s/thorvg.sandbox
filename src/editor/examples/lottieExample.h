@@ -29,8 +29,8 @@
 /* ThorVG Drawing Contents                                              */
 /************************************************************************/
 
-#define NUM_PER_ROW 3
-#define NUM_PER_COL 3
+#define NUM_PER_ROW 4
+#define NUM_PER_COL 4
 
 struct LottieExample : tvgexam::Example
 {
@@ -85,8 +85,6 @@ struct LottieExample : tvgexam::Example
 						   (counter / NUM_PER_ROW) * (this->h / NUM_PER_COL) + shiftY);
 
 		animations.push_back(unique_ptr<tvg::Animation>(animation));
-
-		cout << "Lottie: " << path << endl;
 
 		counter++;
 	}

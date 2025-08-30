@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 779 540">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10, .st11, .st12, .st13, .st14 {
+        stroke: #393939;
+      }
+
+      .st0, .st2, .st3, .st5, .st6, .st7, .st9, .st10, .st12, .st13, .st14 {
+        stroke-width: 5px;
+      }
+
+      .st9 {
+        fill: url(#linear-gradient1);
+      }
+    </style>
+    <linearGradient id="linear-gradient1" x1="359" y1="257" x2="359" y2="159" gradientTransform="translate(0 542) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#999"/>
+    </linearGradient>
+  </defs>
+
+  <g id="Laptop">
+    <rect class="st9" x="280.5" y="282.5" width="157" height="103" rx="12.5" ry="12.5"/>
+  </g>
+</svg>

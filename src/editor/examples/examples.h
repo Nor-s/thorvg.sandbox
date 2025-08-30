@@ -6,5 +6,7 @@
 #include "lottieExample.h"
 #include "boundingBoxExample.h"
 #include "svgExample.h"
+#include "emptyExample.h"
+#include "accessorExample.h"
 
 #endif

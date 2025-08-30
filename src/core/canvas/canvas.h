@@ -1,21 +1,33 @@
 #ifndef _CORE_CANVAS_CANVAS_H_
 #define _CORE_CANVAS_CANVAS_H_
 
-// todo: clean header
-#include <tvgGl.h>
-#include <thorvg.h>
-#include <tvgCommon.h>
-#include <tvgGlRenderTarget.h>
-#include <tvgMath.h>
+#include "paintWrapper.h"
 
+#include <thorvg.h>
+
+#include "common/common.h"
+#include <vector>
+#include <memory>
+
+class GlRenderTarget;
 namespace core
 {
+class InputController;
+
+enum class CanvasType
+{
+	Base,
+	Example,
+	LottieCreator
+};
 
 // todo: delete move, copy
 class CanvasWrapper
 {
 public:
-	CanvasWrapper(void* context, tvg::Size size);
+public:
+	CanvasWrapper(void* context, Size size, bool bIsSw);
+	virtual ~CanvasWrapper();
 
 	void clearColor(float color[3])
 	{
@@ -25,25 +37,63 @@ public:
 	virtual void onInit() {};
 	virtual void onUpdate();
 	virtual void onResize() {};
+	virtual CanvasType type()
+	{
+		return CanvasType::Base;
+	}
 
 	void draw();
-	void resize(tvg::Size size);
+	void resize(Size size);
+	void update();
 	uint32_t getTexture();
 
 	tvg::Canvas* getCanvas()
 	{
 		return mCanvas;
 	}
+	unsigned char* getBuffer();
 
-	tvg::Size mSize{};
+	virtual void pushPaint(std::unique_ptr<PaintWrapper> paint)
+	{
+		paint->scale(mSize);
+		mCanvas->push(paint->mHandle);
+		mCanvas->update();
+
+		mPaints.push_back(std::move(paint));
+	}
+
+	virtual void pushAnimation(std::unique_ptr<AnimationWrapper> anim)
+	{
+		mAnimations.push_back(std::move(anim));
+	}
+
+	virtual InputController* getInputController();
+
+	bool isSw()
+	{
+		return mIsSw;
+	}
+
+	Size mSize{};
+
+	uint32_t mGlobalElapsed = 0;
 
 protected:
 	// todo: smart pointer
 	GlRenderTarget* mRenderTarget{};
-	tvg::GlCanvas* mCanvas{nullptr};
+	tvg::Canvas* mCanvas{nullptr};
+
 	float mClearColor[3]{};
 	void* rContext{nullptr};
-	tvg::Size mBeforeSize;
+	Size mBeforeSize;
+	bool mIsSw = false;
+
+	unsigned char* mBuffer = nullptr;
+	uint32_t* mSwBuffer = nullptr;
+
+	// imported image, svg, lottie..
+	std::vector<std::unique_ptr<PaintWrapper>> mPaints;
+	std::vector<std::unique_ptr<AnimationWrapper>> mAnimations;
 };
 
 }	 // namespace core

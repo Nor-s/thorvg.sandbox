@@ -1,5 +1,4 @@
 #include "window.h"
-
 namespace editor
 {
 

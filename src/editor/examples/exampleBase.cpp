@@ -1,0 +1,29 @@
+#include "exampleBase.h"
+
+#include "examples.h"
+
+using namespace core;
+
+namespace tvgexam
+{
+ExampleCanvas::ExampleCanvas(void* context, core::Size size, bool bIsSw) : core::CanvasWrapper(context, size, bIsSw)
+{
+	if (gExampleList.size() == 0)
+	{
+		gMakeExample.push_back([]() { return std::make_unique<LottieExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<AccessorExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<AnimationExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<SvgExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<BoundingBoxExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<ParticleExample>(); });
+		gMakeExample.push_back([]() { return std::make_unique<EmptyExample>(); });
+		for (auto& makeFunc : gMakeExample)
+		{
+			gExampleList.push_back(makeFunc());
+		}
+	}
+	mCurrentExampleIdx = 0;
+	rExample = gExampleList[mCurrentExampleIdx].get();
+	mExample = gMakeExample[mCurrentExampleIdx]();
+}
+}	 // namespace tvgexam

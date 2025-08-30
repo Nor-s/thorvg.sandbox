@@ -4,3 +4,6 @@
 [submodule "subprojects/entt"]
 	path = subprojects/entt
 	url = https://github.com/skypjack/entt.git
+[submodule "subprojects/spdlog"]
+	path = subprojects/spdlog
+	url = https://github.com/gabime/spdlog.git

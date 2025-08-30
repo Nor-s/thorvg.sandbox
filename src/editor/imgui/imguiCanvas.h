@@ -6,6 +6,7 @@
 namespace core
 {
 class CanvasWrapper;
+class Entity;
 }
 
 namespace editor
@@ -14,7 +15,14 @@ namespace editor
 class ImGuiCanvasView
 {
 public:
-	void onDraw(std::string_view title, core::CanvasWrapper& canvas);
+	static core::CanvasWrapper* gCurrentCanvas;
+	void onDraw(std::string_view title, core::CanvasWrapper& canvas, int canvasIndex);
+	void onDrawSceneInspect();
+	void onDrawContentBrowser();
+private: 
+	void drawExampleCanvasContent();
+	void drawAnimationCanvasProperties();
+	void drawComponent(core::Entity& entity);
 };
 
 }	 // namespace editor

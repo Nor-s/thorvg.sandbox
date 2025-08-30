@@ -2,6 +2,9 @@
 
 #include "../app.h"
 
+#include <ImGuiNotify.hpp>
+#include <icons/icons.h>
+
 namespace editor
 {
 
@@ -97,12 +100,11 @@ inline void Style()
 #endif
 }
 
-GLWindow::GLWindow(const tvg::Size& res)
+GLWindow::GLWindow(const core::Size& res)
 {
 	if (!mInitialized)
 		return;
 #ifdef THORVG_GL_TARGET_GLES
-	TVGLOG("COMMON", "GL_TARGET_GLES");
 	mGlslVersion = "#version 300 es";
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 	// SDL_SetHint(SDL_HINT_OPENGL_ES_DRIVER, "1");
@@ -111,7 +113,6 @@ GLWindow::GLWindow(const tvg::Size& res)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
 	mGlslVersion = "#version 330 core";
-	TVGLOG("COMMON", "GL_TARGET_GL");
 
 // macos
 #if defined(__APPLE__)
@@ -136,20 +137,22 @@ GLWindow::GLWindow(const tvg::Size& res)
 							   SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 	if (mWindow == nullptr)
 	{
-		TVGERR("GL", "Error: SDL_CreateWindow(): %s\n", SDL_GetError());
+		LOG_ERROR("Error: SDL_CreateWindow(): {}\n", SDL_GetError());
 	}
 
 	mContext = SDL_GL_CreateContext(mWindow);
 	if (mContext == nullptr)
 	{
-		TVGERR("GL", "Error: SDL_GL_CreateContext(): %s\n", SDL_GetError());
+		LOG_ERROR("Error: SDL_GL_CreateContext(): {}\n", SDL_GetError());
 	}
 	SDL_GL_MakeCurrent(mWindow, mContext);
-	SDL_GL_SetSwapInterval(1);	  // Enable vsync
+	SDL_GL_SetSwapInterval(0);	  // Enable vsync
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigWindowsMoveFromTitleBarOnly = true;
+	io.ConfigWindowsResizeFromEdges      = true;
 	(void) io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	 // Enable Keyboard Controls
 	// io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	 // Enable Gamepad Controls
@@ -160,14 +163,16 @@ GLWindow::GLWindow(const tvg::Size& res)
 
 	// For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the
 	// imgui.ini file. You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
-// #ifdef __EMSCRIPTEN__
-// // 	io.IniFilename = NULL;
-// // #endif
+	// #ifdef __EMSCRIPTEN__
+	// // 	io.IniFilename = NULL;
+	// // #endif
 
 	Style();
 
 	ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
 	ImGui_ImplOpenGL3_Init(mGlslVersion.c_str());
+
+	ImGui::LoadInternalIcons(io.Fonts);
 }
 
 GLWindow::~GLWindow()

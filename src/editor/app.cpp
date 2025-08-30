@@ -1,15 +1,16 @@
 #include "app.h"
 #include "window/glWindow.h"
 #include "imgui/imguiCanvas.h"
+#include "imgui/imguiShapePanel.h"
+#include "imgui/imguiContentBrowser.h"
 
-#include <SDL.h>
-
-#include <tvgGl.h>
-#include <thorvg.h>
-#include <tvgCommon.h>
 #include <core/core.h>
+#include <ImGuiNotify.hpp>
 
 #include "examples/examples.h"
+
+#include "event/eventStack.h"
+#include "event/events.h"
 
 App& App::GetInstance()
 {
@@ -20,12 +21,9 @@ App& App::GetInstance()
 void App::InitInstance(const AppState& state)
 {
 	tvg::Initializer::init(0);
-
 	GetInstance().mState = state;
 	GetInstance().init();
 
-	// tvgGl.h
-	glInit();
 }
 
 void App::DestroyInstance()
@@ -44,32 +42,31 @@ void App::MainLoop()
 
 void App::init()
 {
+	mEventController = std::make_unique<editor::EventStack>();
 	mWindow = std::make_unique<editor::GLWindow>(mState.resolution);
+
+	// tvgGl.h
+	glInit();
+	extraGlInit();
+
+
+	// mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, false));
+	// mCanvasList.push_back(new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, true));
+	mCanvasList.push_back(new core::AnimationCreatorCanvas(mWindow->mContext, {500.0f, 500.0f}, false));
+	float clearColor[3] = {.77f, 0.77f, 0.77f};
+	for (auto& canvas : mCanvasList)
+	{
+		canvas->clearColor(clearColor);
+		canvas->onInit();
+	}
+	focusCanvas(0);
 	mWindow->show();
 }
 
 void App::loop()
 {
-	SDL_Event event;
-	ImGuiIO& io = ImGui::GetIO();
-	(void) io;
-	core::io::deltaTime = io.DeltaTime;
-
-	while (SDL_PollEvent(&event))
+	if(!processEvent())
 	{
-		ImGui_ImplSDL2_ProcessEvent(&event);
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				mState.running = false;
-				break;
-			default:
-				break;
-		}
-	}
-	if (SDL_GetWindowFlags(mWindow->mWindow) & SDL_WINDOW_MINIMIZED)
-	{
-		SDL_Delay(10);
 		return;
 	}
 
@@ -78,6 +75,7 @@ void App::loop()
 	ImGui::NewFrame();
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImGuiIO& io = ImGui::GetIO();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, (int) io.DisplaySize.x, (int) io.DisplaySize.y);
 	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
@@ -96,29 +94,6 @@ void App::loop()
 
 void App::draw()
 {
-	// temp code
-	static bool bIsInit = false;
-	if (!bIsInit)
-	{
-		float clearColor[3] = {.1f, 0.2f, 0.2f};
-
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<AnimationExample>()));
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<LottieExample>()));
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<SvgExample>()));
-		// mCanvasList.push_back(
-			// new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<BoundingBoxExample>()));
-		mCanvasList.push_back(
-			new tvgexam::ExampleCanvas(mWindow->mContext, {500.0f, 500.0f}, std::make_unique<ParticleExample>()));
-		for (auto& canvas : mCanvasList)
-		{
-			canvas->clearColor(clearColor);
-			canvas->onInit();
-		}
-		bIsInit = true;
-	}
 	for (auto& canvas : mCanvasList)
 	{
 		canvas->draw();
@@ -152,26 +127,34 @@ void App::drawgui()
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
+			ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags | ImGuiDockNodeFlags_PassthruCentralNode);
 		}
 		ImGui::End();
 	}
 
+	
+	editor::ImGuiCanvasView().onDrawSceneInspect();
+	editor::ImGuiCanvasView().onDrawContentBrowser();
+	editor::ImguiContentBrowser().draw();
+	for(int i =0 ; i < mCanvasList.size(); i++)
 	{
-		static bool show_demo_window = true;
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
-	}
-	// temp code
-	int i = 0;
-	for (auto* canvas : mCanvasList)
-	{
-		editor::ImGuiCanvasView().onDraw("canvas" + std::to_string(i++), *canvas);
+		auto& canvas = mCanvasList[i];
+		std::string title = "canvas" + std::to_string(i);
+		title += canvas->isSw() ? "(sw)" : "(gl)";
+		editor::ImGuiCanvasView().onDraw(title.c_str(), *canvas, i);
 	}
 }
 
 void App::drawend()
 {
+	// Notifications style setup
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);							 // Disable round borders
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);						 // Disable borders
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.10f, 0.10f, 0.10f, 1.00f));	 // Background color
+	ImGui::RenderNotifications();
+	ImGui::PopStyleVar(2);
+	ImGui::PopStyleColor(1);
+
 	// ImGUI Rendering
 	ImGui::Render();
 	SDL_GL_MakeCurrent(mWindow->mWindow, mWindow->mContext);

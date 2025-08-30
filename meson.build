@@ -21,7 +21,7 @@ if platform == 'web'
       '--preload-file', '@0@/resources@/'.format(src_dir),
     ]
     # tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','partial=false','static=true','threads=false','b_lto=true'])
-    tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','static=true'])
+    tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=false', 'loaders=all','savers=all', 'extra=opengl_es,lottie_expressions','static=true'])
 else
     add_project_arguments('-DEXAMPLE_DIR="@0@/resources"'.format(src_dir),
                       language : 'cpp')
@@ -29,9 +29,9 @@ else
     wasm_link_args = []
     if host_machine.system() == 'windows'
         add_project_arguments('-DNOMINMAX', language: 'cpp')
-        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=' ])
+        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=false', 'loaders=all','savers=all', 'extra=' ])
     else
-        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=true', 'loaders=all','savers=all', 'extra=lottie_expressions' ])
+        tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=false', 'loaders=all','savers=all', 'extra=lottie_expressions' ])
     endif
 endif
 
@@ -50,29 +50,36 @@ imgui_dep = imgui_proj.get_variable('imgui_dep')
 entt_proj = cmake.subproject('entt')
 entt_dep = entt_proj.dependency('EnTT')
 
+spdlog_dep = cmake.subproject('spdlog').dependency('spdlog')
+
+# spdlog_dep = dependency('spdlog', required: true)
+
+
 example_dep = []
+core_dep = []
+editor_dep = []
+lottie_dep = []
+subdir('src/core')
+subdir('src/editor')
+subdir('src/lottie')
 subdir('src/editor/examples')
 
 dep_list =[
     sdl2_dep,
+    spdlog_dep,
     imgui_dep,
     entt_dep,
     tvg_lib_dep,
-    example_dep
+    example_dep, 
+    core_dep,
+    editor_dep,
+    lottie_dep
 ]
 
 # Src Files
 tvg_sandbox_src =[
     'src/main.cpp',
-
-    'src/core/canvas/canvas.cpp',
-
-    'src/editor/app.cpp',
-    'src/editor/imgui/imguiCanvas.cpp',
-    'src/editor/window/window.cpp',
-    'src/editor/window/glWindow.cpp',
 ]
-
 
 tvg_sandbox_inc = include_directories('src', tvg_config_path)
 

@@ -5,15 +5,18 @@
 
 #include <string>
 #include <memory>
+#include "event/eventController.h"
+#include "event/inputEventHandler.h"
 
 namespace core
 {
 class CanvasWrapper;
+class InputController;
 }
 namespace editor
 {
 class Window;
-}
+}	 // namespace editor
 
 // todo: singleton
 class App
@@ -21,10 +24,10 @@ class App
 public:
 	struct AppState
 	{
-		tvg::Size resolution;
+		core::Size resolution;
 		std::string title;
 		bool running = true;
-		AppState() : resolution(800, 600), title("thorvg.sandbox")
+		AppState() : resolution(1280, 720), title("thorvg.sandbox")
 		{
 		}
 	};
@@ -38,21 +41,38 @@ public:
 		return GetInstance().mState;
 	}
 
+	// event
+	template <typename EventType, typename... Args>
+	static void PushEvent(Args&&... args)
+	{
+		GetInstance().mEventController->push(std::make_unique<EventType>(std::forward<Args>(args)...));
+	}
+	static void CanvasResize(int canvasIndex, core::Size size);
+	static void CavasFocus(int canvasIndex, bool isFocus);
+
 public:
 	App() = default;
 	~App() = default;
 
 	void init();
 	void loop();
+	bool processEvent();
 	void draw();
 	void drawgui();
 	void drawend();
 
+	void focusCanvas(int canvasIndex);
+	void setInputController(core::InputController* inputController);
+
 private:
 	AppState mState;
 	std::unique_ptr<editor::Window> mWindow;
-	// todo: smart pointer or change container class
+	std::unique_ptr<editor::EventController> mEventController;
 	std::vector<core::CanvasWrapper*> mCanvasList;
+
+	int mCurrentFocusCanvas = 0;
+	core::InputController* rInputController = nullptr;
+	InputEventHandler mInputEventHandler;
 };
 
 #endif

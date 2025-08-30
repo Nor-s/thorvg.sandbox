@@ -9,16 +9,15 @@
 
 #include <sstream>
 
-
 namespace tvg
 {
 
-template<typename T>
+template <typename T>
 static MapValue processKeyframe(T& frame)
 {
 	MapValue ret;
 
-	if(frame.interpolator)
+	if (frame.interpolator)
 	{
 		MapValue imap;
 		MapValue omap;
@@ -31,17 +30,17 @@ static MapValue processKeyframe(T& frame)
 		omap["y"] = VAL(frame.interpolator->outTangent.y);
 		ret["o"] = VALMOV(omap);
 	}
-	ret["s"] = VAL(frame.value); // value
+	ret["s"] = VAL(frame.value);	// value
 	ret["t"] = VAL(frame.no);
-	ret["h"] = VAL(frame.hold?1:0);
+	ret["h"] = VAL(frame.hold ? 1 : 0);
 	return ret;
 }
 
-template<typename T>
+template <typename T>
 static ArrayValue processKeyframes(T& frames)
 {
 	ArrayValue ret;
-	for(auto& frame: frames)
+	for (auto& frame : frames)
 	{
 		ret.push_back(VALMOV(processKeyframe(frame)));
 	}
@@ -49,13 +48,13 @@ static ArrayValue processKeyframes(T& frames)
 	return ret;
 }
 
-template<typename T>
+template <typename T>
 static MapValue processLottieProperty(T& prop)
 {
 	MapValue ret;
 
-	ret["a"] = VAL((prop.frames && prop.frames->count > 1)? 1 : 0);
-	if(prop.frames == nullptr || prop.frames->count == 1) 
+	ret["a"] = VAL((prop.frames && prop.frames->count > 1) ? 1 : 0);
+	if (prop.frames == nullptr || prop.frames->count == 1)
 	{
 		ret["k"] = VAL(prop.value);
 		return ret;
@@ -72,11 +71,11 @@ private:
 	std::stringstream mSstream;
 	tvg::Animation* rAnimation = nullptr;
 	std::string mFileName;
-    std::string name;
+	std::string name;
 
 private:
 	void run(unsigned tid) override;
-    void main();
+	void run();
 
 public:
 	~LottieSaver();

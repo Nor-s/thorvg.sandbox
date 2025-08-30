@@ -29,6 +29,9 @@ else
     wasm_link_args = []
     if host_machine.system() == 'windows'
         add_project_arguments('-DNOMINMAX', language: 'cpp')
+        if meson.get_compiler('cpp').get_id() == 'msvc'
+            add_project_arguments('/utf-8', language : 'cpp')
+        endif
         tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=false', 'loaders=all','savers=all', 'extra=' ])
     else
         tvg_proj = subproject('thorvg', default_options:['engines=sw,gl', 'log=false', 'loaders=all','savers=all', 'extra=lottie_expressions' ])

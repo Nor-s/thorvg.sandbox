@@ -89,7 +89,7 @@ struct BoundingBoxExample : tvgexam::Example
 			if (!tvgexam::verify(tvg::Text::load(EXAMPLE_DIR "/font/Arial.ttf")))
 				return false;
 			auto text = tvg::Text::gen();
-			text->font("Arial", 30);
+			text->font("Arial");
 			text->text("Text Test");
 			text->fill(255, 255, 0);
 			text->translate(100, 20);
@@ -274,7 +274,7 @@ struct BoundingBoxExample : tvgexam::Example
 			scene->scale(0.7f);
 
 			auto text = tvg::Text::gen();
-			text->font("Arial", 50);
+			text->font("Arial");
 			text->text("Text Test");
 			text->fill(255, 255, 0);
 			text->translate(0, 0);

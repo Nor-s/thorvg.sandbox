@@ -4,6 +4,8 @@
 #include <emscripten.h>
 #endif
 
+#undef main
+
 static void MainLoop(void* arg)
 {
 	App::GetInstance().loop();

@@ -156,7 +156,7 @@ public:
 			auto* inputActionBinding = *it;
 			if (HasFlag(inputActionBinding->getInputTrigger(), triggerState))
 			{
-				if (inputActionBinding->mIsDeleted || inputActionBinding->getAction().mUseCapture && isCaptured)
+				if (inputActionBinding->mIsDeleted || (inputActionBinding->getAction().mUseCapture && isCaptured))
 					continue;
 
 				isCaptured |= inputActionBinding->execute(value);

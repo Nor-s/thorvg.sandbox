@@ -3,6 +3,7 @@
 
 #include <thorvg.h>
 #include <array>
+#include <list>
 #include "common/common.h"
 
 #include "scene/scene.h"
@@ -117,7 +118,7 @@ struct Line
 	{
 		auto radian = ToRadian(d);
 		auto c = cos(radian);
-		if (std::abs(c) < 1e-6 ) 
+		if (std::abs(c) < 1e-6f ) 
 		{
 			slope = 0;
 		}
@@ -170,6 +171,21 @@ inline static Vec2 Rotate(const Vec2& point, float degree)
 	ret.y = point.x * s + point.y * c;
 	return ret;
 }
+
+struct PathPoint
+{
+	enum class Type 
+	{
+		Move,
+		Line,
+		Curve,
+	};
+
+	Vec2 point{};
+	Vec2 leftControlPoint{};
+	Vec2 rightControlPoint{};
+	Type type;
+};
 
 }
 

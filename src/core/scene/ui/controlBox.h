@@ -49,16 +49,20 @@ public:
 
 	enum class ShapeType
 	{
-		Rect,
-		Ellipse
+		FillStrokeRect,
+		StrokeRect,
+		TransparentEllipse,
+		FillStrokeEllipse,
+		StrokeEllipse,
 	};
 
 public:
-	ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType shape = ShapeType::Rect);
+	ControlBox(Scene* scene, Vec2 center, Vec2 wh, Type type, ShapeType shape = ShapeType::FillStrokeRect);
 	ControlBox(Scene* scene, const std::array<Vec2, 4>& obbPoints, Type type = Type::Move);
 	~ControlBox();
 
-	void moveTo(Vec2 xy);
+	void moveTo(const Vec2& xy);
+	void moveByDelta(const Vec2& xy);
 	bool onLeftDown(Vec2 xy);
 
 	bool onLeftDrag()

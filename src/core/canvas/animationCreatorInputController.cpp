@@ -13,6 +13,7 @@
 
 #include "editMode/pickMode.h"
 #include "editMode/addMode.h"
+#include "editMode/addPathMode.h"
 
 #include "interface/editInterface.h"
 namespace core
@@ -82,7 +83,23 @@ bool AnimationCreatorInputController::onEndLeftMouse(const InputValue& inputValu
 	if (mEditMode == nullptr)
 		return false;
 
-	return mEditMode->onEndLeftMouse(inputValue);
+	if(mEditMode->onEndLeftMouse(inputValue))
+	{
+		switch(mMode)
+		{
+			case EditModeType::ADD_ELLIPSE:
+			case EditModeType::ADD_PEN_PATH:
+			case EditModeType::ADD_POLYGON:
+			case EditModeType::ADD_STAR:
+			case EditModeType::ADD_SQUARE:
+			{
+				setMode(EditModeType::PICK);
+				break;
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool AnimationCreatorInputController::onInputDetach(const InputValue& inputValue)
 {
@@ -95,9 +112,10 @@ bool AnimationCreatorInputController::onInputDetach(const InputValue& inputValue
 }
 bool AnimationCreatorInputController::onInputAttach(const InputValue& inputValue)
 {
-	applyEditMode();
 	if (mEditMode)
 		return mEditMode->onInputAttach(inputValue);
+	else
+		applyEditMode();
 
 	return true;
 }
@@ -108,6 +126,11 @@ void AnimationCreatorInputController::applyEditMode()
 	RemoveSelection();
 	switch (mMode)
 	{
+		case EditModeType::NONE:
+		{
+			mEditMode = nullptr;
+			break;
+		}
 		case EditModeType::PICK:
 		{
 			mEditMode = std::make_unique<PickMode>(rCanvas);
@@ -123,8 +146,7 @@ void AnimationCreatorInputController::applyEditMode()
 		}
 		case EditModeType::ADD_PEN_PATH:
 		{
-			// TODO
-			mEditMode = nullptr;
+			mEditMode = std::make_unique<AddPathMode>(rCanvas);
 			break;
 		}
 		case EditModeType::EDIT_PEN_PATH:

@@ -254,8 +254,8 @@ struct TransformComponent
 		const float c = cosf(rad);
 		const float s = sinf(rad);
 
-		const float e11 = m->e11, e12 = m->e12, e13 = m->e13;
-		const float e21 = m->e21, e22 = m->e22, e23 = m->e23;
+		const float e11 = m->e11, e12 = m->e12;
+		const float e21 = m->e21, e22 = m->e22;
 
 		m->e11 = c * e11 + s * e12;
 		m->e21 = c * e21 + s * e22;
@@ -319,7 +319,7 @@ struct StrokeComponent
 {
 	Vec3 color = CommonSetting::Color_DefaultStroke;
 	float alpha{255.0f};
-	float width{3.0f};
+	float width{1.5f};
 	// tvg::StrokeJoin join;
 	ColorKeyFrame colorKeyframe;
 	FloatKeyFrame widthKeyframe;

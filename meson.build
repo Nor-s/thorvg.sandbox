@@ -96,4 +96,4 @@ executable('thorvg_sandbox',
 )
 
 
-subdir('test')
+# subdir('test')

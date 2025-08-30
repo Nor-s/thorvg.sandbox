@@ -126,9 +126,9 @@ void BBox::retarget(Entity target)
 	auto wh = Vec2{CommonSetting::Width_DefaultBBoxControlBox, CommonSetting::Width_DefaultBBoxControlBox};
 
 	mControlBox[AnchorPoint] =
-		std::make_unique<ControlBox>(rScene, centerPoint, wh, ControlBox::Type::Move, ControlBox::ShapeType::Ellipse);
+		std::make_unique<ControlBox>(rScene, centerPoint, wh, ControlBox::Type::Move, ControlBox::ShapeType::StrokeEllipse);
 
-	mControlBox[BoxArea] = std::make_unique<ControlBox>(rScene, points);
+	mControlBox[BoxArea] = std::make_unique<ControlBox>(rScene, points, ControlBox::Type::Move);
 	mControlBox[BoxArea]->setOnLeftDrag(MakeLambda(moveBox));
 
 	mControlBox[AnchorPoint]->setOnLeftDrag(MakeLambda(moveAnchorPoint));
@@ -143,16 +143,16 @@ void BBox::retarget(Entity target)
 
 	wh = Vec2{CommonSetting::Width_DefaultBBoxRotationControlBox, CommonSetting::Width_DefaultBBoxRotationControlBox};
 	mControlBox[TopLeftRotate] =
-		std::make_unique<ControlBox>(rScene, points[0], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
+		std::make_unique<ControlBox>(rScene, points[0], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::TransparentEllipse);
 	mControlBox[TopLeftRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
 	mControlBox[TopRightRotate] =
-		std::make_unique<ControlBox>(rScene, points[1], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
+		std::make_unique<ControlBox>(rScene, points[1], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::TransparentEllipse);
 	mControlBox[TopRightRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
 	mControlBox[BottomLeftRotate] =
-		std::make_unique<ControlBox>(rScene, points[2], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
+		std::make_unique<ControlBox>(rScene, points[2], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::TransparentEllipse);
 	mControlBox[BottomLeftRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
 	mControlBox[BottomRightRotate] =
-		std::make_unique<ControlBox>(rScene, points[3], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::Ellipse);
+		std::make_unique<ControlBox>(rScene, points[3], wh, ControlBox::Type::Rotate, ControlBox::ShapeType::TransparentEllipse);
 	mControlBox[BottomRightRotate]->setOnLeftDrag(MakeLambda(rotationLambda));
 }
 

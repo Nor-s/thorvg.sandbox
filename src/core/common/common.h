@@ -24,9 +24,13 @@ struct CommonSetting
 
     inline static const float Width_DefaultBBoxControlBox{10.0f};
     inline static const float Width_DefaultBBoxRotationControlBox{50.0f};
+    inline static const float Width_DefaultPathPointControlBox{16.0f};
 
     inline static int Count_DefaultPolygonPathPoint{3};
     inline static int Count_DefaultStarPolygonPathPoint{5};
+
+    inline static const float Threshold_AddPathModeChangeCurve {1.0f};
+
 };
 
 }	 // namespace core

@@ -75,20 +75,19 @@ struct Keyframes
 
 	void add(uint32_t frameNo, const T& value)
 	{
-		auto it = std::find_if(frames.begin(), frames.end(), [frameNo](const auto& keyframe){
-			return frameNo == keyframe.frame;
-		});
-		if(it == frames.end())
+		auto it = std::find_if(frames.begin(), frames.end(),
+							   [frameNo](const auto& keyframe) { return frameNo == keyframe.frame; });
+		if (it == frames.end())
 		{
 			isEnable = true;
-			if(frames.empty() && frameNo != 0)
+			if (frames.empty() && frameNo != 0)
 			{
-				frames.push_back(Keyframe{.frame=0, .value=value});
+				frames.push_back(Keyframe{.frame = 0, .value = value});
 			}
-			frames.push_back(Keyframe{.frame=frameNo, .value=value});
+			frames.push_back(Keyframe{.frame = frameNo, .value = value});
 			std::sort(frames.begin(), frames.end());
 		}
-		else 
+		else
 		{
 			it->value = value;
 		}
@@ -98,7 +97,7 @@ struct Keyframes
 	{
 		if (!isEnable || frames.empty())
 			return currentValue;
-		if (frames.size() == 1) 
+		if (frames.size() == 1)
 			return currentValue = frames[0].value;
 
 		auto it = std::lower_bound(frames.begin(), frames.end(), frameNo,
@@ -112,12 +111,12 @@ struct Keyframes
 		{
 			return it->value;
 		}
-		
+
 		const auto& lo = *(it - 1);
 		const auto& hi = *it;
 		const float denom = float(hi.frame - lo.frame);
 		const float t = denom > 0.f ? (frameNo - static_cast<float>(lo.frame)) / denom : 0.f;
-		assert(t>= 0.0f && t <= 1.0f);
+		assert(t >= 0.0f && t <= 1.0f);
 
 		// todo: curve
 		return currentValue = lerp(lo.value, hi.value, t);
@@ -250,7 +249,7 @@ struct TransformComponent
 		if (degree == 0.0f)
 			return;
 
-		const float rad = degree * float(M_PI) / 180.0f;
+		const float rad = degree * float(KPI) / 180.0f;
 		const float c = cosf(rad);
 		const float s = sinf(rad);
 
@@ -325,7 +324,6 @@ struct StrokeComponent
 	FloatKeyFrame widthKeyframe;
 	FloatKeyFrame alphaKeyframe;
 };
-
 
 }	 // namespace core
 

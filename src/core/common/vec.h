@@ -6,6 +6,8 @@
 
 namespace core
 {
+static constexpr double KPI = 3.14159265358979;
+
 template <typename T>
 struct Vector2
 {
@@ -319,27 +321,26 @@ const Vector2<T> abs(const Vector2<T> a)
 
 inline static float ToRadian(float angle)
 {
-	return angle * (static_cast<float>(M_PI) / 180.0f);
+	return angle * (static_cast<float>(KPI) / 180.0f);
 }
 
 inline static float ToDegree(float radian)
 {
-	return radian * (180.0f / static_cast<float>(M_PI));
+	return radian * (180.0f / static_cast<float>(KPI));
 }
 
-inline static float lerp(float a, float b, float t) {
-    return a + (b - a) * t;
+inline static float lerp(float a, float b, float t)
+{
+	return a + (b - a) * t;
 }
-inline static Vec3 lerp(const Vec3& a, const Vec3& b, float t) {
-    return { lerp(a.x, b.x, t),
-             lerp(a.y, b.y, t), 
-             lerp(a.z, b.z, t)};
+inline static Vec3 lerp(const Vec3& a, const Vec3& b, float t)
+{
+	return {lerp(a.x, b.x, t), lerp(a.y, b.y, t), lerp(a.z, b.z, t)};
 }
-inline static Vec2 lerp(const Vec2& a, const Vec2& b, float t) {
-    return { lerp(a.x, b.x, t),
-             lerp(a.y, b.y, t)};
+inline static Vec2 lerp(const Vec2& a, const Vec2& b, float t)
+{
+	return {lerp(a.x, b.x, t), lerp(a.y, b.y, t)};
 }
-
 
 }	 // namespace core
 

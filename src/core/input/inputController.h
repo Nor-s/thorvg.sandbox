@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 
 #include "inputAction.h"
 
@@ -18,7 +19,10 @@ public:
 	{
 	}
 	virtual ~InputActionBinding() = default;
-	virtual bool execute(const InputValue& inputValue) {return false;}
+	virtual bool execute(const InputValue& inputValue)
+	{
+		return false;
+	}
 
 	InputTrigger getInputTrigger() const
 	{
@@ -33,7 +37,7 @@ public:
 	{
 		return mAction.mPriority < other.mAction.mPriority;
 	}
-	
+
 	bool mIsDeleted{false};
 
 private:
@@ -115,20 +119,19 @@ public:
 		bool isChanged = mBindingActions.size() > 0 || mUnbindingActions.size() > 0;
 		std::unordered_set<InputType> inputTypes;
 
-		for(auto* actionBinding : mBindingActions)
+		for (auto* actionBinding : mBindingActions)
 		{
 			inputTypes.insert(actionBinding->getAction().getType());
 			mInputActions[actionBinding->getAction().getType()].emplace_back(actionBinding);
 		}
 		mBindingActions.clear();
 
-		for(auto* actionBinding : mUnbindingActions)
+		for (auto* actionBinding : mUnbindingActions)
 		{
 			inputTypes.insert(actionBinding->getAction().getType());
 			auto& actions = mInputActions[actionBinding->getAction().getType()];
-			auto it = std::remove_if(actions.begin(), actions.end(), [actionBinding](InputActionBinding* binding) {
-				return binding == actionBinding;
-			});
+			auto it = std::remove_if(actions.begin(), actions.end(),
+									 [actionBinding](InputActionBinding* binding) { return binding == actionBinding; });
 			assert(it != actions.end());
 
 			delete actionBinding;
@@ -138,12 +141,11 @@ public:
 
 		if (isChanged)
 		{
-			for(auto& inputType : inputTypes)
+			for (auto& inputType : inputTypes)
 			{
 				auto& inputActionBindings = mInputActions[inputType];
-				std::sort(inputActionBindings.begin(), inputActionBindings.end(), [](const InputActionBinding* a, const InputActionBinding* b) {
-					return *a < *b;
-				});
+				std::sort(inputActionBindings.begin(), inputActionBindings.end(),
+						  [](const InputActionBinding* a, const InputActionBinding* b) { return *a < *b; });
 			}
 		}
 	}

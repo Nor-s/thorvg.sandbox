@@ -33,8 +33,8 @@ MapValue processTransform(LottieTransform* transform)
 ArrayValue processShapes(LottieLayer* layer)
 {
 	ArrayValue ret;
-	
-	auto& shapeLayers= layer->children;
+
+	auto& shapeLayers = layer->children;
 	for (auto& shapeLayer : shapeLayers)
 	{
 		MapValue val;
@@ -54,7 +54,9 @@ ArrayValue processShapes(LottieLayer* layer)
 				val["s"] = VALMOV(processLottieProperty(rect->size));
 				val["p"] = VALMOV(processLottieProperty(rect->position));
 				val["r"] = VALMOV(processLottieProperty(rect->radius));
-				val["d"] = VAL(rect->clockwise?1:0); // Direction the shape is drawn as, mostly relevant when using trim path
+				val["d"] = VAL(rect->clockwise
+								   ? 1
+								   : 0);	// Direction the shape is drawn as, mostly relevant when using trim path
 				break;
 			}
 			case LottieObject::SolidFill:
@@ -65,7 +67,7 @@ ArrayValue processShapes(LottieLayer* layer)
 				val["bm"] = VAL(0);
 				val["c"] = VALMOV(processLottieProperty(fill->color));
 				val["o"] = VALMOV(processLottieProperty(fill->opacity));
-				val["r"] = VAL(fill->rule == FillRule::NonZero? 1:0);
+				val["r"] = VAL(fill->rule == FillRule::NonZero ? 1 : 0);
 
 				break;
 			}
@@ -118,7 +120,7 @@ ArrayValue processLayers(LottieLoader* lottieLoader)
 	return ret;
 }
 
-void LottieSaver::main()
+void LottieSaver::run()
 {
 	auto picture = PICTURE(rAnimation->picture());
 	auto* loader = picture->loader;
@@ -152,7 +154,7 @@ void LottieSaver::main()
 
 void LottieSaver::run(unsigned tid)
 {
-	main();
+	run();
 
 	std::ofstream outFile(mFileName.c_str());
 	outFile << mSstream.rdbuf();

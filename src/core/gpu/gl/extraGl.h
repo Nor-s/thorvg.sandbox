@@ -5,8 +5,7 @@
 
 #ifdef __EMSCRIPTEN__
 
-
-#elif defined(__APPLE__) || defined(__MACH__)
+#else
 
 typedef void (*PFNGLPIXELSTOREIPROC)(GLenum pname, GLint param);
 typedef void (*PFNGLGETTEXIMAGEPROC)(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
